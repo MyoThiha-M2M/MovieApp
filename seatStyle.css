@@ -1,0 +1,177 @@
+@import url("https://fonts.googleapis.com/css?family=Lato&display=swap");
+
+/* Seats Booking Section */
+
+.seatBookingContainer {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  color: white;
+  align-items: center;
+  justify-content: center;
+  font-family: "Roboto", sans-serif;
+  position: relative;
+  top: 127px;
+}
+
+.movie-container {
+  margin: 20px 0;
+}
+
+.movie-container select {
+  background-color: #fff;
+  border: 0;
+  border-radius: 5px;
+  font-size: 14px;
+  margin-left: 10px;
+  padding: 5px 15px 5px 15px;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.seatBookingContainer .seatContainer {
+  perspective: 1000px;
+  margin-bottom: 30px;
+}
+
+.seatsDiv {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.seatBookingContainer .seat {
+  background-color: #444451;
+  height: 7px;
+  width: 8px;
+  margin: 3px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  user-select: none;
+}
+
+.seatA {
+  border: 1px solid rgb(208, 24, 147);
+}
+.seatB {
+  border: 1px solid rgb(33, 241, 158);
+}
+.seatC {
+  border: 1px solid rgb(255, 234, 2);
+}
+
+.seatD {
+  border: 1px solid rgb(206, 32, 32);
+}
+
+.seatS {
+  border: 1px solid rgb(23, 131, 226);
+}
+
+.mrRight {
+  margin-right: 10px;
+  font-size: 16px;
+}
+
+.A {
+  color: rgb(208, 24, 147);
+  font-weight: bold;
+}
+
+.B {
+  color: rgb(33, 241, 158);
+  font-weight: bold;
+}
+
+.C {
+  color: rgb(255, 234, 2);
+  font-weight: bold;
+}
+
+.D {
+  color: rgb(206, 32, 32);
+  font-weight: bold;
+}
+
+.S {
+  color: rgb(23, 131, 226);
+  font-weight: bold;
+}
+
+.seat.selected {
+  background-color: #6feaf6;
+}
+
+.seat.occupied {
+  background-color: #fff;
+}
+
+.seat:nth-of-type(2) {
+  margin-right: 18px;
+}
+
+.seat:nth-last-of-type(2) {
+  margin-left: 18px;
+}
+
+.seat:not(.occupied):hover {
+  cursor: pointer;
+  transform: scale(1.2);
+}
+
+.showcase .seat:not(.occupied):hover {
+  cursor: default;
+  transform: scale(1);
+}
+
+.showcase {
+  padding: 5px 10px;
+  color: rgb(255, 255, 255);
+  list-style-type: none;
+  display: flex;
+  justify-content: space-between;
+}
+
+.showcase li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 10px;
+}
+
+.showcase li small {
+  margin-left: 10px;
+}
+
+.priceContainer {
+}
+
+.row {
+  display: flex;
+  margin-bottom: 8px;
+}
+
+.screen {
+  background-color: #fff;
+  height: 70px;
+  width: 400px;
+  margin: 15px 0;
+  transform: rotateX(-45deg);
+  box-shadow: 0 3px 10px rgba(255, 255, 255, 0.75);
+}
+
+.seatBookingContainer p.text {
+  margin: 5px 0;
+}
+
+.seatBookingContainer p.text span {
+  color: #6feaf6;
+}

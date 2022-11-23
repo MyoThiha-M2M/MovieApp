@@ -1,0 +1,107 @@
+Entities 
+
+(Customer Side)
+
+1. Customers 
+- CustomerID
+- CustomerName 
+- UserName
+- Email
+- Password
+- DateRegistered
+- LastLoginDate
+- ProfileImage
+
+(Admin Side)
+
+2. Administrators 
+
+- AdminID
+- AdminName
+- Email
+- UserName
+- Password
+- PhoneNumber
+- ProfileImage 
+
+3. Movies 
+- MovieName -- Input "Text"
+- ReleaseDate -- Input "Date"
+- GenreID (FK) Select Box
+- FormatID (FK) Select Box
+- Duration Input Text
+- Starring Text area
+- RatingPoint Number 
+- OverView Text area
+- Trailer (Video) Input FIle
+- Image1  Input FIle
+- Image2  Input FIle
+- Image3  Input FIle
+
+4. Genres 
+- GenreID
+- GenreName
+
+5. Formats 
+- FormatID
+- FormatName
+
+6. Schedules
+- ScheduleID
+- ShowTime
+- ShowDate
+- Status // Not necessary
+
+--- Shows ---
+- ShowID (PK)
+- MovieID (FK)
+- ScheduleID (FK)
+- TheaterID (FK)
+
+7. Theaters
+
+- TheaterID 
+- TheaterType
+- Image1
+- Image2
+- Description 
+
+
+8. Seats
+
+- SeatID
+- SeatTypeID
+
+
+--- SeatDetails --- 
+- ShowID (FK, PK) 
+- SeatID (FK, PK)
+- Status
+
+9. SeatTypes 
+
+- SeatTypeID
+- SeatTypeName
+- Price 
+
+10. Tickets
+
+- TicketID
+- BookingID
+- MovieName
+- ShowDate
+- ShowTime
+- TheaterID
+- SeatID
+- Price
+
+11. Bookings
+- BookingID
+- BookingDate
+- CustomerID
+- TotalTickets
+- TotalPrice
+- PaymentMethod
+- PaymentDate 
+
+
