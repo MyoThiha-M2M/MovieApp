@@ -2755,7 +2755,7 @@ input[type="file"]::-webkit-file-upload-button {
 /* DashBoard Contents */
 
 .managementContent {
-  width: 1300px;
+  width: 100vw;
   position: fixed;
   top: 110px;
   left: 250px;
@@ -2772,7 +2772,7 @@ input[type="file"]::-webkit-file-upload-button {
 }
 
 .dashboardBodyContainer {
-  width: 90%;
+  min-width: 80vw;
   height: 100vh;
   position: absolute;
   background-color: #111111;
@@ -2800,12 +2800,12 @@ input[type="file"]::-webkit-file-upload-button {
 
 .dashboardBodyContainer .tableContainer {
   width: 98%;
-  margin-right: 100px;
   margin-top: 20px;
   position: absolute;
   height: 500px;
   scroll-behavior: smooth;
-  overflow-y: scroll;
+  overflow-y: auto;
+  padding-bottom: 100px;
 }
 
 .table {
@@ -2841,11 +2841,11 @@ input[type="file"]::-webkit-file-upload-button {
 .managementG-FContainer,
 .managementAdminPanelContainer {
   top: 0;
-  padding: 50px 0;
+  padding: 20px 0;
   height: 100%;
   position: absolute;
   overflow-y: auto;
-  width: 100%;
+  width: 90%;
 }
 
 .genreandFormatContainer {
@@ -2861,15 +2861,16 @@ input[type="file"]::-webkit-file-upload-button {
 }
 
 .EntryPopUp {
-  width: 400px;
-  height: 200px;
-  padding: 20px;
+  width: 500px;
+  height: 300px;
+  padding-top: 50px;
+  padding-left: 40px;
   background-color: #000000;
   position: absolute;
-  top: 38vh;
+  top: 34vh;
   left: 37vw;
   z-index: 100;
-  border-radius: 10px;
+  border-radius: 20px;
   display: none;
 }
 
@@ -2882,6 +2883,17 @@ input[type="file"]::-webkit-file-upload-button {
   margin-bottom: 20px;
 }
 
+.EntryPopUp i {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+}
+
+.EntryPopUp i:hover {
+  color: #bf000a;
+  cursor: pointer;
+}
+
 #successfulEntryPopUp {
   background-color: rgb(2, 1, 1);
   text-align: center;
@@ -2892,19 +2904,90 @@ input[type="file"]::-webkit-file-upload-button {
   margin-top: 60px;
 }
 
+/* Admin DashBoard Panel */
+
 .totalNumbersContainer {
+  min-width: 1200px;
   display: flex;
-  width: 100%;
-  height: 400px;
-  justify-content: space-around;
+  flex-direction: column;
   background-color: lightblue;
+  padding: 13px 20px;
+}
+
+.totalNumbersRow1,
+.totalNumbersRow2 {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
 }
 
 .blocksContainer {
-  width: 200px;
-  height: 70px;
+  width: 20%;
+  height: 60px;
   background-color: lightseagreen;
-  padding: 10px;
+  display: flex;
+  margin-right: 20px;
+}
+
+.blocksContainer .dbIconContainer {
+  margin-right: 20px;
+  background-color: black;
+  width: 20%;
+  height: 100%;
+  margin-right: 10px;
+  text-align: center;
+  padding: 15px;
+  line-height: inherit;
+  font-size: 20px;
+}
+
+.blocksContainer .dbSpanContainer {
+  width: 80%;
+  padding-top: 8px;
+}
+
+.dbSpanContainer span {
+  color: #000;
+  font-size: 17px;
+}
+
+.tablesContainer {
+  min-width: 1200px;
+  height: 100%;
+  margin-top: 20px;
+  margin-bottom: 100px;
+  padding: 20px 30px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.tablesContainer .column {
+  width: 600px;
+  height: 300px;
+  background-color: rgb(0, 0, 0);
+  margin-right: 20px;
+  overflow-y: auto;
+}
+
+.tablesContainer .table-heading {
+  width: 600px;
+  height: 30px;
+  margin-right: 20px;
+  background-color: lightskyblue;
+  color: #000000;
+  font-size: 15px;
+  text-align: center;
+  padding-top: 5px;
+}
+
+.tablesContainer .row {
+  margin-bottom: 10px;
+  display: flex;
+}
+
+.tablesContainer thead {
+  background-color: rgb(62 221 200);
 }
 
 /* Movie Entry Page */
@@ -2920,13 +3003,19 @@ input[type="file"]::-webkit-file-upload-button {
   margin-right: 50px;
 }
 
+.theaterPosterContainer {
+  height: 350px;
+  width: 730px;
+}
+
 .movieTrailerContainer {
   height: 450px;
   width: 1200px;
 }
 
 .moviePosterContainer .wrapper,
-.movieTrailerContainer .wrapper {
+.movieTrailerContainer .wrapper,
+.theaterPosterContainer .wrapper {
   position: relative;
   height: 300px;
   width: 100%;
@@ -2959,7 +3048,8 @@ input[type="file"]::-webkit-file-upload-button {
 }
 
 .moviePosterContainer .wrapper .image,
-.movieTrailerContainer .wrapper .video {
+.movieTrailerContainer .wrapper .video,
+.theaterPosterContainer .wrapper .image {
   position: absolute;
   height: 100%;
   width: 100%;
@@ -2969,7 +3059,8 @@ input[type="file"]::-webkit-file-upload-button {
 }
 
 .moviePosterContainer .wrapper .image img,
-.movieTrailerContainer .wrapper .video video {
+.movieTrailerContainer .wrapper .video video,
+.theaterPosterContainer .wrapper .image img {
   height: 100%;
   width: 100%;
   object-fit: cover;
@@ -2991,6 +3082,14 @@ input[type="file"]::-webkit-file-upload-button {
   left: 520px;
 }
 
+.theaterPosterContainer .wrapper .icon {
+  font-size: 100px;
+  color: #bf000a;
+  position: absolute;
+  top: 66px;
+  left: 290px;
+}
+
 .moviePosterContainer .wrapper .text {
   font-size: 20px;
   font-weight: 500;
@@ -3007,6 +3106,15 @@ input[type="file"]::-webkit-file-upload-button {
   position: absolute;
   top: 247px;
   left: 462px;
+}
+
+.theaterPosterContainer .wrapper .text {
+  font-size: 20px;
+  font-weight: 500;
+  color: #bf000a;
+  position: absolute;
+  top: 184px;
+  left: 255px;
 }
 
 .cancel-btn {
@@ -3085,6 +3193,10 @@ input[type="file"]::-webkit-file-upload-button {
   color: white;
 }
 
+.inputRow button {
+  margin-top: 100px;
+}
+
 textarea:focus {
   border: 1px solid #bf000a;
 }
@@ -3108,6 +3220,29 @@ textarea:focus {
 .starringContainer textarea::-webkit-scrollbar {
   width: 5px;
 }
+
+.descriptionContainer {
+  width: 750px;
+  height: 150px;
+  padding-right: 28px;
+  padding-left: 5px;
+}
+
+.descriptionContainer textarea {
+  background-color: #111111;
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  margin-top: 7px;
+  margin-bottom: 10px;
+  margin-right: 20px;
+  outline: none;
+  padding: 10px;
+  color: rgb(215, 209, 209);
+  resize: none;
+  transition: all 0.4s ease-in-out;
+}
+
 /* 
 .starringContainer textarea::-webkit-scrollbar-thumb {
   background-color: rgb(255, 255, 255);

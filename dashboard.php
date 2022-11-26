@@ -316,9 +316,9 @@ if (isset($_POST['txtFormatName'])) {
                 <li class="sideMenuItem"><i class="fa-solid fa-house"></i><span>Dashboard</span></li>
                 <li class="sideMenuItem"><i class="fa-solid fa-grip"></i><span>&nbspGenres And Formats</span></li>
                 <li class="sideMenuItem"><i class="fa-solid fa-film"></i><span>&nbspMovies</span></li>
-                <li class="sideMenuItem"><i class="fa-regular fa-calendar"></i><span>&nbspSchedules</span></li>
-                <li class="sideMenuItem"><i class="fa-solid fa-couch"></i><span>Seats</span></li>
+                <!-- <li class="sideMenuItem"><i class="fa-regular fa-calendar"></i><span>&nbspSchedules</span></li> -->
                 <li class="sideMenuItem"><i class="fa-solid fa-masks-theater"></i><span>Theaters</span></li>
+                <li class="sideMenuItem"><i class="fa-solid fa-couch"></i><span>Seats</span></li>
                 <li class="sideMenuItem"><i class="fa-solid fa-clapperboard"></i><span>&nbspShows</span></li>
                 <li class="sideMenuItem"><i class="fa-solid fa-users"></i><span>Users</span></li>
                 <li class="sideMenuItem"><i class="fa-solid fa-ticket"></i><span>&nbspBookings</span></li>
@@ -331,6 +331,7 @@ if (isset($_POST['txtFormatName'])) {
     </div>
     <form action="dashboard.php" method="POST" class="entryPopUpForm">
         <div class="EntryPopUp" id="genreEntryPopUp">
+            <i class="fas fa-times"></i>
             <div class="inputGroup">
                 <label for="genreName">Enter New Genre: </label>
                 <input type="text" class="input popUpInput" name="txtGenreName" required>
@@ -340,6 +341,7 @@ if (isset($_POST['txtFormatName'])) {
     </form>
     <form action="dashboard.php" method="POST" class="entryPopUpForm">
         <div class="EntryPopUp" id="formatEntryPopUp">
+            <i class="fas fa-times"></i>
             <div class="inputGroup">
                 <label for="formatName">Enter New Format: </label>
                 <input type="text" class="input popUpInput" name="txtFormatName" required>
@@ -354,28 +356,233 @@ if (isset($_POST['txtFormatName'])) {
                 <h2>Admin Panel</h2>
             </div>
             <div class="totalNumbersContainer">
-                <div class="blocksContainer">
-                    <i class="fa-solid fa-film"></i>
-                    <span>Movies <br>
-                        6</span>
+                <div class="totalNumbersRow1">
+                    <div class="blocksContainer">
+                        <div class="dbIconContainer"><i class="fa-solid fa-clapperboard"></i></div>
+                        <div class="dbSpanContainer">
+                            <span class="span1">Now Showing Movies</span> <br>
+                            <span class="span2">6</span>
+                        </div>
+                    </div>
+                    <div class="blocksContainer">
+                        <div class="dbIconContainer"><i class="fa-solid fa-video"></i></div>
+                        <div class="dbSpanContainer">
+                            <span class="span1">Upcoming Movies</span> <br>
+                            <span class="span2">6</span>
+                        </div>
+                    </div>
+                    <div class="blocksContainer">
+                        <div class="dbIconContainer"><i class="fa-solid fa-box-archive"></i></div>
+                        <div class="dbSpanContainer">
+                            <span class="span1">Genres</span> <br>
+                            <span class="span2">6</span>
+                        </div>
+                    </div>
+                    <div class="blocksContainer">
+                        <div class="dbIconContainer"><i class="fa-solid fa-list"></i></div>
+                        <div class="dbSpanContainer">
+                            <span class="span1">Formats</span> <br>
+                            <span class="span2">6</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="blocksContainer">
-                    <i class="fa-solid fa-film"></i>
-                    <span>Movies <br>
-                        6</span>
-                </div>
-                <div class="blocksContainer">
-                    <i class="fa-solid fa-film"></i>
-                    <span>Movies <br>
-                        6</span>
-                </div>
-                <div class="blocksContainer">
-                    <i class="fa-solid fa-film"></i>
-                    <span>Movies <br>
-                        6</span>
+                <div class="totalNumbersRow2">
+                    <div class="blocksContainer">
+                        <div class="dbIconContainer"><i class="fa-solid fa-masks-theater"></i></div>
+                        <div class="dbSpanContainer">
+                            <span class="span1">Theaters</span> <br>
+                            <span class="span2">6</span>
+                        </div>
+                    </div>
+                    <div class="blocksContainer">
+                        <div class="dbIconContainer"><i class="fa-solid fa-ticket"></i></div>
+                        <div class="dbSpanContainer">
+                            <span class="span1">Today Bookings</span> <br>
+                            <span class="span2">6</span>
+                        </div>
+                    </div>
+                    <div class="blocksContainer">
+                        <div class="dbIconContainer"><i class="fa-solid fa-couch"></i></div>
+                        <div class="dbSpanContainer">
+                            <span class="span1">Available Seats</span> <br>
+                            <span class="span2">6</span>
+                        </div>
+                    </div>
+                    <div class="blocksContainer">
+                        <div class="dbIconContainer"><i class="fa-solid fa-users"></i></div>
+                        <div class="dbSpanContainer">
+                            <span class="span1">Total Users</span> <br>
+                            <span class="span2">6</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="tablesContainer"></div>
+            <div class="tablesContainer">
+                <div class="row">
+                    <div class="table-heading">
+                        <p>Most Popular Movies</p>
+                    </div>
+                    <div class="table-heading">
+                        <p>Most Popular Movies</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="column">
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Movie Name</th>
+                                    <th>Release Date</th>
+                                    <th>Total Booking</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $select = "SELECT * FROM Genres ORDER BY GenreID";
+                                $query = mysqli_query($connect, $select);
+                                $count = mysqli_num_rows($query);
+                                if ($count > 0) {
+
+                                    for ($i = 0; $i < $count; $i++) {
+                                        $row = mysqli_fetch_array($query);
+                                        $genreID = $row['GenreID'];
+                                        $genreName = $row['GenreName'];
+                                ?>
+                                <tr>
+                                    <td><?php echo $genreID ?></td>
+                                    <td><?php echo $genreName ?></td>
+                                    <td><?php echo $genreID ?></td>
+                                </tr>
+                                <?php
+                                    }
+                                } else {
+                                    echo "<p style='color: red;'>There is no record for Genre!</p>";
+                                };
+                                ?>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="column">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Movie Name</th>
+                                    <th>Release Date</th>
+                                    <th>Total Booking</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $select = "SELECT * FROM Genres ORDER BY GenreID";
+                                $query = mysqli_query($connect, $select);
+                                $count = mysqli_num_rows($query);
+                                if ($count > 0) {
+
+                                    for ($i = 0; $i < $count; $i++) {
+                                        $row = mysqli_fetch_array($query);
+                                        $genreID = $row['GenreID'];
+                                        $genreName = $row['GenreName'];
+                                ?>
+                                <tr>
+                                    <td><?php echo $genreID ?></td>
+                                    <td><?php echo $genreName ?></td>
+                                    <td><?php echo $genreID ?></td>
+                                </tr>
+                                <?php
+                                    }
+                                } else {
+                                    echo "<p style='color: red;'>There is no record for Genre!</p>";
+                                };
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="table-heading">
+                        <p>Most Popular Movies</p>
+                    </div>
+                    <div class="table-heading">
+                        <p>Most Popular Movies</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="column">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Movie Name</th>
+                                    <th>Release Date</th>
+                                    <th>Total Booking</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $select = "SELECT * FROM Genres ORDER BY GenreID";
+                                $query = mysqli_query($connect, $select);
+                                $count = mysqli_num_rows($query);
+                                if ($count > 0) {
+
+                                    for ($i = 0; $i < $count; $i++) {
+                                        $row = mysqli_fetch_array($query);
+                                        $genreID = $row['GenreID'];
+                                        $genreName = $row['GenreName'];
+                                ?>
+                                <tr>
+                                    <td><?php echo $genreID ?></td>
+                                    <td><?php echo $genreName ?></td>
+                                    <td><?php echo $genreID ?></td>
+                                </tr>
+                                <?php
+                                    }
+                                } else {
+                                    echo "<p style='color: red;'>There is no record for Genre!</p>";
+                                };
+                                ?>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="column">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Movie Name</th>
+                                    <th>Release Date</th>
+                                    <th>Total Booking</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $select = "SELECT * FROM Genres ORDER BY GenreID";
+                                $query = mysqli_query($connect, $select);
+                                $count = mysqli_num_rows($query);
+                                if ($count > 0) {
+
+                                    for ($i = 0; $i < $count; $i++) {
+                                        $row = mysqli_fetch_array($query);
+                                        $genreID = $row['GenreID'];
+                                        $genreName = $row['GenreName'];
+                                ?>
+                                <tr>
+                                    <td><?php echo $genreID ?></td>
+                                    <td><?php echo $genreName ?></td>
+                                    <td><?php echo $genreID ?></td>
+                                </tr>
+                                <?php
+                                    }
+                                } else {
+                                    echo "<p style='color: red;'>There is no record for Genre!</p>";
+                                };
+                                ?>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
     <section class="managementContent" style="display: none;">
@@ -483,7 +690,6 @@ if (isset($_POST['txtFormatName'])) {
         <div class="dashboardContainer">
             <div class="dashboardHeadingContainer">
                 <h4 id="dashboardHeading">Manage Movies</h4>
-                <!-- <button class="btn btn-hover">Add Movies</button> -->
                 <a href="movieEntry.php" class="btn btn-hover">Add Movies</a>
             </div>
             <div class="dashboardBodyContainer">
@@ -554,21 +760,158 @@ if (isset($_POST['txtFormatName'])) {
             </div>
         </div>
     </section>
+    <!-- <section class="managementContent" style="display: none;">
+    </section> this is schedule -->
+
+    <!-- Management For Theaters -->
     <section class="managementContent" style="display: none;">
-        <div>This is Schedule</div>
+        <div class="dashboardContainer">
+            <div class="dashboardHeadingContainer">
+                <h4 id="dashboardHeading">Manage Theaters</h4>
+                <a href="movieEntry.php" class="btn btn-hover">Add Theaters</a>
+            </div>
+            <div class="dashboardBodyContainer">
+                <div class="movieListHeadingContainer">
+                    <div>
+                        <h4>Theater Lists</h4>
+                    </div>
+                    <div class="searchMovieContainer">
+                        <button class="btn btn-hover"><i class="fa-solid fa-magnifying-glass"></i></button>
+                        <input type="text" placeholder="Search Theaters">
+                    </div>
+                </div>
+                <div class="tableContainer">
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Theater ID</th>
+                                <th>Theater Name</th>
+                                <th>Theater Type</th>
+                                <th>Location</th>
+                                <th>Theater Image</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Cinema 01</td>
+                                <td>Imax</td>
+                                <td>Kamayut TownShip</td>
+                                <td><img src="https://www.mdn.gov.mm/sites/default/files/inline-images/2_40.JPG" alt=""
+                                        width="130px" height="70px"></td>
+                                </td>
+                                <td><a href="" class="btn btn-hover">Edit</a>
+                                    <a href="" class="btn btn-hover">Delete</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>Cinema 01</td>
+                                <td>Imax</td>
+                                <td>Kamayut TownShip</td>
+                                <td><img src="https://www.mdn.gov.mm/sites/default/files/inline-images/2_40.JPG" alt=""
+                                        width="130px" height="70px"></td>
+                                </td>
+                                <td><a href="" class="btn btn-hover">Edit</a>
+                                    <a href="" class="btn btn-hover">Delete</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>Cinema 01</td>
+                                <td>Imax</td>
+                                <td>Kamayut TownShip</td>
+                                <td><img src="https://www.mdn.gov.mm/sites/default/files/inline-images/2_40.JPG" alt=""
+                                        width="130px" height="70px"></td>
+                                </td>
+                                <td><a href="" class="btn btn-hover">Edit</a>
+                                    <a href="" class="btn btn-hover">Delete</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>Cinema 01</td>
+                                <td>Imax</td>
+                                <td>Kamayut TownShip</td>
+                                <td><img src="https://www.mdn.gov.mm/sites/default/files/inline-images/2_40.JPG" alt=""
+                                        width="130px" height="70px"></td>
+                                </td>
+                                <td><a href="" class="btn btn-hover">Edit</a>
+                                    <a href="" class="btn btn-hover">Delete</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>Cinema 01</td>
+                                <td>Imax</td>
+                                <td>Kamayut TownShip</td>
+                                <td><img src="https://www.mdn.gov.mm/sites/default/files/inline-images/2_40.JPG" alt=""
+                                        width="130px" height="70px"></td>
+                                </td>
+                                <td><a href="" class="btn btn-hover">Edit</a>
+                                    <a href="" class="btn btn-hover">Delete</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </section>
+
+    <!-- Management for seats -->
     <section class="managementContent" style="display: none;">
         <div>This is Seat</div>
     </section>
+
+    <!-- Management for shows -->
     <section class="managementContent" style="display: none;">
-        <div>This is theater</div>
+        <div class="dashboardContainer">
+            <div class="dashboardHeadingContainer">
+                <h4 id="dashboardHeading">Manage Movies</h4>
+                <a href="movieEntry.php" class="btn btn-hover">Add Movies</a>
+            </div>
+            <div class="dashboardBodyContainer">
+                <div class="movieListHeadingContainer">
+                    <div>
+                        <h4>Movie Lists</h4>
+                    </div>
+                    <div class="searchMovieContainer">
+                        <button class="btn btn-hover"><i class="fa-solid fa-magnifying-glass"></i></button>
+                        <input type="text" placeholder="Search Movies">
+                    </div>
+                </div>
+                <div class="tableContainer">
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Schedule ID</th>
+                                <th>Schedule Date</th>
+                                <th>Schedule Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>11/27/2022</td>
+                                <td>3:00 to 4:30pm</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </section>
-    <section class="managementContent" style="display: none;">
-        <div>This is show</div>
-    </section>
+
+    <!-- Management For Users -->
     <section class="managementContent" style="display: none;">
         <div>This is user</div>
     </section>
+
+    <!-- Management For Bookings -->
     <section class="managementContent" style="display: none;">
         <div>This is booking</div>
     </section>

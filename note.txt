@@ -37,6 +37,7 @@ Entities
 - Image1  Input FIle
 - Image2  Input FIle
 - Image3  Input FIle
+- Status Varchar 
 
 4. Genres 
 - GenreID
@@ -50,7 +51,6 @@ Entities
 - ScheduleID
 - ShowTime
 - ShowDate
-- Status // Not necessary
 
 --- Shows ---
 - ShowID (PK)
@@ -61,6 +61,7 @@ Entities
 7. Theaters
 
 - TheaterID 
+- TheaterName
 - TheaterType
 - Image1
 - Image2
