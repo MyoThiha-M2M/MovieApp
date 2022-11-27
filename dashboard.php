@@ -768,7 +768,7 @@ if (isset($_POST['txtFormatName'])) {
         <div class="dashboardContainer">
             <div class="dashboardHeadingContainer">
                 <h4 id="dashboardHeading">Manage Theaters</h4>
-                <a href="movieEntry.php" class="btn btn-hover">Add Theaters</a>
+                <a href="theaterEntry.php" class="btn btn-hover">Add Theaters</a>
             </div>
             <div class="dashboardBodyContainer">
                 <div class="movieListHeadingContainer">

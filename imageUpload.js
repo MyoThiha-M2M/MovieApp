@@ -10,6 +10,7 @@ const videoTag = document.querySelectorAll(".movieTrailer");
 const uploadButtonTag = document.querySelectorAll(".upload-icon");
 const submitMovieBtnTag = document.querySelector("#submitMovie");
 const movieUploadFormTag = document.querySelector(".movieEntryForm");
+
 let regExp = /[0-9a-zA-Z\^\&\'\@\{\}\[\]\,\$\=\!\-\#\(\)\.\%\+\~\_ ]+$/;
 
 uploadButtonTag[0].addEventListener("click", () => {

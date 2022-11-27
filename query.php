@@ -52,25 +52,40 @@ include('connect.php');
 //     echo "Format Table is successful";
 // }
 
-$movies = "CREATE TABLE Movies(
-    MovieID int PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    MovieName varchar(150),
-    ReleaseDate date,
-    GenreID int,
-    FormatID int,
-    Duration time,
-    RatingPoint int,
-    Starring varchar(255),
-    OverView varchar(800),
-    Poster1 varchar(300),
-    Poster2 varchar(300),
-    Poster3 varchar(300),
-    Trailer varchar(300),
-    FOREIGN KEY (GenreID) REFERENCES Genres(GenreID),
-    FOREIGN KEY (FormatID) REFERENCES Formats(FormatID)
-)";
+// $movies = "CREATE TABLE Movies(
+//     MovieID int PRIMARY KEY NOT NULL AUTO_INCREMENT,
+//     MovieName varchar(150),
+//     ReleaseDate date,
+//     GenreID int,
+//     FormatID int,
+//     Duration time,
+//     RatingPoint int,
+//     Starring varchar(255),
+//     OverView varchar(800),
+//     Poster1 varchar(300),
+//     Poster2 varchar(300),
+//     Poster3 varchar(300),
+//     Trailer varchar(300),
+//     FOREIGN KEY (GenreID) REFERENCES Genres(GenreID),
+//     FOREIGN KEY (FormatID) REFERENCES Formats(FormatID)
+// )";
 
-$query = mysqli_query($connect, $movies);
-if (isset($query)) {
-    echo "Movie Table is successful";
-};
+// $query = mysqli_query($connect, $movies);
+// if (isset($query)) {
+//     echo "Movie Table is successful";
+// };
+
+// $theaters = "CREATE TABLE Theaters(
+//     TheaterID int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+//     TheaterName varchar(30),
+//     TheaterType varchar(30),
+//     ContactNumber varchar(30),
+//     Location varchar(200),
+//     Description varchar(300),
+//     Image varchar(300)
+// )";
+
+// $query = mysqli_query($connect, $theaters);
+// if (isset($query)) {
+//     echo "Theater Table is successfully created";
+// }

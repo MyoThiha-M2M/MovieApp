@@ -14,91 +14,34 @@ if (isset($_SESSION['AdminID'])) {
 };
 
 
-if (isset($_POST['btnSubmitMovie'])) {
-    $imgName1 = $_FILES['moviePoster1']['name'];
-    $tmpName1 = $_FILES['moviePoster1']['tmp_name'];
-    $imgEx1 = pathinfo($imgName1, PATHINFO_EXTENSION);
-    $imgExLc1 = strtolower($imgEx1);
-    $allowedExs1 = array('jpg', 'jpeg', 'png');
-    if (in_array($imgExLc1, $allowedExs1)) {
-        $newMoviePosterName1 = uniqid('IMG-', true) . '.' . $imgExLc1;
-        $imgUploadPath = 'moviePosters/' . $newMoviePosterName1;
-        move_uploaded_file($tmpName1, $imgUploadPath);
+if (isset($_POST['btnSubmitTheater'])) {
+    $imgName = $_FILES['theaterPhoto']['name'];
+    $tmpName = $_FILES['theaterPhoto']['tmp_name'];
+    $imgEx = pathinfo($imgName, PATHINFO_EXTENSION);
+    $imgExLc = strtolower($imgEx);
+    $allowedExs = array('jpg', 'jpeg', 'png');
+    if (in_array($imgExLc, $allowedExs)) {
+        $newTheaterImageName = uniqid('IMG-', true) . '.' . $imgExLc;
+        $imgUploadPath = 'theaterImages/' . $newTheaterImageName;
+        move_uploaded_file($tmpName, $imgUploadPath);
     } else {
         echo "<script>
-alert('You cannot upload files of this type')
-</script>";
+                alert('You cannot upload files of this type')
+            </script>";
     }
-    $imgName2 = $_FILES['moviePoster2']['name'];
-    $tmpName2 = $_FILES['moviePoster2']['tmp_name'];
-    $imgEx2 = pathinfo($imgName2, PATHINFO_EXTENSION);
-    $imgExLc2 = strtolower($imgEx2);
-    $allowedExs2 = array('jpg', 'jpeg', 'png');
-    if (in_array($imgExLc2, $allowedExs2)) {
-        $newMoviePosterName2 = uniqid('IMG-', true) . '.' . $imgExLc2;
-        $imgUploadPath = 'moviePosters/' . $newMoviePosterName2;
-        move_uploaded_file($tmpName2, $imgUploadPath);
-    } else {
-        echo "<script>
-alert('You cannot upload files of this type')
-</script>";
-    }
-    $imgName3 = $_FILES['moviePoster3']['name'];
-    $tmpName3 = $_FILES['moviePoster3']['tmp_name'];
-    $imgEx3 = pathinfo($imgName3, PATHINFO_EXTENSION);
-    $imgExLc3 = strtolower($imgEx3);
-    $allowedExs3 = array('jpg', 'jpeg', 'png');
-    if (in_array($imgExLc3, $allowedExs3)) {
-        $newMoviePosterName3 = uniqid('IMG-', true) . '.' . $imgExLc3;
-        $imgUploadPath = 'moviePosters/' . $newMoviePosterName3;
-        move_uploaded_file($tmpName3, $imgUploadPath);
-    } else {
-        echo "<script>
-alert('You cannot upload files of this type')
-</script>";
-    }
-    $movieName = $_POST['txtMovieName'];
-    $releaseDate = $_POST['txtReleaseDate'];
-    $genreID = $_POST['movieGenre'];
-    $formatID = $_POST['movieFormat'];
-    $duration = $_POST['txtDuration'];
-    $ratingPoint = $_POST['numRatingPoint'];
-    $movieStarring = $_POST['txtStarring'];
-    $movieOverView = $_POST['txtMovieOverView'];
-    // Video Upload
-    $videoName = $_FILES['movieTrailer']['name'];
-    $tmpName = $_FILES['movieTrailer']['tmp_name'];
-    $videoEx = pathinfo($videoName, PATHINFO_EXTENSION);
-    $videoExLc = strtolower($videoEx);
-    $allowedExs = array('mp4', 'webm', 'avi', 'flv');
-    if (in_array($videoExLc, $allowedExs)) {
-        $newMovieTrailerName = uniqid('video-', true) . '.' . $videoExLc;
-        $videoUploadPath = 'movieTrailers/' . $newMovieTrailerName;
-        move_uploaded_file($tmpName, $videoUploadPath);
-    } else {
-        echo "<script>
-alert('You cannot upload files of this type')
-</script>";
-    }
-    $insert = "INSERT INTO Movies(MovieName, ReleaseDate, GenreID, FormatID, Duration, RatingPoint, Starring, OverView,
-Poster1, Poster2, Poster3, Trailer)
-VALUES ('$movieName', '$releaseDate', $genreID, $formatID, '$duration', $ratingPoint, '$movieStarring',
-'$movieOverView', '$newMoviePosterName1', '$newMoviePosterName2', '$newMoviePosterName3', '$newMovieTrailerName')";
+    $theaterName = $_POST['txtTheaterName'];
+    $theaterType = $_POST['theaterType'];
+    $contactNumber = $_POST['txtContactNumber'];
+    $location = $_POST['txtLocation'];
+    $description = $_POST['txtDescription'];
+    $insert = "INSERT INTO Theaters (TheaterName, TheaterType, ContactNumber, Location, Description, Image)
+    VALUES ('$theaterName', '$theaterType', '$contactNumber', '$location', '$description', '$newTheaterImageName')";
     $query = mysqli_query($connect, $insert);
     if (isset($query)) {
-        echo "<script>
-alert('Your Entry is successful')
-</script>";
-        echo "<script>
-window.location = 'movieEntry.php'
-</script>";
+        echo "<script>alert('Successfully Added Theater')</script>";
+        echo "<script>window.location = 'theaterEntry.php'</script>";
     } else {
-        echo "<script>
-alert('Error')
-</script>";
-        echo "<script>
-window.location = 'movieEntry.php'
-</script>";
+        echo "<script>alert('Error in Theater')</script>";
     }
 }
 
@@ -392,175 +335,6 @@ window.location = 'movieEntry.php'
 
                     <div class="col-lg-8">
                         <div class="parallax-form">
-                            <!-- <a href="#"><img src="images/parallax/avatar.jpg" alt="" class="img-fluid w-100" /></a> -->
-                            <?php
-                            if (isset($_GET['clickedMovieID'])) {
-                                $clickedMovieID = $_GET['clickedMovieID'];
-                                $select = "SELECT * FROM Movies WHERE MovieID = '$clickedMovieID' ORDER BY MovieID";
-                                $query = mysqli_query($connect, $select);
-                                $count = mysqli_num_rows($query);
-                                if ($count > 0) {
-                                    $row = mysqli_fetch_array($query);
-                                    $poster1 = $row['Poster1'];
-                                    $poster2 = $row['Poster2'];
-                                    $poster3 = $row['Poster3'];
-                                    $movieName = $row['MovieName'];
-                                    $releaseDate = $row['ReleaseDate'];
-                                    $genreID = $row['GenreID'];
-                                    $genreName = $_GET['genreName']; // Clicked Movie GenreName
-                                    $formatID = $row['FormatID'];
-                                    $formatName = $_GET['formatName']; // Clicked Movie FormatName
-                                    $duration = $row['Duration'];
-                                    $ratingPoint = $row['RatingPoint'];
-                                    $starring = $row['Starring'];
-                                    $movieOverView = $row['OverView'];
-                                    $trailer = $row['Trailer'];
-                            ?>
-                            <form action="movieEntry.php" class="movieEntryForm" method="POST"
-                                enctype="multipart/form-data">
-                                <div class="movieEntryContainer">
-                                    <div class="movieUploadRow">
-                                        <div class="moviePosterContainer">
-                                            <div class="wrapper">
-                                                <div class="image">
-                                                    <img src="moviePosters/<?php echo $poster1 ?>" alt=""
-                                                        class="image1">
-                                                </div>
-                                                <!-- <div class="uploadContent">
-                                                    <div class="icon"><i class="fas fa-cloud-upload-alt"></i></div>
-                                                    <div class="text-fileUpload text">Poster1 Hasn't Chosen Yet
-                                                    </div>
-                                                </div> -->
-                                                <div class="cancel-btn"><i class="fas fa-times"></i></div>
-                                                <div class="file-name">File name here</div>
-                                            </div>
-                                            <input type="file" class="default-btn" name="moviePoster1">
-                                            <i class="fa-solid fa-upload upload-icon"></i>
-                                        </div>
-                                    </div>
-                                    <!-- Inputs for movieEntry -->
-                                    <div class="movieDetailInputContainer">
-                                        <div class="inputRow">
-                                            <div class="inputGroup">
-                                                <label for="movieName">Enter Movie Name </label>
-                                                <input type="text" class="input movieName" name="txtMovieName"
-                                                    value="<?php echo $movieName ?>" required>
-                                            </div>
-
-                                            <div class="inputGroup">
-                                                <label for="releaseDate">Select Release Dates</label>
-                                                <input type="date" class="input releaseDate" name="txtReleaseDate"
-                                                    value="<?php echo $releaseDate ?>" required>
-                                            </div>
-                                        </div>
-                                        <div class="inputRow">
-                                            <div class="inputGroup">
-                                                <label for="movieGenre">Select Movie Genre </label>
-                                                <select name="movieGenre" id="">
-                                                    <option value="" selected><?php echo $genreName ?></option>
-                                                    </option>
-                                                    <?php
-                                                            $select = "SELECT * FROM Genres ORDER BY GenreID";
-                                                            $query = mysqli_query($connect, $select);
-                                                            $count = mysqli_num_rows($query);
-                                                            if ($count > 0) {
-                                                                for ($i = 0; $i < $count; $i++) {
-                                                                    $row = mysqli_fetch_array($query);
-                                                                    $genreID = $row['GenreID'];
-                                                                    $genreName = $row['GenreName'];
-                                                            ?>
-                                                    <option value="<?php echo $genreID ?>"><?php echo $genreName ?>
-                                                    </option>
-                                                    <?php
-                                                                }
-                                                            }
-                                                            ?>
-
-                                                </select>
-                                            </div>
-
-                                            <div class="inputGroup">
-                                                <label for="movieFormat">Select Movie Format </label>
-                                                <select name="movieFormat" id="">
-                                                    <option value="" selected><?php echo $formatName ?></option>
-                                                    </option>
-                                                    <?php
-                                                            $select = "SELECT * FROM Formats ORDER BY FormatID";
-                                                            $query = mysqli_query($connect, $select);
-                                                            $count = mysqli_num_rows($query);
-                                                            if ($count > 0) {
-                                                                for ($i = 0; $i < $count; $i++) {
-                                                                    $row = mysqli_fetch_array($query);
-                                                                    $formatID = $row['FormatID'];
-                                                                    $formatName = $row['FormatName'];
-                                                            ?>
-                                                    <option value="<?php echo $formatID ?>"><?php echo $formatName ?>
-                                                    </option>
-                                                    <?php
-                                                                }
-                                                            }
-                                                            ?>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="inputRow">
-                                            <div class="inputGroup">
-                                                <label for="movieDuration">Enter Movie Duration <br>
-                                                    <small>(hours:minutes)</small>
-                                                </label>
-                                                <input type="text" class="input movieDuration" placeholder="00:00"
-                                                    name="txtDuration" value="<?php echo $duration ?>" required>
-                                            </div>
-
-                                            <div class="inputGroup">
-                                                <label for="movieRatingPoint">Enter Movie Rating Point <br> <small>(from
-                                                        0 to 5)</small> </label>
-                                                <input type="number" min='0' max='5' name="numRatingPoint"
-                                                    value="<?php echo $ratingPoint ?>" class="input ratingPoint">
-                                            </div>
-                                        </div>
-                                        <div class="inputRow">
-                                            <div class="starringContainer">
-                                                <label for="movieStarring">Enter Movie Starring </label>
-                                                <textarea name="txtStarring" id=""><?php echo $starring ?></textarea>
-                                            </div>
-                                            <div class="movieOverViewContainer">
-                                                <label for="movieOverView">Enter Movie Overview </label>
-                                                <textarea
-                                                    name="txtMovieOverView"><?php echo $movieOverView ?></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="movieTrailerContainer">
-                                            <div class="wrapper">
-                                                <div class="video">
-                                                    <!-- <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
-                                                        alt="" class="image1"> -->
-                                                    <video src="movieTrailers/<?php echo $trailer ?>"
-                                                        class="movieTrailer" width="100%" height="100%"
-                                                        controls></video>
-                                                </div>
-                                                <!-- <div class="uploadContent">
-                                                    <div class="icon"><i class="fas fa-cloud-upload-alt"></i></div>
-                                                    <div class="text-fileUpload text">Upload Movie Trailer Here
-                                                    </div>
-                                                </div> -->
-                                                <div class="cancel-btn"><i class="fas fa-times"></i></div>
-                                                <div class="file-name">File name here</div>
-                                            </div>
-                                            <input type="file" class="default-btn" name="movieTrailer">
-                                            <i class="fa-solid fa-upload upload-icon"></i>
-                                        </div>
-                                        <div>
-                                            <button type="submit" class="btn btn-hover" id="submitMovie"
-                                                name="btnSubmitMovie">Add
-                                                Movie</button>
-                                        </div>
-                                    </div>
-                            </form>
-                            <?php
-                                }
-                            }
-                            ?>
                             <?php
                             if (!isset($_GET['clickedMovieID'])) {
                             ?>
@@ -571,7 +345,7 @@ window.location = 'movieEntry.php'
                                         <div class="wrapper">
                                             <div class="image">
                                                 <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
-                                                    alt="" class="image">
+                                                    alt="" class="theaterImg">
                                             </div>
                                             <div class="uploadContent">
                                                 <div class="icon"><i class="fas fa-cloud-upload-alt"></i></div>
@@ -581,7 +355,7 @@ window.location = 'movieEntry.php'
                                             <div class="cancel-btn"><i class="fas fa-times"></i></div>
                                             <div class="file-name">File name here</div>
                                         </div>
-                                        <input type="file" class="default-btn" name="moviePoster3">
+                                        <input type="file" class="default-btn" name="theaterPhoto">
                                         <i class="fa-solid fa-upload upload-icon"></i>
                                     </div>
                                     <!-- Inputs for movieEntry -->
@@ -589,16 +363,16 @@ window.location = 'movieEntry.php'
                                         <div class="inputRow">
                                             <div class="inputGroup">
                                                 <label for="theaterName">Enter Theater Name </label>
-                                                <input type="text" class="input movieName" name="txtMovieName" required>
+                                                <input type="text" class="input" name="txtTheaterName" required>
                                             </div>
                                             <div class="inputGroup">
                                                 <label for="theaterType">Select Theater Type </label>
                                                 <select name="theaterType" id="">
-                                                    <option value="1">Imax</option>
-                                                    <option value="1">4Dx</option>
-                                                    <option value="1">Play House</option>
-                                                    <option value="1">P[XL]</option>
-                                                    <option value="1">Premium</option>
+                                                    <option value="Imax">Imax</option>
+                                                    <option value="4Dx">4Dx</option>
+                                                    <option value="Play House">Play House</option>
+                                                    <option value="P[XL]">P[XL]</option>
+                                                    <option value="Premium">Premium</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -606,12 +380,11 @@ window.location = 'movieEntry.php'
                                         <div class="inputRow">
                                             <div class="inputGroup">
                                                 <label for="contactNumber">Enter Contact Number </label>
-                                                <input type="text" class="input movieName" name="txtContactNumber"
-                                                    required>
+                                                <input type="text" class="input" name="txtContactNumber" required>
                                             </div>
                                             <div class="inputGroup">
                                                 <label for="location">Enter Location </label>
-                                                <input type="text" class="input movieName" name="txtLocation" required>
+                                                <input type="text" class="input" name="txtLocation" required>
                                             </div>
                                         </div>
 
@@ -623,8 +396,8 @@ window.location = 'movieEntry.php'
                                         </div>
 
                                         <div class="inputRow">
-                                            <button type="submit" class="btn btn-hover" id="submitMovie"
-                                                name="btnSubmitMovie">Add
+                                            <button type="submit" class="btn btn-hover" id="submitTheater"
+                                                name="btnSubmitTheater">Add
                                                 Theater</button>
                                         </div>
                                     </div>
@@ -721,7 +494,7 @@ window.location = 'movieEntry.php'
     <script src="js/slick-animation.min.js?v=<?php echo $version ?>"></script>
 
     <script src="main.js?v=<?php echo $version ?>"></script>
-    <script src="imageUpload.js?v=<?php echo $version ?>"></script>
+    <script src="theaterImageUpload.js?v=<?php echo $version ?>"></script>
 </body>
 
 </html>
