@@ -89,3 +89,18 @@ include('connect.php');
 // if (isset($query)) {
 //     echo "Theater Table is successfully created";
 // }
+
+$shows = "CREATE TABLE Shows (
+    ShowID int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    ShowDate date,
+    ShowTime varchar(30),
+    MovieID int NOT NULL,
+    TheaterID int NOT NULL,
+    FOREIGN KEY (MovieID) REFERENCES Movies(MovieID),
+    FOREIGN KEY (TheaterID) REFERENCES Theaters(TheaterID)
+)";
+
+$query = mysqli_query($connect, $shows);
+if (isset($query)) {
+    echo "Shows Table is successfully created";
+}

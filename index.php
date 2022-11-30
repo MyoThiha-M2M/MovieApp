@@ -1,5 +1,6 @@
 <?php
 include('config.php');
+include('connect.php')
 ?>
 
 <!DOCTYPE html>
@@ -24,6 +25,7 @@ include('config.php');
 
     <link rel="stylesheet" href="css/slick-animation.css?v=<?php echo $version ?>" />
     <link rel="stylesheet" href="style.css?v=<?php echo $version ?>" />
+    <script src="https://kit.fontawesome.com/b59b4a7b62.js?v=<?php echo $version ?>" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -332,7 +334,111 @@ include('config.php');
     <!-- slider starts  -->
     <section id="home" class="iq-main-slider p-0">
         <div id="home-slider" class="slider m-0 p-0">
-            <div class="slide slick-bg s-bg-1">
+            <div class="slide slide-bg"
+                style="background-image: url(https://originserver-static1-uat.pvrcinemas.com/pvrcms/banner/Macmerisepilot_1587.jpg);">
+            </div>
+            <div class="slide slide-bg"
+                style="background-image: url(https://originserver-static1-uat.pvrcinemas.com/pvrcms/banner/ICE_1714.jpg);">
+            </div>
+            <div class="slide slide-bg"
+                style="background-image: url(https://originserver-static1-uat.pvrcinemas.com/pvrcms/banner/Weekday_Offers__2530.jpg);">
+            </div>
+            <?php
+            $select = "SELECT m.*, g.GenreName, f.FormatName FROM Movies m, Genres g, Formats f WHERE 
+                            g.GenreID = m.GenreID AND 
+                            f.FormatID = m.FormatID ORDER BY m.MovieID";
+            $query = mysqli_query($connect, $select);
+            $count = mysqli_num_rows($query);
+            if ($count > 0) {
+                for ($i = 0; $i < 3; $i++) {
+                    $row = mysqli_fetch_array($query);
+                    $movieID = $row['MovieID'];
+                    $movieName = $row['MovieName'];
+                    $moviePoster2 = $row['Poster2'];
+                    $genreID = $row['GenreID'];
+                    $formatID = $row['FormatID'];
+                    $genreName = $row['GenreName'];
+                    $formatName = $row['FormatName'];
+                    $duration = $row['Duration'];
+                    $starring = $row['Starring'];
+                    $rating = $row['RatingPoint'];
+                    $overView = $row['OverView'];
+                    $movieTrailer = $row['Trailer'];
+            ?>
+            <div class="slide slick-bg" style="background-image: url(moviePosters/<?php echo $moviePoster2 ?>);">
+                <div class="container-fluid position-relative h-100">
+                    <div class="slider-inner h-100">
+                        <div class="row align-items-center h--100">
+                            <div class="col-xl-6 col-lg-12 col-md-12">
+                                <a href="javascript:void(0)">
+                                    <div class="channel-logo" data-animation-in="fadeInLeft" data-delay-in="0.5">
+                                        <img src="images/logo.png" class="c-logo" alt="" />
+                                    </div>
+                                </a>
+                                <h1 class="slider-text big-title title text-uppercase" data-animation-in="fadeInLeft"
+                                    data-delay-in="0.6">
+                                    <?php echo $movieName ?>
+                                </h1>
+                                <div class="d-flex flex-wrap align-items-center fadeInLeft animated"
+                                    data-animation-in="fadeInLeft" style="opacity: 1">
+                                    <div class="slider-ratting d-flex align-items-center mr-4 mt-2 mt-md-3">
+                                        <ul
+                                            class="ratting-start p-0 m-0 list-inline text-primary d-flex align-items-center justify-content-left">
+                                            <li><i class="fa fa-star"></i></li>
+                                            <li><i class="fa fa-star"></i></li>
+                                            <li><i class="fa fa-star"></i></li>
+                                            <li><i class="fa fa-star"></i></li>
+                                            <li><i class="fa fa-star"></i></li>
+                                        </ul>
+                                        <span class="text-white ml-2"><?php echo $rating ?>(imbd)</span>
+                                    </div>
+                                    <div class="d-flex align-items-center mt-2 mt-md-3">
+                                        <span class="badge badge-secondary p-2">16+</span>
+                                        <span class="ml-3"><?php echo $duration ?></span>
+                                    </div>
+                                </div>
+                                <p data-animation-in="fadeInUp">
+                                    <?php echo $overView ?>
+                                </p>
+                                <div class="trending-list" data-animation-in="fadeInUp" data-delay-in="1.2">
+                                    <div class="text-primary title starring">
+                                        Starring :
+                                        <span class="text-body"><?php echo $starring ?></span>
+                                    </div>
+                                    <div class="text-primary title genres">
+                                        Genre : <span class="text-body"><?php echo $genreName ?></span>
+                                    </div>
+                                    <div class="text-primary title tag">
+                                        Format :
+                                        <span class="text-body"><?php echo $formatName ?></span>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center r-mb-23 mt-4" data-animation-in="fadeInUp"
+                                    data-delay-in="1.2">
+                                    <a href="#" class="btn btn-hover iq-button" style="margin-right: 40px;"><i
+                                            class="fa fa-play mr-3"></i>Play
+                                        Now</a>
+                                    <a href="movieTrailers/<?php echo $movieTrailer ?>" class="video-open playbtn">
+                                        <span class="w-trailor">Watch Trailer</span>
+                                        <img src="images/play.png" class="play" alt="" />
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="col-xl-5 col-lg-12 col-md-12 trailor-video">
+                            <a href="movieTrailers/" class="video-open playbtn">
+                                <img src="images/play.png" class="play" alt="" />
+                                <span class="w-trailor">Watch Trailer</span>
+                            </a>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+            <?php
+                }
+            }
+            ?>
+            <!-- <div class="slide slick-bg s-bg-1">
                 <div class="container-fluid position-relative h-100">
                     <div class="slider-inner h-100">
                         <div class="row align-items-center h--100">
@@ -534,7 +640,7 @@ include('config.php');
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </section>
     <!-- slider ends -->
@@ -553,6 +659,83 @@ include('config.php');
                         </div>
                         <div class="favorite-contens">
                             <ul class="favorites-slider list-inline row p-0 mb-0">
+
+                                <?php
+                                $select = "SELECT m.*, g.GenreName, f.FormatName FROM Movies m, Genres g, Formats f WHERE 
+                            g.GenreID = m.GenreID AND 
+                            f.FormatID = m.FormatID ORDER BY m.MovieID";
+                                $query = mysqli_query($connect, $select);
+                                $count = mysqli_num_rows($query);
+                                if ($count > 0) {
+                                    for ($i = 0; $i < 3; $i++) {
+                                        $row = mysqli_fetch_array($query);
+                                        $movieID = $row['MovieID'];
+                                        $movieName = $row['MovieName'];
+                                        $moviePoster1 = $row['Poster1'];
+                                        $genreID = $row['GenreID'];
+                                        $formatID = $row['FormatID'];
+                                        $genreName = $row['GenreName'];
+                                        $formatName = $row['FormatName'];
+                                        $duration = $row['Duration'];
+                                        $hour = substr($duration, 1, 1) . 'hr';
+                                        $minute = substr($duration, 3, 2) . 'min';
+                                        $durationText = $hour . " " . $minute;
+                                        $starring = $row['Starring'];
+                                        $rating = $row['RatingPoint'];
+                                        $overView = $row['OverView'];
+                                        $movieTrailer = $row['Trailer'];
+                                ?>
+                                <li class="slide-item">
+                                    <div class="block-images position-relative">
+                                        <div class="img-box">
+                                            <img src="moviePosters/<?php echo $moviePoster1 ?>" class="img-fluid"
+                                                alt="" />
+                                        </div>
+                                        <div class="block-description">
+                                            <h6 class="iq-title">
+                                                <a href="#"> <?php echo $movieName ?> </a>
+                                            </h6>
+                                            <div class="movie-time d-flex align-items-center my-2">
+                                                <div class="badge badge-secondary p-1 mr-2"><?php echo $genreName ?>
+                                                </div>
+                                                <span class="text-white"><?php echo $durationText ?></span>
+                                            </div>
+                                            <div class="hover-buttons">
+                                                <span class="btn btn-hover iq-button">
+                                                    Book Tickets
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="block-social-info">
+                                            <ul class="list-inline p-0 m-0 music-play-lists">
+                                                <li class="share">
+                                                    <span><i class="fa fa-share-alt"></i></span>
+                                                    <div class="share-box">
+                                                        <div class="d-flex align-items-center">
+                                                            <a href="#" class="share-ico"><i
+                                                                    class="fa fa-share-alt"></i></a>
+                                                            <a href="#" class="share-ico"><i
+                                                                    class="fa fa-youtube"></i></a>
+                                                            <a href="#" class="share-ico"><i
+                                                                    class="fa fa-instagram"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <span><i class="fa fa-heart"></i></span>
+                                                    <span class="count-box">19+</span>
+                                                </li>
+                                                <li>
+                                                    <span><i class="fa fa-plus"></i></span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                                <?php
+                                    }
+                                }
+                                ?>
                                 <!-- slide item 1 -->
                                 <li class="slide-item">
                                     <div class="block-images position-relative">
@@ -1062,7 +1245,29 @@ include('config.php');
                                 Our Theaters
                             </h4>
                             <ul id="top-ten-slider" class="list-inline p-0 m-0 d-flex align-items-center">
+                                <?php
+                                $select = "SELECT * FROM Theaters Order By TheaterID";
+                                $query = mysqli_query($connect, $select);
+                                $count = mysqli_num_rows($query);
+                                if ($count > 0) {
+                                    for ($i = 0; $i < $count; $i++) {
+                                        $row = mysqli_fetch_array($query);
+                                        $theaterName = $row['TheaterName'];
+                                        $theaterImage = $row['Image'];
+                                        $location = $row['Location'];
+                                ?>
                                 <li class="slick-bg">
+                                    <a href="#">
+                                        <img src="theaterImages/<?php echo $theaterImage ?>" class="img-fluid w-100"
+                                            alt="" />
+                                        <h6 class="iq-title"><a href="#"><?php echo $theaterName ?></a></h6>
+                                    </a>
+                                </li>
+                                <?php
+                                    }
+                                }
+                                ?>
+                                <!-- <li class="slick-bg">
                                     <a href="#">
                                         <img src="images/top-10/01.jpg" class="img-fluid w-100" alt="" />
                                         <h6 class="iq-title"><a href="#">Harry Potter</a></h6>
@@ -1099,11 +1304,50 @@ include('config.php');
                                         <img src="images/top-10/06.jpg" class="img-fluid w-100" alt="" />
                                         <h6 class="iq-title"><a href="#">Peaky Blinders</a></h6>
                                     </a>
-                                </li>
+                                </li> -->
                             </ul>
                             <div class="vertical_s">
                                 <ul id="top-ten-slider-nav" class="list-inline p-0 m-0 d-flex align-items-center">
+                                    <?php
+                                    $select = "SELECT * FROM Theaters Order By TheaterID";
+                                    $query = mysqli_query($connect, $select);
+                                    $count = mysqli_num_rows($query);
+                                    if ($count > 0) {
+                                        for ($i = 0; $i < $count; $i++) {
+                                            $row = mysqli_fetch_array($query);
+                                            $theaterName = $row['TheaterName'];
+                                            $theaterImage = $row['Image'];
+                                            $location = $row['Location'];
+                                    ?>
                                     <li>
+                                        <div class="block-images position-relative">
+                                            <a href="#">
+                                                <img src="theaterImages/<?php echo $theaterImage ?>"
+                                                    class="img-fluid w-100" alt="" />
+                                            </a>
+                                            <div class="block-description">
+                                                <h5><?php echo $theaterName ?></h5>
+                                                <div class="movie-time d-flex align-items-center my-2">
+                                                    <!-- <div class="badge badge-secondary p-1 mr-2">
+                                                        10+
+                                                    </div> -->
+                                                    <span class="text-white"><i
+                                                            class="fa-solid fa-location-dot"></i><?php echo $location ?></span>
+                                                </div>
+                                                <div class="hover-buttons">
+                                                    <a href="#" class="btn btn-hover" tabindex="0">
+                                                        <i class="fa fa-play mr-1" aria-hidden="true"></i>
+                                                        View
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <?php
+                                        }
+                                    }
+                                    ?>
+                                    <!-- <li>
                                         <div class="block-images position-relative">
                                             <a href="#">
                                                 <img src="images/top-10/01.jpg" class="img-fluid w-100" alt="" />
@@ -1234,7 +1478,7 @@ include('config.php');
                                                 </div>
                                             </div>
                                         </div>
-                                    </li>
+                                    </li> -->
                                 </ul>
                             </div>
                         </div>
