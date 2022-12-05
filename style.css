@@ -3227,6 +3227,11 @@ textarea:focus {
   transform: rotate(180deg);
 }
 
+.SelectedForm {
+  display: flex;
+  gap: 13px;
+}
+
 /* ****************** responsiveness************ */
 @media (max-width: 767px) {
   .trending-content {

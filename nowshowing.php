@@ -656,15 +656,17 @@ include('connect.php')
                             <div class="iq-main-header d-flex justify-content-between">
                                 <h4 class="main-title">Now Showing</h4>
                                 <div class="selBox-flex">
-                                    <div class="SelectBoxContainer">
-                                        <form action="nowshowing.php" class="genreSelectForm" method="GET">
-                                            <input type="text" name="txtSelectedGenre" id="selectedGenreID" hidden>
+                                    <form action="nowshowing.php" class="SelectedForm" method="GET">
+                                        <div class="SelectBoxContainer">
+
+                                            <input type="text" name="txtSelectedGenre" id="selectedGenreID" value="0"
+                                                hidden>
                                             <div class="selected">
                                                 <div class="selectedGenre">Genre</div>
                                                 <div><i class="fa-solid fa-angle-up"></i></div>
                                             </div>
                                             <div class="optionsContainer">
-                                                <div class="option genreOption">All Genre</div>
+                                                <div class="option genreOption" id="0">All Genre</div>
                                                 <?php
                                                 $select = "SELECT * FROM Genres ORDER BY GenreID";
                                                 $query = mysqli_query($connect, $select);
@@ -682,17 +684,17 @@ include('connect.php')
                                                 }
                                                 ?>
                                             </div>
-                                        </form>
-                                    </div>
-                                    <div class="SelectBoxContainer">
-                                        <form action="nowshowing.php" class="formatSubmitForm" method="GET">
-                                            <input type="text" name="txtSelectedGenre" id="selectedFormatID" hidden>
+
+                                        </div>
+                                        <div class="SelectBoxContainer">
+                                            <input type="text" name="txtSelectedFormat" id="selectedFormatID" value="0"
+                                                hidden>
                                             <div class="selected">
                                                 <div class="selectedFormat">Format</div>
                                                 <div><i class="fa-solid fa-angle-up"></i></div>
                                             </div>
                                             <div class="optionsContainer">
-                                                <div class="option formatOption">All Format</div>
+                                                <div class="option formatOption" id="0">All Format</div>
                                                 <?php
                                                 $select = "SELECT * FROM Formats ORDER BY FormatID";
                                                 $query = mysqli_query($connect, $select);
@@ -710,37 +712,41 @@ include('connect.php')
                                                 }
                                                 ?>
                                             </div>
-                                        </form>
-                                    </div>
+
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                             <ul class="favorites-slider list-inline row p-0 mb-0">
+                                <!-- Genre Selected Section Starts -->
                                 <?php
-                                if (isset($_GET['txtSelectedGenre'])) {
+                                if (isset($_GET['txtSelectedGenre']) || isset($_GET['txtSelectedFormat'])) {
                                     $selectedGenreID = $_GET['txtSelectedGenre'];
-                                    $select = "SELECT m.*, g.GenreName, f.FormatName FROM Movies m, Genres g, Formats f WHERE 
-                                    m.GenreID = '$selectedGenreID' AND 
-                                    g.GenreID = m.GenreID AND f.FormatID = m.FormatID ORDER BY m.MovieID";
-                                    $query = mysqli_query($connect, $select);
-                                    $count = mysqli_num_rows($query);
-                                    if ($count > 0) {
-                                        for ($i = 0; $i < $count; $i++) {
-                                            $row = mysqli_fetch_array($query);
-                                            $movieID = $row['MovieID'];
-                                            $movieName = $row['MovieName'];
-                                            $moviePoster1 = $row['Poster1'];
-                                            $genreID = $row['GenreID'];
-                                            $formatID = $row['FormatID'];
-                                            $genreName = $row['GenreName'];
-                                            $formatName = $row['FormatName'];
-                                            $duration = $row['Duration'];
-                                            $hour = substr($duration, 1, 1) . 'hr';
-                                            $minute = substr($duration, 3, 2) . 'min';
-                                            $durationText = $hour . " " . $minute;
-                                            $starring = $row['Starring'];
-                                            $rating = $row['RatingPoint'];
-                                            $overView = $row['OverView'];
-                                            $movieTrailer = $row['Trailer'];
+                                    $selectedFormatID = $_GET['txtSelectedFormat'];
+                                    if ($selectedGenreID === '0' && $selectedFormatID === '0') {
+                                        $select = "SELECT m.*, g.GenreName, f.FormatName FROM Movies m, Genres g, Formats f WHERE 
+                                    g.GenreID = m.GenreID AND 
+                                    f.FormatID = m.FormatID ORDER BY m.MovieID";
+                                        $query = mysqli_query($connect, $select);
+                                        $count = mysqli_num_rows($query);
+                                        if ($count > 0) {
+                                            for ($i = 0; $i < $count; $i++) {
+                                                $row = mysqli_fetch_array($query);
+                                                $movieID = $row['MovieID'];
+                                                $movieName = $row['MovieName'];
+                                                $moviePoster1 = $row['Poster1'];
+                                                $genreID = $row['GenreID'];
+                                                $formatID = $row['FormatID'];
+                                                $genreName = $row['GenreName'];
+                                                $formatName = $row['FormatName'];
+                                                $duration = $row['Duration'];
+                                                $hour = substr($duration, 1, 1) . 'hr';
+                                                $minute = substr($duration, 3, 2) . 'min';
+                                                $durationText = $hour . " " . $minute;
+                                                $starring = $row['Starring'];
+                                                $rating = $row['RatingPoint'];
+                                                $overView = $row['OverView'];
+                                                $movieTrailer = $row['Trailer'];
                                 ?>
                                 <li class="slide-item">
                                     <div class="block-images position-relative">
@@ -790,6 +796,157 @@ include('connect.php')
                                     </div>
                                 </li>
                                 <?php
+                                            }
+                                        }
+                                    } elseif ($selectedGenreID > 0) {
+                                        $select = "SELECT m.*, g.GenreName, f.FormatName FROM Movies m, Genres g, Formats f
+                                    WHERE
+                                    m.GenreID = '$selectedGenreID' AND
+                                    g.GenreID = m.GenreID AND f.FormatID = m.FormatID ORDER BY m.MovieID";
+                                        $query = mysqli_query($connect, $select);
+                                        $count = mysqli_num_rows($query);
+                                        if ($count > 0) {
+                                            for ($i = 0; $i < $count; $i++) {
+                                                $row = mysqli_fetch_array($query);
+                                                $movieID = $row['MovieID'];
+                                                $movieName = $row['MovieName'];
+                                                $moviePoster1 = $row['Poster1'];
+                                                $genreID = $row['GenreID'];
+                                                $formatID = $row['FormatID'];
+                                                $genreName = $row['GenreName'];
+                                                $formatName = $row['FormatName'];
+                                                $duration = $row['Duration'];
+                                                $hour = substr($duration, 1, 1) . 'hr';
+                                                $minute = substr($duration, 3, 2) . 'min';
+                                                $durationText = $hour . " " . $minute;
+                                                $starring = $row['Starring'];
+                                                $rating = $row['RatingPoint'];
+                                                $overView = $row['OverView'];
+                                                $movieTrailer = $row['Trailer']; ?>
+                                <li class="slide-item">
+                                    <div class="block-images position-relative">
+                                        <div class="img-box">
+                                            <img src="moviePosters/<?php echo $moviePoster1 ?>" class="img-fluid"
+                                                alt="" />
+                                        </div>
+                                        <div class="block-description">
+                                            <h6 class="iq-title">
+                                                <a href="#"> <?php echo $movieName ?> </a>
+                                            </h6>
+                                            <div class="movie-time d-flex align-items-center my-2">
+                                                <div class="badge badge-secondary p-1 mr-2"><?php echo $genreName ?>
+                                                </div>
+                                                <span class="text-white"><?php echo $durationText ?></span>
+                                            </div>
+                                            <div class="hover-buttons">
+                                                <span class="btn btn-hover iq-button">
+                                                    Book Tickets
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="block-social-info">
+                                            <ul class="list-inline p-0 m-0 music-play-lists">
+                                                <li class="share">
+                                                    <span><i class="fa fa-share-alt"></i></span>
+                                                    <div class="share-box">
+                                                        <div class="d-flex align-items-center">
+                                                            <a href="#" class="share-ico"><i
+                                                                    class="fa fa-share-alt"></i></a>
+                                                            <a href="#" class="share-ico"><i
+                                                                    class="fa fa-youtube"></i></a>
+                                                            <a href="#" class="share-ico"><i
+                                                                    class="fa fa-instagram"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <span><i class="fa fa-heart"></i></span>
+                                                    <span class="count-box">19+</span>
+                                                </li>
+                                                <li>
+                                                    <span><i class="fa fa-plus"></i></span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                                <?php
+                                            }
+                                        }
+                                    } elseif ($selectedFormatID > 0) {
+                                        $select = "SELECT m.*, g.GenreName, f.FormatName FROM Movies m, Genres g, Formats f
+                                        WHERE
+                                        f.FormatID = '$selectedFormatID' AND
+                                        g.GenreID = m.GenreID AND f.FormatID = m.FormatID ORDER BY m.MovieID";
+                                        $query = mysqli_query($connect, $select);
+                                        $count = mysqli_num_rows($query);
+                                        if ($count > 0) {
+                                            for ($i = 0; $i < $count; $i++) {
+                                                $row = mysqli_fetch_array($query);
+                                                $movieID = $row['MovieID'];
+                                                $movieName = $row['MovieName'];
+                                                $moviePoster1 = $row['Poster1'];
+                                                $genreID = $row['GenreID'];
+                                                $formatID = $row['FormatID'];
+                                                $genreName = $row['GenreName'];
+                                                $formatName = $row['FormatName'];
+                                                $duration = $row['Duration'];
+                                                $hour = substr($duration, 1, 1) . 'hr';
+                                                $minute = substr($duration, 3, 2) . 'min';
+                                                $durationText = $hour . " " . $minute;
+                                                $starring = $row['Starring'];
+                                                $rating = $row['RatingPoint'];
+                                                $overView = $row['OverView'];
+                                                $movieTrailer = $row['Trailer']; ?>
+                                <li class="slide-item">
+                                    <div class="block-images position-relative">
+                                        <div class="img-box">
+                                            <img src="moviePosters/<?php echo $moviePoster1 ?>" class="img-fluid"
+                                                alt="" />
+                                        </div>
+                                        <div class="block-description">
+                                            <h6 class="iq-title">
+                                                <a href="#"> <?php echo $movieName ?> </a>
+                                            </h6>
+                                            <div class="movie-time d-flex align-items-center my-2">
+                                                <div class="badge badge-secondary p-1 mr-2"><?php echo $genreName ?>
+                                                </div>
+                                                <span class="text-white"><?php echo $durationText ?></span>
+                                            </div>
+                                            <div class="hover-buttons">
+                                                <span class="btn btn-hover iq-button">
+                                                    Book Tickets
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="block-social-info">
+                                            <ul class="list-inline p-0 m-0 music-play-lists">
+                                                <li class="share">
+                                                    <span><i class="fa fa-share-alt"></i></span>
+                                                    <div class="share-box">
+                                                        <div class="d-flex align-items-center">
+                                                            <a href="#" class="share-ico"><i
+                                                                    class="fa fa-share-alt"></i></a>
+                                                            <a href="#" class="share-ico"><i
+                                                                    class="fa fa-youtube"></i></a>
+                                                            <a href="#" class="share-ico"><i
+                                                                    class="fa fa-instagram"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <span><i class="fa fa-heart"></i></span>
+                                                    <span class="count-box">19+</span>
+                                                </li>
+                                                <li>
+                                                    <span><i class="fa fa-plus"></i></span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                                <?php
+                                            }
                                         }
                                     }
                                 } else {
@@ -799,7 +956,7 @@ include('connect.php')
                                     $query = mysqli_query($connect, $select);
                                     $count = mysqli_num_rows($query);
                                     if ($count > 0) {
-                                        for ($i = 0; $i < 3; $i++) {
+                                        for ($i = 0; $i < $count; $i++) {
                                             $row = mysqli_fetch_array($query);
                                             $movieID = $row['MovieID'];
                                             $movieName = $row['MovieName'];
@@ -816,7 +973,7 @@ include('connect.php')
                                             $rating = $row['RatingPoint'];
                                             $overView = $row['OverView'];
                                             $movieTrailer = $row['Trailer'];
-                                        ?>
+                                            ?>
                                 <li class="slide-item">
                                     <div class="block-images position-relative">
                                         <div class="img-box">
@@ -869,7 +1026,7 @@ include('connect.php')
                                     }
                                 }
                                 ?>
-
+                                <!-- Genre Selected Section Ends -->
                             </ul>
                         </div>
                     </div>

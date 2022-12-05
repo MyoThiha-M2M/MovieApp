@@ -6,8 +6,7 @@ const selectedFormatTag = document.querySelector(".selectedFormat");
 const optionsContainerTag = document.querySelectorAll(".optionsContainer");
 const genreOptionsTag = document.querySelectorAll(".genreOption");
 const formatOptionsTag = document.querySelectorAll(".formatOption");
-const genreSelectFormTag = document.querySelector(".genreSelectForm");
-const formatSelectFormTag = document.querySelector(".formatSelectForm");
+const SelectedFormTag = document.querySelector(".SelectedForm");
 const inputForSelectedGenre = document.querySelector("#selectedGenreID");
 const inputForSelectedFormat = document.querySelector("#selectedFormatID");
 
@@ -37,7 +36,7 @@ for (let i = 0; i < genreOptionsTag.length; i++) {
       optionsContainerTag[0].classList.remove("active");
     }
     setTimeout(() => {
-      genreSelectFormTag.submit();
+      SelectedFormTag.submit();
     }, 1000);
   });
 }
@@ -53,7 +52,7 @@ for (let i = 0; i < formatOptionsTag.length; i++) {
       optionsContainerTag[1].classList.remove("active");
     }
     setTimeout(() => {
-      formatSelectFormTag.submit();
+      SelectedFormTag.submit();
     }, 1000);
   });
 }

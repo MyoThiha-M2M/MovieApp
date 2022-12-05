@@ -666,7 +666,7 @@ include('connect.php')
                                 $query = mysqli_query($connect, $select);
                                 $count = mysqli_num_rows($query);
                                 if ($count > 0) {
-                                    for ($i = 0; $i < 3; $i++) {
+                                    for ($i = 0; $i < $count; $i++) {
                                         $row = mysqli_fetch_array($query);
                                         $movieID = $row['MovieID'];
                                         $movieName = $row['MovieName'];
