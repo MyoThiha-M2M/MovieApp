@@ -70,8 +70,9 @@ Entities
 
 8. Seats
 
-- SeatID
-- SeatTypeID
+- SeatID (PK)
+- SeatRowID (FK)
+- TheaterID (PK)
 
 
 --- SeatDetails --- 
@@ -90,8 +91,7 @@ Entities
 - TicketID
 - BookingID
 - MovieName
-- ShowDate
-- ShowTime
+- ShowID
 - TheaterID
 - SeatID
 - Price

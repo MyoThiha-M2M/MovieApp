@@ -839,9 +839,7 @@ include('connect.php')
                                                 <span class="text-white"><?php echo $durationText ?></span>
                                             </div>
                                             <div class="hover-buttons">
-                                                <span class="btn btn-hover iq-button">
-                                                    Book Tickets
-                                                </span>
+                                                <a href="movieDetail.php" class="btn btn-hover">Book Tickets</a>
                                             </div>
                                         </div>
                                         <div class="block-social-info">

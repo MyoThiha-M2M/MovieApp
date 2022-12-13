@@ -12,6 +12,18 @@ if (isset($_SESSION['AdminID'])) {
         $adminUsername = $row['Username'];
     };
 };
+
+if (isset($_POST['txtSeatID'])) {
+    $seatID = $_POST['txtSeatID'];
+    $seatRowID = $_POST['seatRowID'];
+    $theaterID = $_POST['theaterID'];
+    $price = $_POST['txtSeatPrice'];
+    $insert = "INSERT INTO Seats (SeatID, SeatRowID, TheaterID, Price) VALUES ('$seatID', '$seatRowID', '$theaterID', $price)";
+    $query = mysqli_query($connect, $insert);
+    if (isset($query)) {
+        echo "<script>window.location = 'seatManagement.php'</script>";
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -409,85 +421,123 @@ if (isset($_SESSION['AdminID'])) {
                 </div>
             </nav>
             <!-- partial -->
+            <!-- Seat Entry Pop Up Form -->
+            <div class="successfulPopUp" id="successfulMsg">
+                <div>Entry is successful</div>
+            </div>
+            <div class="popUpEntry seatEntryPopUp" id="seatEntryPopUp">
+                <form action="seatManagement.php" method="POST" id="seatEntryForm">
+                    <i class="fas fa-times" data-modal-close></i>
+                    <div class="inputRow">
+                        <div class="inputGroup">
+                            <label for="seatID">Enter Seat ID</label>
+                            <input type="text" name="txtSeatID" placeholder="e.g, A1">
+                        </div>
+                        <div class="inputGroup">
+                            <label for="seatRowID">Select Seat Row</label>
+                            <select name="seatRowID" id="">
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="C">C</option>
+                                <option value="D">D</option>
+                                <option value="S">S</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="inputRow">
+                        <div class="inputGroup">
+                            <label for="theaterID">Select Theater</label>
+                            <select name="theaterID" id="">
+                                <?php
+                                $select = "SELECT * FROM Theaters ORDER BY TheaterID";
+                                $query = mysqli_query($connect, $select);
+                                $count = mysqli_num_rows($query);
+                                if ($count > 0) {
+                                    for ($i = 0; $i < $count; $i++) {
+                                        $row = mysqli_fetch_array($query);
+                                        $theaterID = $row['TheaterID'];
+                                        $theaterName = $row['TheaterName'];
+                                ?>
+                                <option value="<?php echo $theaterID ?>"><?php echo $theaterName ?>
+                                </option>
+                                <?php
+                                    }
+                                }
+                                ?>
+                            </select>
+                        </div>
+
+                        <div class="inputGroup">
+                            <label for="seatPrice">Enter Seat Price ($)</label>
+                            <input type="text" name="txtSeatPrice" placeholder="e.g, 10">
+                        </div>
+
+                    </div>
+                    <button type="submit" class="btn btn-hover" id="btnAddseat" data-form-submit='#seatEntryForm'
+                        name="submitSeat">Add</button>
+                </form>
+            </div>
+            <div id="overlay"></div>
             <!-- Movie Management Section -->
             <div class="main-panel">
                 <div class="content-wrapper">
                     <div class="grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
-                                <h2>Manage Movie</h2>
-                                <a href="movieEntry.php" class="btn btn-hover">Add Movies</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="grid-margin stretch-card">
-                        <div class="card">
-                            <div class="card-body">
                                 <div class="movieListHeadingContainer">
                                     <div>
-                                        <h4 class="card-title">Movie List</h4>
+                                        <h4 class="card-title">Seat List</h4>
                                     </div>
                                     <div class="searchMovieContainer">
                                         <button class="btn"><i class="fa-solid fa-magnifying-glass"></i></button>
                                         <input type="text" class="form-control" id="search-input"
-                                            placeholder="Search Movies">
+                                            placeholder="Search Seats">
                                     </div>
                                 </div>
                                 <div class="table-responsive">
-                                    <table class="table movieList">
+                                    <table class="table">
                                         <thead>
                                             <tr>
-                                                <th>Movie ID</th>
-                                                <th>Movie Name</th>
-                                                <th>Movie Poster</th>
-                                                <th>Genre</th>
-                                                <th>Format</th>
-                                                <th>Duration</th>
-                                                <th>Status</th>
-                                                <th>Action</th>
+                                                <th>Seat ID</th>
+                                                <th>Row ID</th>
+                                                <th>Theater ID</th>
+                                                <th>Price ($)</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
-                                            $select = "SELECT m.*, g.GenreName, f.FormatName FROM Movies m, Genres g, Formats f WHERE 
-                            g.GenreID = m.GenreID AND 
-                            f.FormatID = m.FormatID ORDER BY m.MovieID";
+                                            $select = "SELECT * FROM Seats ORDER BY SeatID";
                                             $query = mysqli_query($connect, $select);
                                             $count = mysqli_num_rows($query);
                                             if ($count > 0) {
+
                                                 for ($i = 0; $i < $count; $i++) {
                                                     $row = mysqli_fetch_array($query);
-                                                    $movieID = $row['MovieID'];
-                                                    $movieName = $row['MovieName'];
-                                                    $moviePoster1 = $row['Poster1'];
-                                                    $genreID = $row['GenreID'];
-                                                    $formatID = $row['FormatID'];
-                                                    $genreName = $row['GenreName'];
-                                                    $formatName = $row['FormatName'];
-                                                    $duration = $row['Duration'];
-                                                    $hour = substr($duration, 1, 1) . 'hr';
-                                                    $minute = substr($duration, 3, 2) . 'min';
-                                                    $durationText = $hour . " " . $minute;
-                                                    $status = $row['Status'];
+                                                    $seatID = $row['SeatID'];
+                                                    $seatRowID = $row['SeatRowID'];
+                                                    $theaterID = $row['TheaterID'];
+                                                    $price = $row['Price']
                                             ?>
                                             <tr>
-                                                <td><?php echo $movieID ?></td>
-                                                <td><?php echo $movieName ?></td>
-                                                <td><img src="moviePosters/<?php echo $moviePoster1 ?>" alt=""
-                                                        id="moviePoster"></td>
-                                                <td><?php echo $genreName ?></td>
-                                                <td><?php echo $formatName ?></td>
-                                                <td><?php echo $durationText ?></td>
-                                                <td><?php echo $status ?></td>
-                                                <td><a href="movieEntry.php?clickedMovieID=<?php echo $movieID ?>&genreName=<?php echo $genreName ?>&formatName=<?php echo $formatName ?>"
-                                                        class="btn btn-hover">Edit</a>
-                                                </td>
-
+                                                <td><?php echo $seatID ?></td>
+                                                <td><?php echo $seatRowID ?></td>
+                                                <td><?php echo $theaterID ?></td>
+                                                <td><?php echo $price ?></td>
                                             </tr>
                                             <?php
                                                 }
-                                            }
+                                            } else {
+                                                echo "<p style='color: red;'>There is no record for Seat!</p>";
+                                            };
                                             ?>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td><button class="btn btn-hover"
+                                                        data-modal-target='#seatEntryPopUp'>Add Seat</button>
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -531,6 +581,7 @@ if (isset($_SESSION['AdminID'])) {
     <!-- Custom js for this page -->
     <script src="assets/js/dashboard.js"></script>
     <!-- End custom js for this page -->
+    <script src="popUp.js?v=<?php echo $version ?>"></script>
 </body>
 
 </html>

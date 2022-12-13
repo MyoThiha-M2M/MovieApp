@@ -1,6 +1,18 @@
 <?php
 include('config.php');
 include('connect.php');
+session_start();
+if (isset($_SESSION['AdminID'])) {
+    $adminID = $_SESSION['AdminID'];
+    $select = "SELECT * FROM Admins WHERE AdminID = $adminID";
+    $query = mysqli_query($connect, $select);
+    $row = mysqli_fetch_array($query);
+    if (isset($row)) {
+        $adminProfile = $row['ProfileImage'];
+        $adminUsername = $row['Username'];
+    };
+};
+
 ?>
 
 <!DOCTYPE html>
@@ -38,7 +50,7 @@ include('connect.php');
             <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
                 <a class="sidebar-brand brand-logo" href="index.html"><img src="images/logo.png" alt="logo"
                         id="main-logo" /></a>
-                <a class="sidebar-brand brand-logo-mini" href="index.html"><img src="assets/images/logo-mini.svg"
+                <a class="sidebar-brand brand-logo-mini" href="index.html"><img src="images/miniLogo.png"
                         alt="logo" /></a>
             </div>
             <ul class="nav">
@@ -46,11 +58,12 @@ include('connect.php');
                     <div class="profile-desc">
                         <div class="profile-pic">
                             <div class="count-indicator">
-                                <img class="img-xs rounded-circle " src="assets/images/faces/face15.jpg" alt="">
+                                <img class="img-xs rounded-circle " src="adminProfileImg/<?php echo $adminProfile ?>"
+                                    alt="">
                                 <span class="count bg-success"></span>
                             </div>
                             <div class="profile-name">
-                                <h5 class="mb-0 font-weight-normal">Henry Klein</h5>
+                                <h5 class="mb-0 font-weight-normal"><?php echo $adminUsername ?></h5>
                                 <span>Gold Member</span>
                             </div>
                         </div>
@@ -97,7 +110,7 @@ include('connect.php');
                     <span class="nav-link">Navigation</span>
                 </li>
                 <li class="nav-item menu-items">
-                    <a class="nav-link" href="index.html">
+                    <a class="nav-link" href="adminPanel.php">
                         <span class="menu-icon">
                             <i class="mdi mdi-speedometer"></i>
                         </span>
@@ -108,16 +121,16 @@ include('connect.php');
                     <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false"
                         aria-controls="ui-basic">
                         <span class="menu-icon">
-                            <i class="mdi mdi-laptop"></i>
+                            <i class="fa-solid fa-grip"></i>
                         </span>
                         <span class="menu-title">Genres And Formats</span>
                         <i class="menu-arrow"></i>
                     </a>
                     <div class="collapse" id="ui-basic">
                         <ul class="nav flex-column sub-menu">
-                            <li class="nav-item"> <a class="nav-link" href="pages/ui-features/dropdowns.html">Movie
+                            <li class="nav-item"> <a class="nav-link" href="genreManagement.php">Movie
                                     Genres</a></li>
-                            <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Movie
+                            <li class="nav-item"> <a class="nav-link" href="formatManagement.php">Movie
                                     Formats</a></li>
                         </ul>
                     </div>
@@ -125,31 +138,31 @@ include('connect.php');
                 <li class="nav-item menu-items">
                     <a class="nav-link" href="movieManagement.php">
                         <span class="menu-icon">
-                            <i class="mdi mdi-playlist-play"></i>
+                            <i class="fa-solid fa-film"></i>
                         </span>
                         <span class="menu-title">Movies</span>
                     </a>
                 </li>
                 <li class="nav-item menu-items">
-                    <a class="nav-link" href="pages/tables/basic-table.html">
+                    <a class="nav-link" href="theaterManagement.php">
                         <span class="menu-icon">
-                            <i class="mdi mdi-table-large"></i>
+                            <i class="fa-solid fa-masks-theater"></i>
                         </span>
                         <span class="menu-title">Theaters</span>
                     </a>
                 </li>
                 <li class="nav-item menu-items">
-                    <a class="nav-link" href="pages/charts/chartjs.html">
+                    <a class="nav-link" href="seatManagement.php">
                         <span class="menu-icon">
-                            <i class="mdi mdi-chart-bar"></i>
+                            <i class="fa-solid fa-couch"></i>
                         </span>
                         <span class="menu-title">Seats</span>
                     </a>
                 </li>
                 <li class="nav-item menu-items">
-                    <a class="nav-link" href="pages/icons/mdi.html">
+                    <a class="nav-link" href="showManagement.php">
                         <span class="menu-icon">
-                            <i class="mdi mdi-contacts"></i>
+                            <i class="fa-solid fa-clapperboard"></i>
                         </span>
                         <span class="menu-title">Shows</span>
                     </a>
@@ -178,7 +191,7 @@ include('connect.php');
                     <a class="nav-link"
                         href="http://www.bootstrapdash.com/demo/corona-free/jquery/documentation/documentation.html">
                         <span class="menu-icon">
-                            <i class="mdi mdi-file-document-box"></i>
+                            <i class="fa-solid fa-ticket"></i>
                         </span>
                         <span class="menu-title">Booking</span>
                     </a>
@@ -190,7 +203,7 @@ include('connect.php');
             <!-- partial:partials/_navbar.html -->
             <nav class="navbar p-0 fixed-top d-flex flex-row">
                 <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
-                    <a class="navbar-brand brand-logo-mini" href="index.html"><img src="assets/images/logo-mini.svg"
+                    <a class="navbar-brand brand-logo-mini" href="index.html"><img src="images/miniLogo.png"
                             alt="logo" /></a>
                 </div>
                 <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
@@ -353,8 +366,10 @@ include('connect.php');
                         <li class="nav-item dropdown">
                             <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
                                 <div class="navbar-profile">
-                                    <img class="img-xs rounded-circle" src="assets/images/faces/face15.jpg" alt="">
-                                    <p class="mb-0 d-none d-sm-block navbar-profile-name">Henry Klein</p>
+                                    <img class="img-xs rounded-circle" src="adminProfileImg/<?php echo $adminProfile ?>"
+                                        alt="">
+                                    <p class="mb-0 d-none d-sm-block navbar-profile-name"><?php echo $adminUsername ?>
+                                    </p>
                                     <i class="mdi mdi-menu-down d-none d-sm-block"></i>
                                 </div>
                             </a>

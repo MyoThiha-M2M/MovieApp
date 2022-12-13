@@ -1,21 +1,19 @@
 const container = document.querySelector(".seatContainer");
 const seats = document.querySelectorAll(".row .seat:not(.occupied");
 const count = document.getElementById("count");
+const countInput = document.querySelector(".countInput");
 const total = document.getElementById("total");
+const totalInput = document.querySelector(".totalInput");
 const movieSelect = document.getElementById("movie");
+const showSelected = document.querySelector("[data-selected-show-id]");
 const btnTag = document.getElementsByClassName("booking")[0];
+const allseats = document.querySelectorAll(".seat[data-value]");
+const seatBookingFormTag = document.getElementById("seatBookingForm");
 
 populateBookedSeatsUI();
 
-// let ticketPrice = +movieSelect.value;
 let ticketPrice;
 let totalTicketPrice;
-
-// Save selected movie index and price
-function setMovieData(movieIndex, moviePrice) {
-  localStorage.setItem("selectedMovieIndex", movieIndex);
-  // localStorage.setItem("selectedMoviePrice", moviePrice);
-}
 
 const updateBookedSeats = () => {
   const selectedSeats = document.querySelectorAll(".row .seat.occupied");
@@ -32,7 +30,6 @@ function updateSelectedCount() {
   const seatsIndex = [...selectedSeats].map((seat) => [...seats].indexOf(seat)); // Can't understand
 
   localStorage.setItem("selectedSeats", JSON.stringify(seatsIndex));
-
   //copy selected seats into arr
   // map through array
   //return new array of indexes
@@ -91,13 +88,6 @@ function populateBookedSeatsUI() {
   }
 }
 
-// Movie select event
-// movieSelect.addEventListener("change", (e) => {
-//   ticketPrice = +e.target.value;
-//   setMovieData(e.target.selectedIndex, e.target.value);
-//   updateSelectedCount();
-// });
-
 // Seat click event
 container.addEventListener("click", (e) => {
   if (
@@ -139,11 +129,14 @@ btnTag.addEventListener("click", () => {
         totalTicketPrice = 0;
       }
     });
-    window.alert("Booking is Successful");
     updateBookedSeats();
   } else {
     window.alert("Please Select Your Seats");
   }
+  window.alert("Booking is Successful");
+  seatBookingFormTag.onsubmit();
 });
 
 // intial count and total
+
+updateSelectedCount();

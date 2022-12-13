@@ -12,6 +12,15 @@ if (isset($_SESSION['AdminID'])) {
         $adminUsername = $row['Username'];
     };
 };
+
+if (isset($_POST['txtGenreName'])) {
+    $genreName = $_POST['txtGenreName'];
+    $insert = "INSERT INTO Genres(GenreName) VALUES ('$genreName')";
+    $query = mysqli_query($connect, $insert);
+    if (isset($query)) {
+        echo "<script>window.location = 'genreManagement.php'</script>";
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -409,85 +418,74 @@ if (isset($_SESSION['AdminID'])) {
                 </div>
             </nav>
             <!-- partial -->
+            <!-- Genre Entry Pop Up Form -->
+            <div class="successfulPopUp" id="successfulMsg">
+                <div>Entry is successful</div>
+            </div>
+            <div class="popUpEntry" id="genreEntryPopUp">
+                <form action="genreManagement.php" method="POST" id="genreEntryForm">
+                    <i class="fas fa-times" data-modal-close></i>
+                    <div class="inputGroup">
+                        <label for="genreName">Enter New Genre: </label>
+                        <input type="text" class="input popUpInput" name="txtGenreName" required>
+                    </div>
+                    <button type="submit" class="btn btn-hover" id="btnAddGenre" data-form-submit='#genreEntryForm'
+                        name="submitGenre">Add</button>
+                </form>
+            </div>
+            <div id="overlay"></div>
             <!-- Movie Management Section -->
             <div class="main-panel">
                 <div class="content-wrapper">
                     <div class="grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
-                                <h2>Manage Movie</h2>
-                                <a href="movieEntry.php" class="btn btn-hover">Add Movies</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="grid-margin stretch-card">
-                        <div class="card">
-                            <div class="card-body">
                                 <div class="movieListHeadingContainer">
                                     <div>
-                                        <h4 class="card-title">Movie List</h4>
+                                        <h4 class="card-title">Genre List</h4>
                                     </div>
                                     <div class="searchMovieContainer">
                                         <button class="btn"><i class="fa-solid fa-magnifying-glass"></i></button>
                                         <input type="text" class="form-control" id="search-input"
-                                            placeholder="Search Movies">
+                                            placeholder="Search Genres">
                                     </div>
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table movieList">
                                         <thead>
                                             <tr>
-                                                <th>Movie ID</th>
-                                                <th>Movie Name</th>
-                                                <th>Movie Poster</th>
-                                                <th>Genre</th>
-                                                <th>Format</th>
-                                                <th>Duration</th>
-                                                <th>Status</th>
-                                                <th>Action</th>
+                                                <th>Genre ID</th>
+                                                <th>Genre Name</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
-                                            $select = "SELECT m.*, g.GenreName, f.FormatName FROM Movies m, Genres g, Formats f WHERE 
-                            g.GenreID = m.GenreID AND 
-                            f.FormatID = m.FormatID ORDER BY m.MovieID";
+                                            $select = "SELECT * FROM Genres ORDER BY GenreID";
                                             $query = mysqli_query($connect, $select);
                                             $count = mysqli_num_rows($query);
                                             if ($count > 0) {
+
                                                 for ($i = 0; $i < $count; $i++) {
                                                     $row = mysqli_fetch_array($query);
-                                                    $movieID = $row['MovieID'];
-                                                    $movieName = $row['MovieName'];
-                                                    $moviePoster1 = $row['Poster1'];
                                                     $genreID = $row['GenreID'];
-                                                    $formatID = $row['FormatID'];
                                                     $genreName = $row['GenreName'];
-                                                    $formatName = $row['FormatName'];
-                                                    $duration = $row['Duration'];
-                                                    $hour = substr($duration, 1, 1) . 'hr';
-                                                    $minute = substr($duration, 3, 2) . 'min';
-                                                    $durationText = $hour . " " . $minute;
-                                                    $status = $row['Status'];
                                             ?>
                                             <tr>
-                                                <td><?php echo $movieID ?></td>
-                                                <td><?php echo $movieName ?></td>
-                                                <td><img src="moviePosters/<?php echo $moviePoster1 ?>" alt=""
-                                                        id="moviePoster"></td>
+                                                <td><?php echo $genreID ?></td>
                                                 <td><?php echo $genreName ?></td>
-                                                <td><?php echo $formatName ?></td>
-                                                <td><?php echo $durationText ?></td>
-                                                <td><?php echo $status ?></td>
-                                                <td><a href="movieEntry.php?clickedMovieID=<?php echo $movieID ?>&genreName=<?php echo $genreName ?>&formatName=<?php echo $formatName ?>"
-                                                        class="btn btn-hover">Edit</a>
-                                                </td>
-
                                             </tr>
                                             <?php
                                                 }
-                                            }
+                                            } else {
+                                                echo "<p style='color: red;'>There is no record for Genre!</p>";
+                                            };
                                             ?>
+                                            <tr>
+                                                <td></td>
+                                                <td><button class="btn btn-hover"
+                                                        data-modal-target='#genreEntryPopUp'>Add Genre</button>
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -531,6 +529,7 @@ if (isset($_SESSION['AdminID'])) {
     <!-- Custom js for this page -->
     <script src="assets/js/dashboard.js"></script>
     <!-- End custom js for this page -->
+    <script src="popUp.js?v=<?php echo $version ?>"></script>
 </body>
 
 </html>

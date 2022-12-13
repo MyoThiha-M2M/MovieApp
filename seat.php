@@ -1,5 +1,14 @@
 <?php
+session_start();
 include('config.php');
+include('connect.php');
+include('AutoID_Functions.php');
+
+$customerID = $_SESSION['CustomerID'];
+$select = "SELECT * FROM Customers WHERE CustomerID = $customerID";
+$query = mysqli_query($connect, $select);
+$row = mysqli_fetch_array($query);
+$customerProfile = $row['ProfileImage'];
 ?>
 
 <!DOCTYPE html>
@@ -153,7 +162,7 @@ include('config.php');
                                             <li>
                                                 <a href="#"
                                                     class="iq-user-dropdown search-toggle d-flex align-items-center">
-                                                    <img src="images/user/user.png"
+                                                    <img src="customerProfileImg/<?php echo $customerProfile ?>"
                                                         class="img-fluid user-m rounded-circle" alt="" />
                                                 </a>
                                                 <div class="iq-sub-dropdown iq-user-dropdown">
@@ -271,8 +280,8 @@ include('config.php');
                                     <li class="nav-item nav-icon">
                                         <a href="#"
                                             class="iq-user-dropdown search-toggle d-flex align-items-center p-0">
-                                            <img src="images/user/user.png" class="img-fluid user-m rounded-circle"
-                                                alt="" />
+                                            <img src="customerProfileImg/<?php echo $customerProfile ?>"
+                                                class="img-fluid user-m rounded-circle" alt="" />
                                         </a>
                                         <div class="iq-sub-dropdown iq-user-dropdown">
                                             <div class="iq-card shadow-none m-0">
@@ -331,34 +340,85 @@ include('config.php');
         </div>
     </header>
 
-    <div class="seatBookingContainer">
-        <ul class="showcase">
-            <li>
-                <div class="seat"></div>
-                <small>N/A</small>
-            </li>
+    <form action="seat.php" method="Get" id="seatBookingForm">
+        <div class="seatBookingContainer">
+            <ul class="showcase">
+                <li>
+                    <div class="seat"></div>
+                    <small>N/A</small>
+                </li>
 
-            <li>
-                <div class="seat selected"></div>
-                <small>Selected</small>
-            </li>
+                <li>
+                    <div class="seat selected"></div>
+                    <small>Selected</small>
+                </li>
 
-            <li>
-                <div class="seat occupied"></div>
-                <small>Occupied</small>
-            </li>
-        </ul>
-        <div class="priceContainer">
-            <span class="A mrRight">A = $10</span>
-            <span class="B mrRight">B = $13</span>
-            <span class="C mrRight">C = $15</span>
-            <span class="D mrRight">D = $16</span>
-            <span class="S mrRight">S = $20</span>
-        </div>
-        <div class="seatContainer">
-            <div class="screen"></div>
-            <div class="seatsDiv">
-                <div class="row">
+                <li>
+                    <div class="seat occupied"></div>
+                    <small>Occupied</small>
+                </li>
+            </ul>
+            <div class="priceContainer">
+                <span class="A mrRight">A = $10</span>
+                <span class="B mrRight">B = $13</span>
+                <span class="C mrRight">C = $15</span>
+                <span class="D mrRight">D = $16</span>
+                <span class="S mrRight">S = $20</span>
+            </div>
+            <div class="seatContainer" data-selected-show-id=<?php echo $_SESSION['selectedShowID'] ?>>
+                <div class="screen"></div>
+                <div class="seatsDiv">
+                    <?php
+                    $selectedShowID = $_SESSION['selectedShowID'];
+                    $selectedTheaterID = $_SESSION['selectedTheaterID'];
+                    $select = "SELECT * FROM Seats WHERE SeatRowID = 'A' AND TheaterID = $selectedTheaterID Order By SeatID";
+                    $query = mysqli_query($connect, $select);
+                    $count = mysqli_num_rows($query);
+                    if ($count > 0) {
+                    ?>
+                    <div class="row">
+                        <?php
+                            for ($i = 0; $i < $count; $i++) {
+                                $row = mysqli_fetch_array($query);
+                                $seatID = $row['SeatID'];
+                                $seatRowID = $row['SeatRowID'];
+                                $theaterID = $row['TheaterID'];
+                                $price = $row['Price'];
+                            ?>
+                        <div class="seat seatA" data-value="<?php echo $price ?>"><?php echo $seatID ?></div>
+                        <?php
+                            }
+                            ?>
+                    </div>
+                    <?php
+                    }
+                    ?>
+                    <?php
+                    $selectedShowID = $_SESSION['selectedShowID'];
+                    $selectedTheaterID = $_SESSION['selectedTheaterID'];
+                    $select = "SELECT * FROM Seats WHERE SeatRowID = 'B' AND TheaterID = $selectedTheaterID Order By SeatID";
+                    $query = mysqli_query($connect, $select);
+                    $count = mysqli_num_rows($query);
+                    if ($count > 0) {
+                    ?>
+                    <div class="row">
+                        <?php
+                            for ($i = 0; $i < $count; $i++) {
+                                $row = mysqli_fetch_array($query);
+                                $seatID = $row['SeatID'];
+                                $seatRowID = $row['SeatRowID'];
+                                $theaterID = $row['TheaterID'];
+                                $price = $row['Price'];
+                            ?>
+                        <div class="seat seatA" data-value="<?php echo $price ?>"><?php echo $seatID ?></div>
+                        <?php
+                            }
+                            ?>
+                    </div>
+                    <?php
+                    }
+                    ?>
+                    <!-- <div class="row">
                     <div class="seat seatA" data-value="10">A1</div>
                     <div class="seat seatA" data-value="10">A2</div>
                     <div class="seat seatA" data-value="10">A3</div>
@@ -367,8 +427,8 @@ include('config.php');
                     <div class="seat seatA" data-value="10">A6</div>
                     <div class="seat seatA" data-value="10">A7</div>
                     <div class="seat seatA" data-value="10">A8</div>
-                </div>
-                <div class="row">
+                </div> -->
+                    <!-- <div class="row">
                     <div class="seat seatB" data-value="13">B1</div>
                     <div class="seat seatB" data-value="13">B2</div>
                     <div class="seat seatB" data-value="13">B3</div>
@@ -431,28 +491,32 @@ include('config.php');
                     <div class="seat seatS" data-value="13">S6</div>
                     <div class="seat seatS" data-value="13">S7</div>
                     <div class="seat seatS" data-value="13">S8</div>
+                </div> -->
                 </div>
             </div>
+
+            <p class="text">
+                You have selected <span id="count">0</span> seats for a price of $<span id="total">0</span>
+                <input type="num" name="txtTotalSeat" class="countInput" hidden readonly>
+                <input type="num" name="txtTotalPrice" class="totalInput" hidden readonly>
+            </p>
+
+            <button class="btn btn-hover iq-button booking">Booking</button>
+
         </div>
-
-        <p class="text">
-            You have selected <span id="count">0</span> seats for a price of $<span id="total">0</span>
-        </p>
-
-        <button class="btn btn-hover iq-button booking">Booking</button>
-    </div>
+    </form>
     <!-- js files  -->
-    <script src="js/jquery-3.4.1.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/slick.min.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/select2.min.js"></script>
-    <script src="js/jquery.magnific-popup.min.js"></script>
-    <script src="js/slick-animation.min.js"></script>
+    <script src="js/jquery-3.4.1.min.js?v=<?php echo $version ?>"></script>
+    <script src="js/popper.min.js?v=<?php echo $version ?>"></script>
+    <script src="js/bootstrap.min.js?v=<?php echo $version ?>"></script>
+    <script src="js/slick.min.js?v=<?php echo $version ?>"></script>
+    <script src="js/owl.carousel.min.js?v=<?php echo $version ?>"></script>
+    <script src="js/select2.min.js?v=<?php echo $version ?>"></script>
+    <script src="js/jquery.magnific-popup.min.js?v=<?php echo $version ?>"></script>
+    <script src="js/slick-animation.min.js?v=<?php echo $version ?>"></script>
 
-    <script src="main.js"></script>
-    <script src="script.js"></script>
+    <script src="main.js?v=<?php echo $version ?>"></script>
+    <script src="script.js?v=<?php echo $version ?>"></script>
 </body>
 
 </html>

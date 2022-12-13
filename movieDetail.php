@@ -1,24 +1,38 @@
 <?php
+session_start();
 include('config.php');
 include('connect.php');
-session_start();
-if (isset($_POST['btnLogin'])) {
-    $userName = $_POST['txtuserName'];
-    $password = $_POST['txtpassword'];
-    $select = "SELECT AdminID FROM Admins WHERE Username = '$userName' AND Password = '$password'";
+
+$customerID = $_SESSION['CustomerID'];
+
+if (isset($_GET['deMovieID'])) {
+    $detailMovieID = $_GET['deMovieID'];
+    $select = "SELECT m.*, g.GenreName, f.FormatName FROM Movies m, Genres g, Formats f WHERE
+                            m.MovieID = $detailMovieID AND
+                            g.GenreID = m.GenreID AND
+                            f.FormatID = m.FormatID";
     $query = mysqli_query($connect, $select);
     $row = mysqli_fetch_array($query);
-    if (isset($row)) {
-        echo "<script>alert('Login is successful')</script>";
-        echo "<script>window.location = 'adminPanel.php'</script>";
-        $_SESSION['AdminID'] = $row['AdminID'];
-    } else {
-        echo "<script>alert('Login Error')</script>";
-    }
+    $movieID = $row['MovieID'];
+    $movieName = $row['MovieName'];
+    $moviePoster2 = $row['Poster2'];
+    $genreID = $row['GenreID'];
+    $formatID = $row['FormatID'];
+    $genreName = $row['GenreName'];
+    $formatName = $row['FormatName'];
+    $duration = $row['Duration'];
+    $hour = substr($duration, 1, 1) . 'hr';
+    $minute = substr($duration, 3, 2) . 'min';
+    $durationText = $hour . " " . $minute;
+    $releaseDate = $row['ReleaseDate'];
+    $status = $row['Status'];
+    $starring = $row['Starring'];
+    $rating = $row['RatingPoint'];
+    $overView = $row['OverView'];
+    $movieTrailer = $row['Trailer'];
 }
-
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -348,47 +362,113 @@ if (isset($_POST['btnLogin'])) {
         </div>
     </header>
     <div class="main-content">
-
-        <section id="parallex" class="register-parallax">
-
+        <section id="parallex" class="register-parallax" style="background: url(moviePosters/<?php echo $moviePoster2 ?>) center center;
+            background-size:cover; background-attachment:fixed;">
             <div class="container-fluid h-100">
                 <div class="row align-items-center justify-content-center h-100 parallaxt-details">
 
-                    <div class="col-lg-8">
+                    <div class="col-lg-9">
                         <div class="parallax-form">
-                            <!-- <a href="#"><img src="images/parallax/avatar.jpg" alt="" class="img-fluid w-100" /></a> -->
-                            <form action="adminLogin.php" class="loginForm" method="POST">
-                                <div class="registerContainer">
-                                    <h1 class="parallax-heading centerTitle" id="text-registration">Sign In
-                                    </h1>
-
-                                    <div class="inputGroup userNameCon mrLog">
-                                        <input type="text" placeholder="User Name" name="txtuserName"
-                                            id="username-input" onkeyup="validateUserName()">
-                                        <span id="userName-error"></span>
+                            <div class="movieDetailWrapper">
+                                <img src="moviePosters/<?php echo $moviePoster2 ?>" alt="" class="img-fluid w-100" />
+                                <div class="movieDetailContainer">
+                                    <h2><?php echo $movieName ?></h2>
+                                    <div class="flexContainer">
+                                        <div>Genre: <span><?php echo $genreName ?></span></div>
+                                        <div>Duration: <span><?php echo $durationText ?></span></div>
+                                        <div>Rating Points: <span><?php echo $rating ?></span></div>
                                     </div>
-
-                                    <div class="inputGroup passwordCon mrLog">
-                                        <input type="password" placeholder="Password" name="txtpassword"
-                                            id="password-input" onkeyup="validatePassword()">
-                                        <span id="password-error"></span>
-                                    </div>
-
-                                    <button type="submit" class="btn btn-hover btnCreateAccount mrLog" name="btnLogin">
-                                        <div class="parallax-buttons">
-                                            Sign In
-                                        </div>
-                                    </button>
-
-                                    <div class="checkBoxCon mrLog">
-                                        <input type="checkBox">
-                                        <span>Remember Me</span>
-                                    </div>
-                                    <div class="inputGroup mrLog" id="signUpLetter">
-                                        <a href="adminRegister.php">Are You a new member?</a>
+                                    <div class="flexContainer">
+                                        <div>Release Date: <span><?php echo $releaseDate ?></span></div>
+                                        <div>Status: <span><?php echo $status ?></span></div>
+                                        <div></div>
                                     </div>
                                 </div>
-                            </form>
+                            </div>
+                            <div class="movieOverviewContainer">
+                                <h3>Overview</h3>
+                                <?php echo $overView ?>
+                            </div>
+                            <div class="showTheaterWrapper">
+                                <?php
+                                $select = "SELECT Distinct t.TheaterName, t.Location FROM Shows s, Theaters t WHERE MovieID = $movieID
+                                     AND s.TheaterID = t.TheaterID";
+                                $query = mysqli_query($connect, $select);
+                                $count = mysqli_num_rows($query);
+                                if ($count > 0) {
+                                    for ($i = 0; $i < $count; $i++) {
+                                        $row = mysqli_fetch_array($query);
+                                        $theaterName = $row['TheaterName'];
+                                        $location = $row['Location']
+                                ?>
+                                <div class="showTheaterContainer"
+                                    data-show-date-open='#showdate-timeContainer<?php echo $i ?>'>
+                                    <div class="theaterDetailContainer">
+                                        <div><?php echo $theaterName ?></div>
+                                        <div><i class="fa-solid fa-location-dot"></i>
+                                            &nbsp<?php echo $location ?></div>
+                                    </div>
+                                    <div class="showDate-timeContainer" id="showdate-timeContainer<?php echo $i ?>">
+                                        <?php
+                                                $select = "SELECT s.*, t.TheaterName FROM Shows s, Theaters t WHERE MovieID = $movieID
+                                AND s.TheaterID = t.TheaterID ORDER BY s.ShowDate";
+                                                $query = mysqli_query($connect, $select);
+                                                $count = mysqli_num_rows($query);
+                                                if ($count > 0) {
+                                                    for ($i = 0; $i < $count; $i++) {
+                                                        $row = mysqli_fetch_array($query);
+                                                        $showID = $row['ShowID'];
+                                                        $showDate = $row['ShowDate'];
+                                                        $convertedShowDate = date('d-M-Y', strtotime($showDate));
+                                                        $showTime = $row['ShowTime'];
+                                                        $hour = substr($showTime, 0, 2);
+                                                        $showMinute = substr($showTime, 3, 2);
+                                                        if ($hour > 12) {
+                                                            $showHour = $hour - 12;
+                                                            if ($showHour < 10) {
+                                                                $convertedShowTime = '0' . $showHour . ':' . $showMinute . ' pm';
+                                                            } else {
+                                                                $convertedShowTime = ' ' . $showHour . ':' . $showMinute . ' pm';
+                                                            }
+                                                        } else {
+                                                            $showHour = $hour;
+                                                            if ($showHour < 10) {
+                                                                $convertedShowTime = '0' . $showHour . ':' . $showMinute . ' am';
+                                                            } else {
+                                                                $convertedShowTime = ' ' . $showHour . ':' . $showMinute . ' am';
+                                                            }
+                                                        }
+                                                        $theaterID = $row['TheaterID'];
+                                                        $theaterName = $row['TheaterName'];
+                                                ?>
+                                        <div class="flexContainer">
+                                            <div class="showDateContainer">
+                                                <div class="showDate"
+                                                    data-show-time-open='#showTimeContainer<?php echo $i ?>'>
+                                                    <?php echo $convertedShowDate ?>
+                                                </div>
+                                            </div>
+                                            <div class="showTimeContainer" id="showTimeContainer<?php echo $i ?>">
+                                                <a href="seat.php">
+                                                    <div class="showTime"><?php echo $convertedShowTime ?></div>
+                                                    <?php
+                                                                    $_SESSION['selectedShowID'] = $showID;
+                                                                    $_SESSION['selectedTheaterID'] = $theaterID;
+                                                                    ?>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <?php
+                                                    }
+                                                }
+                                                ?>
+                                    </div>
+                                </div>
+                                <?php
+                                    }
+                                }
+                                ?>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -475,8 +555,8 @@ if (isset($_POST['btnLogin'])) {
     <script src="js/select2.min.js?v=<?php echo $version ?>"></script>
     <script src="js/jquery.magnific-popup.min.js?v=<?php echo $version ?>"></script>
     <script src="js/slick-animation.min.js?v=<?php echo $version ?>"></script>
-
     <script src="main.js?v=<?php echo $version ?>"></script>
+    <script src="movieDetail.js?v=<?php echo $version ?>"></script>
 </body>
 
 </html>

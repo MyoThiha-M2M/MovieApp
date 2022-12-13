@@ -1,4 +1,5 @@
 <?php
+session_start();
 include('config.php');
 include('connect.php');
 if (isset($_POST['btnLogin'])) {
@@ -8,6 +9,7 @@ if (isset($_POST['btnLogin'])) {
     $query = mysqli_query($connect, $select);
     $row = mysqli_fetch_array($query);
     if (isset($row)) {
+        $_SESSION['CustomerID'] = $row['CustomerID'];
         echo "<script>alert('Login is successful')</script>";
         echo "<script>window.location = 'index.php'</script>";
     } else {

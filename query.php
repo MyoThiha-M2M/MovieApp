@@ -90,17 +90,65 @@ include('connect.php');
 //     echo "Theater Table is successfully created";
 // }
 
-$shows = "CREATE TABLE Shows (
-    ShowID int NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    ShowDate date,
-    ShowTime varchar(30),
-    MovieID int NOT NULL,
-    TheaterID int NOT NULL,
-    FOREIGN KEY (MovieID) REFERENCES Movies(MovieID),
-    FOREIGN KEY (TheaterID) REFERENCES Theaters(TheaterID)
+// $shows = "CREATE TABLE Shows (
+//     ShowID int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+//     ShowDate date,
+//     ShowTime varchar(30),
+//     MovieID int NOT NULL,
+//     TheaterID int NOT NULL,
+//     FOREIGN KEY (MovieID) REFERENCES Movies(MovieID),
+//     FOREIGN KEY (TheaterID) REFERENCES Theaters(TheaterID)
+// )";
+
+// $query = mysqli_query($connect, $shows);
+// if (isset($query)) {
+//     echo "Shows Table is successfully created";
+// }
+
+// $seats = "CREATE TABLE Seats(
+//     SeatID varchar (10) NOT NULL,
+//     SeatRowID varchar (10) NOT NULL,
+//     TheaterID int NOT NULL,
+//     Price int,
+//     PRIMARY KEY (SeatID, TheaterID),
+//     FOREIGN KEY (TheaterID) REFERENCES Theaters(TheaterID)
+// )";
+
+// $query = mysqli_query($connect, $seats);
+// if (isset($query)) {
+//     echo "Seats Table is successfully created";
+// };
+
+// $bookings = "CREATE TABLE Bookings(
+//     BookingID varchar(30) NOT NULL PRIMARY KEY,
+//     BookingDate date,
+//     CustomerID int,
+//     TotalTickets int,
+//     TotalPrice int,
+//     PaymentMethod varchar (30),
+//     PaymentDate date,
+//     FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID)
+// )";
+
+// $query = mysqli_query($connect, $bookings);
+// if (isset($query)) {
+//     echo "Bookings Table is successfully created";
+// };
+
+
+
+$tickets = "CREATE TABLE Tickets(
+    TicketID varchar (30) NOT NULL PRIMARY KEY,
+    ShowID int, 
+    SeatID varchar(10),
+    Price int,
+    BookingID varchar (30) NOT NULL, 
+    FOREIGN KEY (BookingID) REFERENCES Bookings(BookingID),
+    FOREIGN KEY (ShowID) REFERENCES Shows(ShowID),
+    FOREIGN KEY (SeatID) REFERENCES Seats(SeatID)
 )";
 
-$query = mysqli_query($connect, $shows);
+$query = mysqli_query($connect, $tickets);
 if (isset($query)) {
-    echo "Shows Table is successfully created";
-}
+    echo "Tickets Table is successfully created";
+};

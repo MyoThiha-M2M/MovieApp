@@ -1,6 +1,14 @@
 <?php
+session_start();
 include('config.php');
-include('connect.php')
+include('connect.php');
+
+$customerID = $_SESSION['CustomerID'];
+$select = "SELECT * FROM Customers WHERE CustomerID = $customerID";
+$query = mysqli_query($connect, $select);
+$row = mysqli_fetch_array($query);
+$customerProfile = $row['ProfileImage'];
+
 ?>
 
 <!DOCTYPE html>
@@ -153,7 +161,7 @@ include('connect.php')
                                             <li>
                                                 <a href="#"
                                                     class="iq-user-dropdown search-toggle d-flex align-items-center">
-                                                    <img src="images/user/user.png"
+                                                    <img src="customerProfileImg/<?php echo $customerProfile ?>"
                                                         class="img-fluid user-m rounded-circle" alt="" />
                                                 </a>
                                                 <div class="iq-sub-dropdown iq-user-dropdown">
@@ -271,8 +279,8 @@ include('connect.php')
                                     <li class="nav-item nav-icon">
                                         <a href="#"
                                             class="iq-user-dropdown search-toggle d-flex align-items-center p-0">
-                                            <img src="images/user/user.png" class="img-fluid user-m rounded-circle"
-                                                alt="" />
+                                            <img src="customerProfileImg/<?php echo $customerProfile ?>"
+                                                class="img-fluid user-m rounded-circle" alt="" />
                                         </a>
                                         <div class="iq-sub-dropdown iq-user-dropdown">
                                             <div class="iq-card shadow-none m-0">
@@ -700,9 +708,8 @@ include('connect.php')
                                                 <span class="text-white"><?php echo $durationText ?></span>
                                             </div>
                                             <div class="hover-buttons">
-                                                <span class="btn btn-hover iq-button">
-                                                    Book Tickets
-                                                </span>
+                                                <a href="movieDetail.php?deMovieID=<?php echo $movieID ?>"
+                                                    class="btn btn-hover">Book Tickets</a>
                                             </div>
                                         </div>
                                         <div class="block-social-info">

@@ -12,6 +12,18 @@ if (isset($_SESSION['AdminID'])) {
         $adminUsername = $row['Username'];
     };
 };
+if (isset($_POST['txtShowDate']) && isset($_POST['txtShowTime'])) {
+    $showDate = $_POST['txtShowDate'];
+    $showTime = $_POST['txtShowTime'];
+    $showMovieID = $_POST['showMovie'];
+    $showTheaterID = $_POST['showTheater'];
+    $insert = "INSERT INTO Shows (ShowDate, ShowTime, MovieID, TheaterID) 
+    VALUES ('$showDate', '$showTime', $showMovieID, $showTheaterID)";
+    $query = mysqli_query($connect, $insert);
+    if (isset($query)) {
+        echo "<script>window.location = 'showManagement.php'</script>";
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -409,14 +421,85 @@ if (isset($_SESSION['AdminID'])) {
                 </div>
             </nav>
             <!-- partial -->
-            <!-- Movie Management Section -->
+            <!-- Show Entry Pop Up Form -->
+            <div class="successfulPopUp" id="successfulMsg">
+                <div>Entry is successful</div>
+            </div>
+            <div class="popUpEntry showEntryPopUp" id="showEntryPopUp">
+                <form action="showManagement.php" method="POST" id="showEntryForm">
+                    <i class="fas fa-times" data-modal-close></i>
+                    <div class="inputRow">
+                        <div class="inputGroup">
+                            <label for="showDate">Show Date</label>
+                            <input type="date" class="input" name="txtShowDate" value="<?php echo $releaseDate ?>"
+                                required>
+                        </div>
+
+                        <div class="inputGroup">
+                            <label for="showTime">Show Time</label>
+                            <input type="time" class="input" name="txtShowTime" value="<?php echo $releaseDate ?>"
+                                required>
+                        </div>
+                    </div>
+                    <div class="inputRow">
+                        <div class="inputGroup">
+                            <label for="showMovieName">Select Movie</label>
+                            <select name="showMovie" id="">
+                                <?php
+                                $select = "SELECT * FROM Movies WHERE Status = 'Now Showing' ORDER BY GenreID";
+                                $query = mysqli_query($connect, $select);
+                                $count = mysqli_num_rows($query);
+                                if ($count > 0) {
+                                    for ($i = 0; $i < $count; $i++) {
+                                        $row = mysqli_fetch_array($query);
+                                        $movieID = $row['MovieID'];
+                                        $movieName = $row['MovieName'];
+                                ?>
+                                <option value="<?php echo $movieID ?>"><?php echo $movieName ?>
+                                </option>
+                                <?php
+                                    }
+                                }
+                                ?>
+
+                            </select>
+                        </div>
+                        <div class="inputGroup">
+                            <label for="showTheaterName">Select Theater</label>
+                            <select name="showTheater" id="">
+                                <?php
+                                $select = "SELECT * FROM Theaters ORDER BY TheaterID";
+                                $query = mysqli_query($connect, $select);
+                                $count = mysqli_num_rows($query);
+                                if ($count > 0) {
+                                    for ($i = 0; $i < $count; $i++) {
+                                        $row = mysqli_fetch_array($query);
+                                        $theaterID = $row['TheaterID'];
+                                        $theaterName = $row['TheaterName'];
+                                ?>
+                                <option value="<?php echo $theaterID ?>"><?php echo $theaterName ?>
+                                </option>
+                                <?php
+                                    }
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-hover" id="btnAddShow" data-form-submit='#showEntryForm'
+                        name="submitShow">Add</button>
+                </form>
+            </div>
+            <div id="overlay"></div>
+            <!-- Shows Management Section -->
             <div class="main-panel">
                 <div class="content-wrapper">
                     <div class="grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
-                                <h2>Manage Movie</h2>
-                                <a href="movieEntry.php" class="btn btn-hover">Add Movies</a>
+                                <h2>Manage Show</h2>
+                                <button class="btn btn-hover" data-modal-target='#showEntryPopUp'>Create New
+                                    Show</button>
                             </div>
                         </div>
                     </div>
@@ -425,64 +508,61 @@ if (isset($_SESSION['AdminID'])) {
                             <div class="card-body">
                                 <div class="movieListHeadingContainer">
                                     <div>
-                                        <h4 class="card-title">Movie List</h4>
-                                    </div>
-                                    <div class="searchMovieContainer">
-                                        <button class="btn"><i class="fa-solid fa-magnifying-glass"></i></button>
-                                        <input type="text" class="form-control" id="search-input"
-                                            placeholder="Search Movies">
+                                        <h4 class="card-title">Show List</h4>
                                     </div>
                                 </div>
                                 <div class="table-responsive">
-                                    <table class="table movieList">
+                                    <table class="table">
                                         <thead>
                                             <tr>
-                                                <th>Movie ID</th>
+                                                <th>Show ID</th>
+                                                <th>Show Date</th>
+                                                <th>Show Time</th>
                                                 <th>Movie Name</th>
-                                                <th>Movie Poster</th>
-                                                <th>Genre</th>
-                                                <th>Format</th>
-                                                <th>Duration</th>
-                                                <th>Status</th>
+                                                <th>Theater Name</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
-                                            $select = "SELECT m.*, g.GenreName, f.FormatName FROM Movies m, Genres g, Formats f WHERE 
-                            g.GenreID = m.GenreID AND 
-                            f.FormatID = m.FormatID ORDER BY m.MovieID";
+                                            $select = "SELECT s.*, m.MovieName, t.TheaterName FROM Shows s, Movies m, Theaters t
+                                WHERE s.MovieID = m.MovieID AND
+                                s.TheaterID = t.TheaterID ORDER BY ShowID";
                                             $query = mysqli_query($connect, $select);
                                             $count = mysqli_num_rows($query);
                                             if ($count > 0) {
                                                 for ($i = 0; $i < $count; $i++) {
                                                     $row = mysqli_fetch_array($query);
-                                                    $movieID = $row['MovieID'];
+                                                    $showID = $row['ShowID'];
+                                                    $showDate = $row['ShowDate'];
+                                                    $showTime = $row['ShowTime'];
+                                                    $hour = substr($showTime, 0, 2);
+                                                    $showMinute = substr($showTime, 3, 2);
+                                                    if ($hour > 12) {
+                                                        $showHour = $hour - 12;
+                                                        if ($showHour < 10) {
+                                                            $convertedShowTime = '0' . $showHour . ':' . $showMinute . ' pm';
+                                                        } else {
+                                                            $convertedShowTime = ' ' . $showHour . ':' . $showMinute . ' pm';
+                                                        }
+                                                    } else {
+                                                        $showHour = $hour;
+                                                        if ($showHour < 10) {
+                                                            $convertedShowTime = '0' . $showHour . ':' . $showMinute . ' am';
+                                                        } else {
+                                                            $convertedShowTime = ' ' . $showHour . ':' . $showMinute . ' am';
+                                                        }
+                                                    }
                                                     $movieName = $row['MovieName'];
-                                                    $moviePoster1 = $row['Poster1'];
-                                                    $genreID = $row['GenreID'];
-                                                    $formatID = $row['FormatID'];
-                                                    $genreName = $row['GenreName'];
-                                                    $formatName = $row['FormatName'];
-                                                    $duration = $row['Duration'];
-                                                    $hour = substr($duration, 1, 1) . 'hr';
-                                                    $minute = substr($duration, 3, 2) . 'min';
-                                                    $durationText = $hour . " " . $minute;
-                                                    $status = $row['Status'];
+                                                    $theaterName = $row['TheaterName'];
                                             ?>
                                             <tr>
-                                                <td><?php echo $movieID ?></td>
+                                                <td><?php echo $showID ?></td>
+                                                <td><?php echo $showDate ?></td>
+                                                <td><?php echo $convertedShowTime ?></td>
                                                 <td><?php echo $movieName ?></td>
-                                                <td><img src="moviePosters/<?php echo $moviePoster1 ?>" alt=""
-                                                        id="moviePoster"></td>
-                                                <td><?php echo $genreName ?></td>
-                                                <td><?php echo $formatName ?></td>
-                                                <td><?php echo $durationText ?></td>
-                                                <td><?php echo $status ?></td>
-                                                <td><a href="movieEntry.php?clickedMovieID=<?php echo $movieID ?>&genreName=<?php echo $genreName ?>&formatName=<?php echo $formatName ?>"
-                                                        class="btn btn-hover">Edit</a>
-                                                </td>
-
+                                                <td><?php echo $theaterName ?></td>
+                                                <td><a href="" class="btn btn-hover">Edit</a></td>
                                             </tr>
                                             <?php
                                                 }
@@ -531,6 +611,7 @@ if (isset($_SESSION['AdminID'])) {
     <!-- Custom js for this page -->
     <script src="assets/js/dashboard.js"></script>
     <!-- End custom js for this page -->
+    <script src="popUp.js?v=<?php echo $version ?>"></script>
 </body>
 
 </html>
