@@ -122,12 +122,14 @@ include('connect.php');
 // $bookings = "CREATE TABLE Bookings(
 //     BookingID varchar(30) NOT NULL PRIMARY KEY,
 //     BookingDate date,
+//     ShowID int NOT NULL,
 //     CustomerID int,
 //     TotalTickets int,
 //     TotalPrice int,
 //     PaymentMethod varchar (30),
 //     PaymentDate date,
-//     FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID)
+//     FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID),
+//     FOREIGN KEY (ShowID) REFERENCES Shows(ShowID)
 // )";
 
 // $query = mysqli_query($connect, $bookings);
@@ -139,9 +141,10 @@ include('connect.php');
 
 $tickets = "CREATE TABLE Tickets(
     TicketID varchar (30) NOT NULL PRIMARY KEY,
-    ShowID int, 
+    ShowID int NOT NULl, 
     SeatID varchar(10),
     Price int,
+    Status varchar (30),
     BookingID varchar (30) NOT NULL, 
     FOREIGN KEY (BookingID) REFERENCES Bookings(BookingID),
     FOREIGN KEY (ShowID) REFERENCES Shows(ShowID),

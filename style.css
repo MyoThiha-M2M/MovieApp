@@ -3319,7 +3319,7 @@ textarea:focus {
   transform: scale(1);
 }
 
-.showDate-timeContainer,
+/* .showDate-timeContainer,
 .showTimeContainer {
   transform: scale(0);
   transition: 200ms ease-in-out;
@@ -3368,7 +3368,7 @@ textarea:focus {
 .showDate-timeContainer .flexContainer {
   display: flex;
   flex-direction: column;
-}
+} */
 
 /* ****************** responsiveness************ */
 @media (max-width: 767px) {

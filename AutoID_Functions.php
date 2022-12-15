@@ -7,7 +7,7 @@ function AutoID($tableName, $fieldName, $prefix, $noOfLeadingZeros)
 
 	$sql = "SELECT " . $fieldName . " FROM " . $tableName . " ORDER BY " . $fieldName . " DESC";
 
-	$result = mysqli_query(mysqli_connect('localhost', 'root', '', 'gymequipment'), $sql);
+	$result = mysqli_query(mysqli_connect('localhost', 'root', '', 'cinematicketbooking'), $sql);
 	$noOfRow = mysqli_num_rows($result);
 	$row = mysqli_fetch_array($result);
 

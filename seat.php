@@ -7,8 +7,41 @@ include('AutoID_Functions.php');
 $customerID = $_SESSION['CustomerID'];
 $select = "SELECT * FROM Customers WHERE CustomerID = $customerID";
 $query = mysqli_query($connect, $select);
-$row = mysqli_fetch_array($query);
-$customerProfile = $row['ProfileImage'];
+if (isset($query)) {
+    $row = mysqli_fetch_array($query);
+    $customerProfile = $row['ProfileImage'];
+}
+
+$occupiedSeatsStr = $_GET['occupiedSeats'];
+$occupiedSeatsArr = explode(' ', $occupiedSeatsStr);
+
+if (isset($_GET['txtTotalSeat']) && isset($_GET['txtTotalPrice'])) {
+    if ($_GET['txtTotalSeat'] > 0 && $_GET['txtTotalPrice'] > 0) {
+        $bookingID = AutoID('Bookings', 'BookingID', 'Bk-', 6);
+        $_SESSION['bookingID'] = $bookingID;
+        $bookingDate = date("Y-m-d");
+        $showID = $_GET['txtSelectedShowID'];
+        $_SESSION['selectedShowID'] = $showID;
+        $totalTickets = $_GET['txtTotalSeat'];
+        $totalPrice = $_GET['txtTotalPrice'];
+        $payment = 'Credit Card';
+        $paymentDate = date("Y-m-d");
+        $insert = "INSERT INTO Bookings VALUES ('$bookingID', '$bookingDate', $showID, $customerID, $totalTickets, $totalPrice, '$payment', '$paymentDate' )";
+        $query = mysqli_query($connect, $insert);
+        if (isset($query)) {
+            echo "
+            <script>
+            const bookedSeatIDArr = JSON.parse(localStorage.getItem('selectedSeatID'));
+            const bookedSeatPriceArr = JSON.parse(localStorage.getItem('selectedSeatPrice'));
+            let src = 'payment.php?bookedSeatID='+bookedSeatIDArr+'&bookedSeatPrice='+bookedSeatPriceArr;
+            window.location.href = src</script>";
+        }
+    } else {
+        echo "Error";
+    }
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -340,7 +373,7 @@ $customerProfile = $row['ProfileImage'];
         </div>
     </header>
 
-    <form action="seat.php" method="Get" id="seatBookingForm">
+    <form action="seat.php" method="GET" id="seatBookingForm">
         <div class="seatBookingContainer">
             <ul class="showcase">
                 <li>
@@ -365,12 +398,12 @@ $customerProfile = $row['ProfileImage'];
                 <span class="D mrRight">D = $16</span>
                 <span class="S mrRight">S = $20</span>
             </div>
-            <div class="seatContainer" data-selected-show-id=<?php echo $_SESSION['selectedShowID'] ?>>
+            <div class="seatContainer">
                 <div class="screen"></div>
                 <div class="seatsDiv">
                     <?php
-                    $selectedShowID = $_SESSION['selectedShowID'];
-                    $selectedTheaterID = $_SESSION['selectedTheaterID'];
+                    $selectedShowID = $_GET['selectedShowID'];
+                    $selectedTheaterID = $_GET['selectedTheaterID'];
                     $select = "SELECT * FROM Seats WHERE SeatRowID = 'A' AND TheaterID = $selectedTheaterID Order By SeatID";
                     $query = mysqli_query($connect, $select);
                     $count = mysqli_num_rows($query);
@@ -385,7 +418,8 @@ $customerProfile = $row['ProfileImage'];
                                 $theaterID = $row['TheaterID'];
                                 $price = $row['Price'];
                             ?>
-                        <div class="seat seatA" data-value="<?php echo $price ?>"><?php echo $seatID ?></div>
+                        <div class="seat seatA" data-seat data-value="<?php echo $price ?>"><?php echo $seatID ?></div>
+
                         <?php
                             }
                             ?>
@@ -394,8 +428,8 @@ $customerProfile = $row['ProfileImage'];
                     }
                     ?>
                     <?php
-                    $selectedShowID = $_SESSION['selectedShowID'];
-                    $selectedTheaterID = $_SESSION['selectedTheaterID'];
+                    $selectedShowID = $_GET['selectedShowID'];
+                    $selectedTheaterID = $_GET['selectedTheaterID'];
                     $select = "SELECT * FROM Seats WHERE SeatRowID = 'B' AND TheaterID = $selectedTheaterID Order By SeatID";
                     $query = mysqli_query($connect, $select);
                     $count = mysqli_num_rows($query);
@@ -410,7 +444,8 @@ $customerProfile = $row['ProfileImage'];
                                 $theaterID = $row['TheaterID'];
                                 $price = $row['Price'];
                             ?>
-                        <div class="seat seatA" data-value="<?php echo $price ?>"><?php echo $seatID ?></div>
+                        <div class="seat seatB" data-seat data-value="<?php echo $price ?>"><?php echo $seatID ?>
+                        </div>
                         <?php
                             }
                             ?>
@@ -497,8 +532,10 @@ $customerProfile = $row['ProfileImage'];
 
             <p class="text">
                 You have selected <span id="count">0</span> seats for a price of $<span id="total">0</span>
-                <input type="num" name="txtTotalSeat" class="countInput" hidden readonly>
-                <input type="num" name="txtTotalPrice" class="totalInput" hidden readonly>
+                <input type="num" name="txtTotalSeat" id="countInput" hidden readonly>
+                <input type="num" name="txtTotalPrice" id="totalInput" hidden readonly>
+                <input type="num" name="txtSelectedShowID" id="selectedShowID"
+                    value="<?php echo $_GET['selectedShowID'] ?>" hidden readonly>
             </p>
 
             <button class="btn btn-hover iq-button booking">Booking</button>
@@ -517,6 +554,22 @@ $customerProfile = $row['ProfileImage'];
 
     <script src="main.js?v=<?php echo $version ?>"></script>
     <script src="script.js?v=<?php echo $version ?>"></script>
+    <script>
+    const allSeats = document.querySelectorAll('[data-seat]');
+    const allSeatsArr = Array.prototype.slice.call(allSeats);
+    const occupiedSeats = '<?php echo $occupiedSeatsStr ?>'
+    const occupiedSeatsArr = occupiedSeats.split(' ');
+    let checkOccupied = (s) => {
+        for (let i = 0; i < occupiedSeatsArr.length; i++) {
+            if (s.innerText === occupiedSeatsArr[i]) {
+                s.classList.add('occupied');
+            }
+        }
+    }
+    for (let i = 0; i < allSeatsArr.length; i++) {
+        checkOccupied(allSeatsArr[i]);
+    }
+    </script>
 </body>
 
 </html>

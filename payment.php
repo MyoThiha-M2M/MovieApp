@@ -2,61 +2,55 @@
 session_start();
 include('config.php');
 include('connect.php');
+include('AutoID_Functions.php');
 
 $customerID = $_SESSION['CustomerID'];
+$select = "SELECT * FROM Customers WHERE CustomerID = $customerID";
+$query = mysqli_query($connect, $select);
+$row = mysqli_fetch_array($query);
+$customerProfile = $row['ProfileImage'];
+$bookedSeatIDarr = explode(",", $_GET['bookedSeatID']);
+$bookedSeatPricearr = explode(",", $_GET['bookedSeatPrice']);
 
-if (isset($_GET['deMovieID'])) {
-    $detailMovieID = $_GET['deMovieID'];
-    $select = "SELECT m.*, g.GenreName, f.FormatName FROM Movies m, Genres g, Formats f WHERE
-                            m.MovieID = $detailMovieID AND
-                            g.GenreID = m.GenreID AND
-                            f.FormatID = m.FormatID";
-    $query = mysqli_query($connect, $select);
-    $row = mysqli_fetch_array($query);
-    $movieID = $row['MovieID'];
-    $movieName = $row['MovieName'];
-    $moviePoster2 = $row['Poster2'];
-    $genreID = $row['GenreID'];
-    $formatID = $row['FormatID'];
-    $genreName = $row['GenreName'];
-    $formatName = $row['FormatName'];
-    $duration = $row['Duration'];
-    $hour = substr($duration, 1, 1) . 'hr';
-    $minute = substr($duration, 3, 2) . 'min';
-    $durationText = $hour . " " . $minute;
-    $releaseDate = $row['ReleaseDate'];
-    $status = $row['Status'];
-    $starring = $row['Starring'];
-    $rating = $row['RatingPoint'];
-    $overView = $row['OverView'];
-    $movieTrailer = $row['Trailer'];
+if (isset($_GET['bookedSeatID']) && isset($_GET['bookedSeatPrice'])) {
+    for ($i = 0; $i < sizeof($bookedSeatIDarr); $i++) {
+        $ticketID = AutoID('Tickets', 'TicketID', 'T-', 6);
+        $showID = $_SESSION['selectedShowID'];
+        $seatID = $bookedSeatIDarr[$i];
+        $price = $bookedSeatPricearr[$i];
+        $status = "occupied";
+        $bookingID = $_SESSION['bookingID'];
+        $insert = "INSERT INTO Tickets VALUES ('$ticketID', $showID, '$seatID', $price, '$status', '$bookingID')";
+        $query = mysqli_query($connect, $insert);
+    }
+    echo "<script>window.location.href = 'index.php'</script>";
 }
-?>
 
+?>
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" s />
+    <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Video Streaming</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css?v=<?php echo $version ?>" />
-    <link rel="stylesheet"
-        href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css?v=<?php echo $version ?>" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     <!-- i will provide this in description  -->
-    <link rel="stylesheet" href="css/slick.css?v=<?php echo $version ?>" />
-    <link rel="stylesheet" href="css/slick-theme.css?v=<?php echo $version ?>" />
-    <link rel="stylesheet" href="css/owl.carousel.min.css?v=<?php echo $version ?>" />
-    <link rel="stylesheet" href="css/animate.min.css?v=<?php echo $version ?>" />
-    <link rel="stylesheet" href="css/magnific-popup.css?v=<?php echo $version ?>" />
-    <link rel="stylesheet" href="css/select2.min.css?v=<?php echo $version ?>" />
-    <link rel="stylesheet" href="css/select2-bootstrap4.min.css?v=<?php echo $version ?>" />
+    <link rel="stylesheet" href="css/slick.css" />
+    <link rel="stylesheet" href="css/slick-theme.css" />
+    <link rel="stylesheet" href="css/owl.carousel.min.css" />
+    <link rel="stylesheet" href="css/animate.min.css" />
+    <link rel="stylesheet" href="css/magnific-popup.css" />
+    <link rel="stylesheet" href="css/select2.min.css" />
+    <link rel="stylesheet" href="css/select2-bootstrap4.min.css" />
 
-    <link rel="stylesheet" href="css/slick-animation.css?v=<?php echo $version ?>" />
-    <link rel="stylesheet" href="style.css?v=<?php echo $version ?>" />
-    <script src="https://kit.fontawesome.com/b59b4a7b62.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/slick-animation.css" />
+    <link rel="stylesheet" href="style.css?version=<?php echo $version ?>" />
+    <link rel="stylesheet" href="seatStyle.css?version=<?php echo $version ?>" />
+    <title>Movie Seat Booking</title>
 </head>
 
 <body>
@@ -83,7 +77,9 @@ if (isset($_GET['deMovieID'])) {
                                     <ul id="top-menu" class="navbar-nav ml-auto">
                                         <li class="menu-item"><a href="index.php">Home</a></li>
                                         <li class="menu-item"><a href="movie.html">Movies</a></li>
-                                        <li class="menu-item"><a href="theater.html">Theaters</a></li>
+                                        <li class="menu-item">
+                                            <a href="theater.html">Theaters</a>
+                                        </li>
                                         <li class="menu-item"><a href="seat.php">Seats</a></li>
                                         <li class="menu-item">
                                             <a href="#">Contact Us</a>
@@ -126,15 +122,14 @@ if (isset($_GET['deMovieID'])) {
                                                     <i class="fa fa-search"></i>
                                                 </a>
                                                 <div class="search-box iq-search-bar">
-                                                    <form action="index.php" class="searchbox">
+                                                    <form action="#" class="searchbox">
                                                         <div class="form-group position-relative">
-                                                            <input type="text" class="text search-input"
-                                                                placeholder="Search Movies or Theatres" />
+                                                            <input type="text" class="text search-input font-size-12"
+                                                                placeholder="type here to search..." />
                                                             <i class="search-link fa fa-search"></i>
                                                         </div>
                                                     </form>
                                                 </div>
-
                                             </li>
                                             <li class="nav-item nav-icon">
                                                 <a href="#" class="search-toggle position-relative">
@@ -184,7 +179,7 @@ if (isset($_GET['deMovieID'])) {
                                             <li>
                                                 <a href="#"
                                                     class="iq-user-dropdown search-toggle d-flex align-items-center">
-                                                    <img src="images/user/user.png"
+                                                    <img src="customerProfileImg/<?php echo $customerProfile ?>"
                                                         class="img-fluid user-m rounded-circle" alt="" />
                                                 </a>
                                                 <div class="iq-sub-dropdown iq-user-dropdown">
@@ -249,7 +244,7 @@ if (isset($_GET['deMovieID'])) {
                                             <form action="#" class="searchbox">
                                                 <div class="form-group position-relative">
                                                     <input type="text" class="text search-input font-size-12"
-                                                        placeholder="type here to searc" />
+                                                        placeholder="type here to search..." />
                                                     <i class="search-link fa fa-search"></i>
                                                 </div>
                                             </form>
@@ -302,8 +297,8 @@ if (isset($_GET['deMovieID'])) {
                                     <li class="nav-item nav-icon">
                                         <a href="#"
                                             class="iq-user-dropdown search-toggle d-flex align-items-center p-0">
-                                            <img src="images/user/user.png" class="img-fluid user-m rounded-circle"
-                                                alt="" />
+                                            <img src="customerProfileImg/<?php echo $customerProfile ?>"
+                                                class="img-fluid user-m rounded-circle" alt="" />
                                         </a>
                                         <div class="iq-sub-dropdown iq-user-dropdown">
                                             <div class="iq-card shadow-none m-0">
@@ -371,152 +366,22 @@ if (isset($_GET['deMovieID'])) {
                         <div class="parallax-form">
                             <div class="movieDetailWrapper">
                                 <img src="moviePosters/<?php echo $moviePoster2 ?>" alt="" class="img-fluid w-100" />
-                                <div class="movieDetailContainer">
-                                    <h2><?php echo $movieName ?></h2>
-                                    <div class="flexContainer">
-                                        <div>Genre: <span><?php echo $genreName ?></span></div>
-                                        <div>Duration: <span><?php echo $durationText ?></span></div>
-                                        <div>Rating Points: <span><?php echo $rating ?></span></div>
-                                    </div>
-                                    <div class="flexContainer">
-                                        <div>Release Date: <span><?php echo $releaseDate ?></span></div>
-                                        <div>Status: <span><?php echo $status ?></span></div>
-                                        <div></div>
-                                    </div>
-                                </div>
                             </div>
-                            <div class="movieOverviewContainer">
-                                <h3>Overview</h3>
-                                <?php echo $overView ?>
-                            </div>
-                            <div class="showTheaterWrapper">
-                                <?php
-                                $select = "SELECT distinct s.*, t.TheaterName, t.Location FROM Shows s, Theaters t WHERE s.MovieID = $movieID
-                                     AND s.TheaterID = t.TheaterID";
-                                $query = mysqli_query($connect, $select);
-                                $count = mysqli_num_rows($query);
-                                if ($count > 0) {
-                                    for ($i = 0; $i < $count; $i++) {
-                                        $row = mysqli_fetch_array($query);
-                                        $showID = $row['ShowID'];
-                                        $showDate = $row['ShowDate'];
-                                        $convertedShowDate = date('d-M-Y', strtotime($showDate));
-                                        $showTime = $row['ShowTime'];
-                                        $hour = substr($showTime, 0, 2);
-                                        $showMinute = substr($showTime, 3, 2);
-                                        if ($hour > 12) {
-                                            $showHour = $hour - 12;
-                                            if ($showHour < 10) {
-                                                $convertedShowTime = '0' . $showHour . ':' . $showMinute . ' pm';
-                                            } else {
-                                                $convertedShowTime = ' ' . $showHour . ':' . $showMinute . ' pm';
-                                            }
-                                        } else {
-                                            $showHour = $hour;
-                                            if ($showHour < 10) {
-                                                $convertedShowTime = '0' . $showHour . ':' . $showMinute . ' am';
-                                            } else {
-                                                $convertedShowTime = ' ' . $showHour . ':' . $showMinute . ' am';
-                                            }
-                                        }
-                                        $theaterID = $row['TheaterID'];
-                                        $theaterName = $row['TheaterName'];
-                                        $location = $row['Location']
-                                ?>
-                                <div class="showTheaterContainer"
-                                    data-show-date-open='#showdate-timeContainer<?php echo $i ?>'>
-                                    <div class="theaterDetailContainer">
-                                        <div><?php echo $theaterName ?></div>
-                                        <div><i class="fa-solid fa-location-dot"></i>
-                                            &nbsp<?php echo $location ?></div>
-                                    </div>
-                                </div>
-                                <div class="showDateContainer">
-                                    <div><?php echo $convertedShowDate ?></div>
-                                </div>
-                                <div class="">
-                                    <div><?php echo $convertedShowTime ?></div>
-                                </div>
-                                <div class="showIDContainer"><?php echo $showID ?></div>
-                                <?php
-                                    }
-                                } ?>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-        </section>
-    </div>
-    <!-- main content ends  -->
-
-
-    <footer class="iq-bg-dark">
-        <div class="footer-top">
-            <div class="container-fluid">
-                <div class="row footer-standard">
-                    <div class="col-lg-5">
-                        <div class="widget text-left">
                             <div>
-                                <ul class="menu p-0">
-                                    <li><a href="#">Terms of Use</a></li>
-                                    <li><a href="#">Privacy-Policy</a></li>
-                                    <li><a href="#">FAQ</a></li>
-                                    <li><a href="#">Watch List</a></li>
-                                </ul>
+                                <h1><?php
+                                    print_r($arr);
+                                    ?></h1>
                             </div>
-                        </div>
-                        <div class="widget text-left">
-                            <div class="textwidget">
-                                <p><small>This is Lorem, ipsum dolor sit amet consectetur adipisicing elit. Obcaecati,
-                                        quo tempore. Quasi rem rerum est in nulla atque quibusdam illo. this is footer
-                                        and simple tsesxij is writen jkd. fsek hello how are you. please like and
-                                        subscribe. footer ends .</small></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 mt-4 mt-lg-0">
-                        <h6 class="footer-link-title">
-                            Follow Us:
-                        </h6>
-                        <ul class="info-share">
-                            <li>
-                                <a href="#">
-                                    <i>
-                                        <fa class="fa fa-facebook"></fa>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <i>
-                                        <fa class="fa fa-youtube"></fa>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <i>
-                                        <fa class="fa fa-instagram"></fa>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-lg-3 col-md-6 mt-4 mt-lg-0">
-                        <div class="widget text-left">
-                            <div class="textwidget">
-                                <h6 class="footer-link-title">
-                                    NetFlix App
-                                </h6>
-                                <div class="d-flex align-items-center">
-                                    <a href="#"><img src="images/footer/01.jpg" alt=""></a>
-                                    <br>
-                                    <a href="#" class="ml-3"><img src="images/footer/02.jpg" alt=""></a>
-                                </div>
-                            </div>
+                            <form action="payment.php" method="GET">
+
+                                <input type="submit" class="btn btn-hover" value="submit" name="btnSubmit">
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </footer>
+        </section>
+    </div>
 
     <!-- js files  -->
     <script src="js/jquery-3.4.1.min.js?v=<?php echo $version ?>"></script>
@@ -527,8 +392,9 @@ if (isset($_GET['deMovieID'])) {
     <script src="js/select2.min.js?v=<?php echo $version ?>"></script>
     <script src="js/jquery.magnific-popup.min.js?v=<?php echo $version ?>"></script>
     <script src="js/slick-animation.min.js?v=<?php echo $version ?>"></script>
+
     <script src="main.js?v=<?php echo $version ?>"></script>
-    <script src="movieDetail.js?v=<?php echo $version ?>"></script>
+    <script src="script.js?v=<?php echo $version ?>"></script>
 </body>
 
 </html>
