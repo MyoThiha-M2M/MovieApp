@@ -9,7 +9,7 @@
   color: white;
   align-items: center;
   justify-content: center;
-  font-family: "Roboto", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   position: relative;
   top: 127px;
 }
@@ -151,9 +151,6 @@
   margin-left: 10px;
 }
 
-.priceContainer {
-}
-
 .row {
   display: flex;
   margin-bottom: 8px;
@@ -168,10 +165,194 @@
   box-shadow: 0 3px 10px rgba(255, 255, 255, 0.75);
 }
 
-.seatBookingContainer p.text {
+.toastFeed {
+  width: 100%;
+  margin: 0 auto;
+  padding-bottom: 20px;
+  position: fixed;
+  bottom: 0;
+  transform: translateY(180px);
+  transition: all 400ms ease-in-out;
+}
+
+.toastFeed.active {
+  transform: translateY(0);
+}
+
+.toastFeed p.text {
   margin: 5px 0 20px;
 }
 
-.seatBookingContainer p.text span {
+.toastFeed p.text span {
   color: #6feaf6;
+}
+
+.seatBookingDetailContainer {
+  width: 1000px;
+  margin: 0 auto;
+  padding-bottom: 10px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgb(0, 0, 0);
+}
+
+.seatInfoContainer {
+  width: 100%;
+  padding: 0px 10px;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 10px;
+  font-size: 17px;
+  color: #3fd0ff;
+}
+
+.seatInfoContainer .seatInfo {
+  width: 70%;
+  padding: 20px;
+}
+
+.seatInfoContainer .totalPrice {
+  width: 25%;
+  padding: 20px;
+}
+
+.seatInfoContainer .seatInfoDiv {
+  width: 30px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #6feaf6;
+  color: #444451;
+  margin-right: 5px;
+  user-select: none;
+}
+
+.paymentEntryPopUp {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  transition: 300ms ease-in-out;
+  width: 50%;
+  height: auto;
+  padding: 40px 5px;
+  background: #005c97; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #363795,
+    #005c97
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #363795,
+    #005c97
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+  z-index: 1050;
+  border-radius: 4px;
+}
+
+.paymentEntryPopUp.active {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.paymentEntryPopUp h3 {
+  text-align: center;
+  text-transform: uppercase;
+  font-family: "Playfair Display";
+  margin-bottom: 10px;
+}
+
+.paymentEntryPopUp label {
+  color: #fff;
+  margin-right: 5px;
+}
+
+.paymentEntryPopUp i {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+}
+
+.paymentEntryPopUp i:hover {
+  color: #bf000a;
+  cursor: pointer;
+}
+
+.paymentEntryPopUp .inputRow {
+  display: flex;
+  justify-content: space-around;
+}
+
+.paymentEntryPopUp .inputBox {
+  width: 300px;
+  height: auto;
+}
+
+.paymentEntryPopUp .flex-middle {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.paymentEntryPopUp .inputRow input[type="text"],
+.paymentEntryPopUp .inputRow input[type="number"] {
+  width: 100%;
+  height: auto;
+  background-color: #111111;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  margin-right: 58px;
+  color: #d1d0cf;
+  outline: none;
+}
+
+.paymentEntryPopUp .inputRow input[type="radio"] {
+  width: 15px;
+  height: 15px;
+}
+
+.paymentEntryPopUp .inputRow input[type="radio"] span {
+  margin-left: 10px;
+  font-size: 15px;
+  color: #111111;
+}
+
+.paymentEntryPopUp .btn {
+  text-transform: uppercase;
+  border: none;
+  color: #fff;
+  padding: 10px;
+  background: #1d976c;
+  /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #93f9b9,
+    #1d976c
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #93f9b9,
+    #1d976c
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  transition: 200ms ease-in-out;
+  z-index: 1031;
+  pointer-events: none;
+}
+
+#overlay.active {
+  opacity: 1;
+  pointer-events: all;
 }

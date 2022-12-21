@@ -143,3 +143,83 @@
     }
     ?>
 </div>
+
+
+<div class="showTheaterWrapper">
+    <?php
+    $select = "SELECT Distinct t.TheaterName, t.Location FROM Shows s, Theaters t WHERE MovieID = $movieID
+                                     AND s.TheaterID = t.TheaterID";
+    $query = mysqli_query($connect, $select);
+    $count = mysqli_num_rows($query);
+    if ($count > 0) {
+        for ($i = 0; $i < $count; $i++) {
+            $row = mysqli_fetch_array($query);
+            $theaterName = $row['TheaterName'];
+            $location = $row['Location']
+    ?>
+    <div class="showTheaterContainer" data-show-date-open='#showdate-timeContainer<?php echo $i ?>'>
+        <div class="theaterDetailContainer">
+            <div><?php echo $theaterName ?></div>
+            <div><i class="fa-solid fa-location-dot"></i>
+                &nbsp<?php echo $location ?></div>
+        </div>
+        <div class="showDate-timeContainer" id="showdate-timeContainer<?php echo $i ?>">
+            <?php
+                    $select = "SELECT s.*, t.TheaterName FROM Shows s, Theaters t WHERE MovieID = $movieID
+                                AND s.TheaterID = t.TheaterID ORDER BY s.ShowDate";
+                    $query = mysqli_query($connect, $select);
+                    $count = mysqli_num_rows($query);
+                    if ($count > 0) {
+                        for ($i = 0; $i < $count; $i++) {
+                            $row = mysqli_fetch_array($query);
+                            $showID = $row['ShowID'];
+                            $showDate = $row['ShowDate'];
+                            $convertedShowDate = date('d-M-Y', strtotime($showDate));
+                            $showTime = $row['ShowTime'];
+                            $hour = substr($showTime, 0, 2);
+                            $showMinute = substr($showTime, 3, 2);
+                            if ($hour > 12) {
+                                $showHour = $hour - 12;
+                                if ($showHour < 10) {
+                                    $convertedShowTime = '0' . $showHour . ':' . $showMinute . ' pm';
+                                } else {
+                                    $convertedShowTime = ' ' . $showHour . ':' . $showMinute . ' pm';
+                                }
+                            } else {
+                                $showHour = $hour;
+                                if ($showHour < 10) {
+                                    $convertedShowTime = '0' . $showHour . ':' . $showMinute . ' am';
+                                } else {
+                                    $convertedShowTime = ' ' . $showHour . ':' . $showMinute . ' am';
+                                }
+                            }
+                            $theaterID = $row['TheaterID'];
+                            $theaterName = $row['TheaterName'];
+                    ?>
+            <div class="flexContainer">
+                <div class="showDateContainer">
+                    <div class="showDate" data-show-time-open='#showTimeContainer<?php echo $i ?>'>
+                        <?php echo $convertedShowDate ?>
+                    </div>
+                </div>
+                <div class="showTimeContainer" id="showTimeContainer<?php echo $i ?>">
+                    <a href="seat.php">
+                        <div class="showTime"><?php echo $convertedShowTime ?></div>
+                        <?php
+                                        $_SESSION['selectedShowID'] = $showID;
+                                        $_SESSION['selectedTheaterID'] = $theaterID;
+                                        ?>
+                    </a>
+                </div>
+            </div>
+            <?php
+                        }
+                    }
+                    ?>
+        </div>
+    </div>
+    <?php
+        }
+    }
+    ?>
+</div>

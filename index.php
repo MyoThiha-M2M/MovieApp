@@ -423,9 +423,8 @@ $customerProfile = $row['ProfileImage'];
                                 </div>
                                 <div class="d-flex align-items-center r-mb-23 mt-4" data-animation-in="fadeInUp"
                                     data-delay-in="1.2">
-                                    <a href="#" class="btn btn-hover iq-button" style="margin-right: 40px;"><i
-                                            class="fa fa-play mr-3"></i>Play
-                                        Now</a>
+                                    <a href="movieDetail.php?deMovieID=<?php echo $movieID ?>"
+                                        class="btn btn-hover iq-button" style="margin-right: 40px;">Book Tickets</a>
                                     <a href="movieTrailers/<?php echo $movieTrailer ?>" class="video-open playbtn">
                                         <span class="w-trailor">Watch Trailer</span>
                                         <img src="images/play.png" class="play" alt="" />
@@ -1009,7 +1008,7 @@ $customerProfile = $row['ProfileImage'];
         <section id="iq-topten">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-sm-12 overflow-hidden">
+                    <div class="col-sm-12">
                         <div class="topten-contents">
                             <h4 class="main-title iq-title topten-title">
                                 Our Theaters
@@ -1029,7 +1028,7 @@ $customerProfile = $row['ProfileImage'];
                                 <li class="slick-bg">
                                     <a href="#">
                                         <img src="theaterImages/<?php echo $theaterImage ?>" class="img-fluid w-100"
-                                            alt="" />
+                                            style='height:1000px' alt="" />
                                         <h6 class="iq-title"><a href="#"><?php echo $theaterName ?></a></h6>
                                     </a>
                                 </li>
@@ -1037,45 +1036,6 @@ $customerProfile = $row['ProfileImage'];
                                     }
                                 }
                                 ?>
-                                <li class="slick-bg">
-                                    <a href="#">
-                                        <img src="images/top-10/01.jpg" class="img-fluid w-100" alt="" />
-                                        <h6 class="iq-title"><a href="#">Harry Potter</a></h6>
-                                    </a>
-                                </li>
-                                <!-- 
-                                <li class="slick-bg">
-                                    <a href="#">
-                                        <img src="images/top-10/02.jpg" class="img-fluid w-100" alt="" />
-                                        <h6 class="iq-title">
-                                            <a href="#">The Queen's Gambit</a>
-                                        </h6>
-                                    </a>
-                                </li>
-                                <li class="slick-bg">
-                                    <a href="#">
-                                        <img src="images/top-10/03.jpg" class="img-fluid w-100" alt="" />
-                                        <h6 class="iq-title"><a href="#">Scam 1992</a></h6>
-                                    </a>
-                                </li>
-                                <li class="slick-bg">
-                                    <a href="#">
-                                        <img src="images/top-10/04.jpg" class="img-fluid w-100" alt="" />
-                                        <h6 class="iq-title"><a href="#">Stranger Things</a></h6>
-                                    </a>
-                                </li>
-                                <li class="slick-bg">
-                                    <a href="#">
-                                        <img src="images/top-10/05.jpg" class="img-fluid w-100" alt="" />
-                                        <h6 class="iq-title"><a href="#">BoJack Horsemen</a></h6>
-                                    </a>
-                                </li>
-                                <li class="slick-bg">
-                                    <a href="#">
-                                        <img src="images/top-10/06.jpg" class="img-fluid w-100" alt="" />
-                                        <h6 class="iq-title"><a href="#">Peaky Blinders</a></h6>
-                                    </a>
-                                </li> -->
                             </ul>
                             <div class="vertical_s">
                                 <ul id="top-ten-slider-nav" class="list-inline p-0 m-0 d-flex align-items-center">
@@ -1094,7 +1054,7 @@ $customerProfile = $row['ProfileImage'];
                                         <div class="block-images position-relative">
                                             <a href="#">
                                                 <img src="theaterImages/<?php echo $theaterImage ?>"
-                                                    class="img-fluid w-100" alt="" />
+                                                    class="img-fluid w-100" style='height:200px' alt="" />
                                             </a>
                                             <div class="block-description">
                                                 <h5><?php echo $theaterName ?></h5>
@@ -1108,8 +1068,7 @@ $customerProfile = $row['ProfileImage'];
                                                 </div>
                                                 <div class="hover-buttons">
                                                     <a href="#" class="btn btn-hover" tabindex="0">
-                                                        <!-- <i class="fa fa-play mr-1" aria-hidden="true"></i> -->
-                                                        View
+                                                        Book Tickets
                                                     </a>
                                                 </div>
                                             </div>
@@ -1119,139 +1078,6 @@ $customerProfile = $row['ProfileImage'];
                                         }
                                     }
                                     ?>
-                                    <li>
-                                        <div class="block-images position-relative">
-                                            <a href="#">
-                                                <img src="images/top-10/01.jpg" class="img-fluid w-100" alt="" />
-                                            </a>
-                                            <div class="block-description">
-                                                <h5>Harry Potter</h5>
-                                                <div class="movie-time d-flex align-items-center my-2">
-                                                    <div class="badge badge-secondary p-1 mr-2">
-                                                        10+
-                                                    </div>
-                                                    <span class="text-white">8 Parts</span>
-                                                </div>
-                                                <div class="hover-buttons">
-                                                    <a href="#" class="btn btn-hover" tabindex="0">
-                                                        <i class="fa fa-play mr-1" aria-hidden="true"></i>
-                                                        Play Now
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <!-- 
-                                    <li>
-                                        <div class="block-images position-relative">
-                                            <a href="#">
-                                                <img src="images/top-10/02.jpg" class="img-fluid w-100" alt="" />
-                                            </a>
-                                            <div class="block-description">
-                                                <h5>The Queen's Gambit</h5>
-                                                <div class="movie-time d-flex align-items-center my-2">
-                                                    <div class="badge badge-secondary p-1 mr-2">
-                                                        18+
-                                                    </div>
-                                                    <span class="text-white">1 Season</span>
-                                                </div>
-                                                <div class="hover-buttons">
-                                                    <a href="#" class="btn btn-hover" tabindex="0">
-                                                        <i class="fa fa-play mr-1" aria-hidden="true"></i>
-                                                        Play Now
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="block-images position-relative">
-                                            <a href="#">
-                                                <img src="images/top-10/03.jpg" class="img-fluid w-100" alt="" />
-                                            </a>
-                                            <div class="block-description">
-                                                <h5>Scam 1992</h5>
-                                                <div class="movie-time d-flex align-items-center my-2">
-                                                    <div class="badge badge-secondary p-1 mr-2">
-                                                        12+
-                                                    </div>
-                                                    <span class="text-white">1 Season</span>
-                                                </div>
-                                                <div class="hover-buttons">
-                                                    <a href="#" class="btn btn-hover" tabindex="0">
-                                                        <i class="fa fa-play mr-1" aria-hidden="true"></i>
-                                                        Play Now
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="block-images position-relative">
-                                            <a href="#">
-                                                <img src="images/top-10/04.jpg" class="img-fluid w-100" alt="" />
-                                            </a>
-                                            <div class="block-description">
-                                                <h5>Stranger Things</h5>
-                                                <div class="movie-time d-flex align-items-center my-2">
-                                                    <div class="badge badge-secondary p-1 mr-2">
-                                                        16+
-                                                    </div>
-                                                    <span class="text-white">3 Season</span>
-                                                </div>
-                                                <div class="hover-buttons">
-                                                    <a href="#" class="btn btn-hover" tabindex="0">
-                                                        <i class="fa fa-play mr-1" aria-hidden="true"></i>
-                                                        Play Now
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="block-images position-relative">
-                                            <a href="#">
-                                                <img src="images/top-10/05.jpg" class="img-fluid w-100" alt="" />
-                                            </a>
-                                            <div class="block-description">
-                                                <h5>BoJack Horseman</h5>
-                                                <div class="movie-time d-flex align-items-center my-2">
-                                                    <div class="badge badge-secondary p-1 mr-2">
-                                                        15+
-                                                    </div>
-                                                    <span class="text-white">6 Season</span>
-                                                </div>
-                                                <div class="hover-buttons">
-                                                    <a href="#" class="btn btn-hover" tabindex="0">
-                                                        <i class="fa fa-play mr-1" aria-hidden="true"></i>
-                                                        Play Now
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="block-images position-relative">
-                                            <a href="#">
-                                                <img src="images/top-10/06.jpg" class="img-fluid w-100" alt="" />
-                                            </a>
-                                            <div class="block-description">
-                                                <h5>Peaky Blinders</h5>
-                                                <div class="movie-time d-flex align-items-center my-2">
-                                                    <div class="badge badge-secondary p-1 mr-2">
-                                                        20+
-                                                    </div>
-                                                    <span class="text-white">5 Season</span>
-                                                </div>
-                                                <div class="hover-buttons">
-                                                    <a href="#" class="btn btn-hover" tabindex="0">
-                                                        <i class="fa fa-play mr-1" aria-hidden="true"></i>
-                                                        Play Now
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li> -->
                                 </ul>
                             </div>
                         </div>

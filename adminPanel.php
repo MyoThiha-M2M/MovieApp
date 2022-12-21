@@ -12,7 +12,6 @@ if (isset($_SESSION['AdminID'])) {
         $adminUsername = $row['Username'];
     };
 };
-
 ?>
 
 <!DOCTYPE html>
@@ -168,9 +167,15 @@ if (isset($_SESSION['AdminID'])) {
                     </a>
                 </li>
                 <li class="nav-item menu-items">
-                    <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+                    <a class="nav-link" href="userManagement.php">
                         <span class="menu-icon">
-                            <i class="mdi mdi-security"></i>
+                            <i class="fa-solid fa-users"></i>
+                        </span>
+                        <span class="menu-title">Users</span>
+                    </a>
+                    <!-- <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+                        <span class="menu-icon">
+                            <i class="fa-solid fa-users"></i>
                         </span>
                         <span class="menu-title">Users</span>
                         <i class="menu-arrow"></i>
@@ -185,11 +190,10 @@ if (isset($_SESSION['AdminID'])) {
                             <li class="nav-item"> <a class="nav-link" href="pages/samples/register.html"> Register </a>
                             </li>
                         </ul>
-                    </div>
+                    </div> -->
                 </li>
                 <li class="nav-item menu-items">
-                    <a class="nav-link"
-                        href="http://www.bootstrapdash.com/demo/corona-free/jquery/documentation/documentation.html">
+                    <a class="nav-link" href="bookingManagement.php">
                         <span class="menu-icon">
                             <i class="fa-solid fa-ticket"></i>
                         </span>
@@ -220,7 +224,8 @@ if (isset($_SESSION['AdminID'])) {
                     </ul>
                     <ul class="navbar-nav navbar-nav-right">
                         <li class="nav-item dropdown d-none d-lg-block">
-                            <a class="nav-link btn btn-success create-new-button" id="createbuttonDropdown"
+                            <div class="currentDate"><?php echo date('d-M-Y') ?></div>
+                            <!-- <a class="nav-link btn btn-success create-new-button" id="createbuttonDropdown"
                                 data-toggle="dropdown" aria-expanded="false" href="#">+ Create New Project</a>
                             <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
                                 aria-labelledby="createbuttonDropdown">
@@ -260,13 +265,13 @@ if (isset($_SESSION['AdminID'])) {
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <p class="p-3 mb-0 text-center">See all projects</p>
-                            </div>
+                            </div> -->
                         </li>
-                        <li class="nav-item nav-settings d-none d-lg-block">
+                        <!-- <li class="nav-item nav-settings d-none d-lg-block">
                             <a class="nav-link" href="#">
                                 <i class="mdi mdi-view-grid"></i>
                             </a>
-                        </li>
+                        </li> -->
                         <li class="nav-item dropdown border-left">
                             <a class="nav-link count-indicator dropdown-toggle" id="messageDropdown" href="#"
                                 data-toggle="dropdown" aria-expanded="false">
@@ -442,6 +447,11 @@ if (isset($_SESSION['AdminID'])) {
                     <!-- Card Row 1 Starts -->
                     <div class="row">
                         <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+                            <?php
+                            $select = "SELECT * FROM Movies WHERE Status = 'Now Showing'";
+                            $query = mysqli_query($connect, $select);
+                            $totalNowShowingMovie = mysqli_num_rows($query);
+                            ?>
                             <div class="card">
                                 <div class="card-body">
                                     <div class="row">
@@ -457,19 +467,24 @@ if (isset($_SESSION['AdminID'])) {
                                         </div>
                                     </div>
                                     <h6 class="text-muted font-weight-normal">Total
-                                        <span class="text-success ml-2 mb-0 font-weight-medium">6</span>
+                                        <span
+                                            class="text-success ml-2 mb-0 font-weight-medium"><?php echo $totalNowShowingMovie ?></span>
                                     </h6>
                                 </div>
                             </div>
                         </div>
                         <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+                            <?php
+                            $select = "SELECT * FROM Movies WHERE Status = 'Upcoming'";
+                            $query = mysqli_query($connect, $select);
+                            $totalUpcomingMovie = mysqli_num_rows($query);
+                            ?>
                             <div class="card">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-9">
                                             <div class="d-flex align-items-center align-self-start">
-                                                <h3 class="mb-0">$17.34</h3>
-                                                <p class="text-success ml-2 mb-0 font-weight-medium">+11%</p>
+                                                <h4 class="mb-0">Upcoming Movies</h4>
                                             </div>
                                         </div>
                                         <div class="col-3">
@@ -478,38 +493,52 @@ if (isset($_SESSION['AdminID'])) {
                                             </div>
                                         </div>
                                     </div>
-                                    <h6 class="text-muted font-weight-normal">Upcoming Movies</h6>
+                                    <h6 class="text-muted font-weight-normal">Total
+                                        <span
+                                            class="text-success ml-2 mb-0 font-weight-medium"><?php echo $totalUpcomingMovie ?></span>
+                                    </h6>
                                 </div>
                             </div>
                         </div>
                         <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+                            <?php
+                            $select = "SELECT * FROM Genres";
+                            $query = mysqli_query($connect, $select);
+                            $totalGenres = mysqli_num_rows($query);
+                            ?>
                             <div class="card">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-9">
                                             <div class="d-flex align-items-center align-self-start">
-                                                <h3 class="mb-0">$12.34</h3>
-                                                <p class="text-danger ml-2 mb-0 font-weight-medium">-2.4%</p>
+                                                <h4 class="mb-0">Genres</h4>
                                             </div>
                                         </div>
                                         <div class="col-3">
-                                            <div class="icon icon-box-danger">
+                                            <div class="icon icon-box-success">
                                                 <i class="fa-solid fa-box-archive"></i>
                                             </div>
                                         </div>
                                     </div>
-                                    <h6 class="text-muted font-weight-normal">Genres</h6>
+                                    <h6 class="text-muted font-weight-normal">Total
+                                        <span
+                                            class="text-success ml-2 mb-0 font-weight-medium"><?php echo $totalGenres ?></span>
+                                    </h6>
                                 </div>
                             </div>
                         </div>
                         <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+                            <?php
+                            $select = "SELECT * FROM Formats";
+                            $query = mysqli_query($connect, $select);
+                            $totalFormats = mysqli_num_rows($query);
+                            ?>
                             <div class="card">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-9">
                                             <div class="d-flex align-items-center align-self-start">
-                                                <h3 class="mb-0">$31.53</h3>
-                                                <p class="text-success ml-2 mb-0 font-weight-medium">+3.5%</p>
+                                                <h4 class="mb-0">Formats</h4>
                                             </div>
                                         </div>
                                         <div class="col-3">
@@ -518,7 +547,10 @@ if (isset($_SESSION['AdminID'])) {
                                             </div>
                                         </div>
                                     </div>
-                                    <h6 class="text-muted font-weight-normal">Formats</h6>
+                                    <h6 class="text-muted font-weight-normal">Total
+                                        <span
+                                            class="text-success ml-2 mb-0 font-weight-medium"><?php echo $totalFormats ?></span>
+                                    </h6>
                                 </div>
                             </div>
                         </div>
@@ -527,82 +559,112 @@ if (isset($_SESSION['AdminID'])) {
                     <!-- Card Row 2 Starts -->
                     <div class="row">
                         <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+                            <?php
+                            $select = "SELECT * FROM Theaters";
+                            $query = mysqli_query($connect, $select);
+                            $totalTheaters = mysqli_num_rows($query);
+                            ?>
                             <div class="card">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-9">
                                             <div class="d-flex align-items-center align-self-start">
-                                                <h3 class="mb-0">$12.34</h3>
-                                                <p class="text-success ml-2 mb-0 font-weight-medium">+3.5%</p>
+                                                <h4 class="mb-0">Theaters</h4>
                                             </div>
                                         </div>
                                         <div class="col-3">
                                             <div class="icon icon-box-success ">
-                                                <span class="mdi mdi-arrow-top-right icon-item"></span>
+                                                <i class="fa-solid fa-masks-theater"></i>
                                             </div>
                                         </div>
                                     </div>
-                                    <h6 class="text-muted font-weight-normal">Theaters</h6>
+                                    <h6 class="text-muted font-weight-normal">Total
+                                        <span
+                                            class="text-success ml-2 mb-0 font-weight-medium"><?php echo $totalTheaters ?></span>
+                                    </h6>
                                 </div>
                             </div>
                         </div>
                         <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+                            <?php
+                            $todayDate = date('Y-m-d');
+                            $select = "SELECT * FROM Bookings WHERE BookingDate = '$todayDate'";
+                            $query = mysqli_query($connect, $select);
+                            $totalTodayBookings = mysqli_num_rows($query);
+                            ?>
                             <div class="card">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-9">
                                             <div class="d-flex align-items-center align-self-start">
-                                                <h3 class="mb-0">$17.34</h3>
-                                                <p class="text-success ml-2 mb-0 font-weight-medium">+11%</p>
+                                                <h4 class="mb-0">Today Bookings</h4>
                                             </div>
                                         </div>
                                         <div class="col-3">
                                             <div class="icon icon-box-success">
-                                                <span class="mdi mdi-arrow-top-right icon-item"></span>
+                                                <i class="fa-solid fa-ticket"></i>
                                             </div>
                                         </div>
                                     </div>
-                                    <h6 class="text-muted font-weight-normal">Total Booking</h6>
+                                    <h6 class="text-muted font-weight-normal">Total
+                                        <span
+                                            class="text-success ml-2 mb-0 font-weight-medium"><?php echo $totalTodayBookings ?></span>
+                                    </h6>
                                 </div>
                             </div>
                         </div>
                         <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+                            <?php
+                            $select = "SELECT * FROM Customers";
+                            $query = mysqli_query($connect, $select);
+                            $totalUsers = mysqli_num_rows($query);
+                            ?>
                             <div class="card">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-9">
                                             <div class="d-flex align-items-center align-self-start">
-                                                <h3 class="mb-0">$12.34</h3>
-                                                <p class="text-danger ml-2 mb-0 font-weight-medium">-2.4%</p>
+                                                <h4 class="mb-0">Current Users</h4>
                                             </div>
                                         </div>
                                         <div class="col-3">
-                                            <div class="icon icon-box-danger">
-                                                <span class="mdi mdi-arrow-bottom-left icon-item"></span>
+                                            <div class="icon icon-box-success">
+                                                <i class="fa-solid fa-users"></i>
                                             </div>
                                         </div>
                                     </div>
-                                    <h6 class="text-muted font-weight-normal">Total Users</h6>
+                                    <h6 class="text-muted font-weight-normal">Total
+                                        <span
+                                            class="text-success ml-2 mb-0 font-weight-medium"><?php echo $totalUsers ?></span>
+                                    </h6>
                                 </div>
                             </div>
                         </div>
                         <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+                            <?php
+                            $select = "SELECT SUM(TotalPrice) AS TodayIncome FROM Bookings WHERE BookingDate = '$todayDate'";
+                            $query = mysqli_query($connect, $select);
+                            $row = mysqli_fetch_array($query);
+                            $totalTodayIncome = $row['TodayIncome'];
+                            ?>
                             <div class="card">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-9">
                                             <div class="d-flex align-items-center align-self-start">
-                                                <h3 class="mb-0">$31.53</h3>
-                                                <p class="text-success ml-2 mb-0 font-weight-medium">+3.5%</p>
+                                                <h4 class="mb-0">Today Income</h4>
                                             </div>
                                         </div>
                                         <div class="col-3">
                                             <div class="icon icon-box-success ">
-                                                <span class="mdi mdi-arrow-top-right icon-item"></span>
+                                                <i class="fa-solid fa-sack-dollar"></i>
                                             </div>
                                         </div>
                                     </div>
-                                    <h6 class="text-muted font-weight-normal">Expense current</h6>
+                                    <h6 class="text-muted font-weight-normal">Total
+                                        <span
+                                            class="text-success ml-2 mb-0 font-weight-medium">$<?php echo $totalTodayIncome ?></span>
+                                    </h6>
                                 </div>
                             </div>
                         </div>

@@ -5,11 +5,15 @@ include('connect.php');
 if (isset($_POST['btnLogin'])) {
     $userName = $_POST['txtuserName'];
     $password = $_POST['txtpassword'];
+    $lastLoginDate = date('Y-m-d');
     $select = "SELECT CustomerID FROM Customers WHERE Username = '$userName' AND Password = '$password'";
     $query = mysqli_query($connect, $select);
     $row = mysqli_fetch_array($query);
     if (isset($row)) {
-        $_SESSION['CustomerID'] = $row['CustomerID'];
+        $customerID = $row['CustomerID'];
+        $_SESSION['CustomerID'] = $customerID;
+        $update = "UPDATE Customers SET LastLoginDate = '$lastLoginDate' WHERE CustomerID = $customerID";
+        $query = mysqli_query($connect, $update);
         echo "<script>alert('Login is successful')</script>";
         echo "<script>window.location = 'index.php'</script>";
     } else {

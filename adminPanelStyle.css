@@ -1,9 +1,19 @@
+/* General Tags Style */
 .card-body h6 {
   margin-top: 10px;
 }
 
 #main-logo {
   height: 88px;
+}
+
+.currentDate {
+  width: 150px;
+  margin-right: 30px;
+  padding: 10px;
+  text-align: center;
+  background-color: cadetblue;
+  user-select: none;
 }
 
 .movieListHeadingContainer {
@@ -20,7 +30,7 @@
   justify-content: center;
 }
 
-#moviePoster {
+.table .posterImage {
   width: 150px;
   height: 90px;
   border-radius: 2px;

@@ -12,8 +12,6 @@ if (isset($query)) {
     $customerProfile = $row['ProfileImage'];
 }
 
-$occupiedSeatsStr = $_GET['occupiedSeats'];
-$occupiedSeatsArr = explode(' ', $occupiedSeatsStr);
 
 if (isset($_GET['txtTotalSeat']) && isset($_GET['txtTotalPrice'])) {
     if ($_GET['txtTotalSeat'] > 0 && $_GET['txtTotalPrice'] > 0) {
@@ -24,23 +22,42 @@ if (isset($_GET['txtTotalSeat']) && isset($_GET['txtTotalPrice'])) {
         $_SESSION['selectedShowID'] = $showID;
         $totalTickets = $_GET['txtTotalSeat'];
         $totalPrice = $_GET['txtTotalPrice'];
-        $payment = 'Credit Card';
+        $payment = $_GET['rdoPaymentMethod'];
         $paymentDate = date("Y-m-d");
-        $insert = "INSERT INTO Bookings VALUES ('$bookingID', '$bookingDate', $showID, $customerID, $totalTickets, $totalPrice, '$payment', '$paymentDate' )";
+        $insert = "INSERT INTO Bookings VALUES ('$bookingID', '$bookingDate', $showID, $customerID, $totalTickets, $totalPrice,
+'$payment', '$paymentDate' )";
         $query = mysqli_query($connect, $insert);
         if (isset($query)) {
             echo "
-            <script>
-            const bookedSeatIDArr = JSON.parse(localStorage.getItem('selectedSeatID'));
-            const bookedSeatPriceArr = JSON.parse(localStorage.getItem('selectedSeatPrice'));
-            let src = 'payment.php?bookedSeatID='+bookedSeatIDArr+'&bookedSeatPrice='+bookedSeatPriceArr;
-            window.location.href = src</script>";
+<script>
+const bookedSeatIDArr = JSON.parse(localStorage.getItem('selectedSeatID'));
+const bookedSeatPriceArr = JSON.parse(localStorage.getItem('selectedSeatPrice'));
+let src = 'payment.php?bookedSeatID=' + bookedSeatIDArr + '&bookedSeatPrice=' + bookedSeatPriceArr;
+window.location.href = src
+</script>";
         }
     } else {
         echo "Error";
     }
 }
 
+
+$selectedShowID = $_GET['selectedShowID'];
+$occupiedSeatArr = array();
+$select = "SELECT * FROM Tickets WHERE ShowID = $selectedShowID ORDER BY TicketID";
+$query = mysqli_query($connect, $select);
+$count = mysqli_num_rows($query);
+if ($count > 0) {
+    for ($i = 0; $i < $count; $i++) {
+        $row = mysqli_fetch_array($query);
+        $occupiedSeatID = $row['SeatID'];
+        $occupiedSeatArr[$i] = $occupiedSeatID;
+    }
+} else {
+}
+
+$occupiedSeatsStr = implode(' ', $occupiedSeatArr);
+$occupiedSeatsArr = explode(' ', $occupiedSeatsStr);
 
 ?>
 
@@ -66,6 +83,7 @@ if (isset($_GET['txtTotalSeat']) && isset($_GET['txtTotalPrice'])) {
     <link rel="stylesheet" href="css/slick-animation.css" />
     <link rel="stylesheet" href="style.css?version=<?php echo $version ?>" />
     <link rel="stylesheet" href="seatStyle.css?version=<?php echo $version ?>" />
+    <script src="https://kit.fontawesome.com/b59b4a7b62.js?v=<?php echo $version ?>" crossorigin="anonymous"></script>
     <title>Movie Seat Booking</title>
 </head>
 
@@ -374,6 +392,56 @@ if (isset($_GET['txtTotalSeat']) && isset($_GET['txtTotalPrice'])) {
     </header>
 
     <form action="seat.php" method="GET" id="seatBookingForm">
+        <!-- Payment Section PopUp Starts-->
+        <div class="popUpEntry paymentEntryPopUp" id="paymentEntryPopUp">
+            <i class="fas fa-times" data-modal-close></i>
+            <h3 class="title">payment</h3>
+            <div class="flex-middle">
+                <img src="payment/card_img.png" alt="">
+            </div>
+            <div class="inputRow">
+                <div class="inputBox">
+                    <label>Choose Payment Type</label>
+                    <input type="radio" name="rdoPaymentMethod" value="PayPal" id=""><span>&nbsp; PayPal</span> <br>
+                    <input type="radio" name="rdoPaymentMethod" value="MasterCard" id=""><span>&nbsp; MasterCard</span>
+                    <br>
+                    <input type="radio" name="rdoPaymentMethod" value="AmericanExpress" id=""><span>&nbsp; American
+                        Express</span> <br>
+                    <input type="radio" name="rdoPaymentMethod" value="VisaCard" id=""><span>&nbsp; VisaCard</span> <br>
+                </div>
+                <div class="inputBox">
+                    <label>name on card :</label>
+                    <input type="text" placeholder="Mr. John Deo">
+                </div>
+            </div>
+            <div class="inputRow">
+                <div class="inputBox">
+                    <label>credit card number :</label>
+                    <input type="text" placeholder="1111-2222-3333-4444">
+                </div>
+                <div class="inputBox">
+                    <label>exp month :</label>
+                    <input type="text" placeholder="january">
+                </div>
+            </div>
+
+            <div class="inputRow">
+                <div class="inputBox">
+                    <label>exp year :</label>
+                    <input type="number" placeholder="2022">
+                </div>
+                <div class="inputBox">
+                    <label>CVV :</label>
+                    <input type="text" placeholder="1234">
+                </div>
+            </div>
+            <div class="flex-middle">
+                <button type="submit" class="btn btn-hover booking" id="btnPayment" name="submitSeat">Confirm
+                    Booking</button>
+            </div>
+        </div>
+        <div id="overlay"></div>
+        <!-- Payment Section PopUp Ends -->
         <div class="seatBookingContainer">
             <ul class="showcase">
                 <li>
@@ -453,93 +521,27 @@ if (isset($_GET['txtTotalSeat']) && isset($_GET['txtTotalPrice'])) {
                     <?php
                     }
                     ?>
-                    <!-- <div class="row">
-                    <div class="seat seatA" data-value="10">A1</div>
-                    <div class="seat seatA" data-value="10">A2</div>
-                    <div class="seat seatA" data-value="10">A3</div>
-                    <div class="seat seatA" data-value="10">A4</div>
-                    <div class="seat seatA" data-value="10">A5</div>
-                    <div class="seat seatA" data-value="10">A6</div>
-                    <div class="seat seatA" data-value="10">A7</div>
-                    <div class="seat seatA" data-value="10">A8</div>
-                </div> -->
-                    <!-- <div class="row">
-                    <div class="seat seatB" data-value="13">B1</div>
-                    <div class="seat seatB" data-value="13">B2</div>
-                    <div class="seat seatB" data-value="13">B3</div>
-                    <div class="seat seatB" data-value="13">B4</div>
-                    <div class="seat seatB" data-value="13">B5</div>
-                    <div class="seat seatB" data-value="13">B6</div>
-                    <div class="seat seatB" data-value="13">B7</div>
-                    <div class="seat seatB" data-value="13">B8</div>
-                </div>
-
-                <div class="row">
-                    <div class="seat seatC" data-value="13">C1</div>
-                    <div class="seat seatC" data-value="13">C2</div>
-                    <div class="seat seatC" data-value="13">C3</div>
-                    <div class="seat seatC" data-value="13">C4</div>
-                    <div class="seat seatC" data-value="13">C5</div>
-                    <div class="seat seatC" data-value="13">C6</div>
-                    <div class="seat seatC" data-value="13">C7</div>
-                    <div class="seat seatC" data-value="13">C8</div>
-                </div>
-
-                <div class="row">
-                    <div class="seat seatD" data-value="13">D1</div>
-                    <div class="seat seatD" data-value="13">D2</div>
-                    <div class="seat seatD" data-value="13">D3</div>
-                    <div class="seat seatD" data-value="13">D4</div>
-                    <div class="seat seatD" data-value="13">D5</div>
-                    <div class="seat seatD" data-value="13">D6</div>
-                    <div class="seat seatD" data-value="13">D7</div>
-                    <div class="seat seatD" data-value="13">D8</div>
-                </div>
-
-                <div class="row">
-                    <div class="seat seatD" data-value="13">D9</div>
-                    <div class="seat seatD" data-value="13">D10</div>
-                    <div class="seat seatD" data-value="13">D11</div>
-                    <div class="seat seatD" data-value="13">D12</div>
-                    <div class="seat seatD" data-value="13">D13</div>
-                    <div class="seat seatD" data-value="13">D14</div>
-                    <div class="seat seatD" data-value="13">D15</div>
-                    <div class="seat seatD" data-value="13">D16</div>
-                </div>
-
-                <div class="row">
-                    <div class="seat seatD" data-value="13">D17</div>
-                    <div class="seat seatD" data-value="13">D18</div>
-                    <div class="seat seatD" data-value="13">D19</div>
-                    <div class="seat seatD" data-value="13">D20</div>
-                    <div class="seat seatD" data-value="13">D21</div>
-                    <div class="seat seatD" data-value="13">D22</div>
-                    <div class="seat seatD" data-value="13">D23</div>
-                    <div class="seat seatD" data-value="13">D24</div>
-                </div>
-                <div class="row">
-                    <div class="seat seatS" data-value="13">S1</div>
-                    <div class="seat seatS" data-value="13">S2</div>
-                    <div class="seat seatS" data-value="13">S3</div>
-                    <div class="seat seatS" data-value="13">S4</div>
-                    <div class="seat seatS" data-value="13">S5</div>
-                    <div class="seat seatS" data-value="13">S6</div>
-                    <div class="seat seatS" data-value="13">S7</div>
-                    <div class="seat seatS" data-value="13">S8</div>
-                </div> -->
                 </div>
             </div>
-
-            <p class="text">
-                You have selected <span id="count">0</span> seats for a price of $<span id="total">0</span>
-                <input type="num" name="txtTotalSeat" id="countInput" hidden readonly>
-                <input type="num" name="txtTotalPrice" id="totalInput" hidden readonly>
-                <input type="num" name="txtSelectedShowID" id="selectedShowID"
-                    value="<?php echo $_GET['selectedShowID'] ?>" hidden readonly>
-            </p>
-
-            <button class="btn btn-hover iq-button booking">Booking</button>
-
+        </div>
+        <div class="toastFeed">
+            <div class="seatBookingDetailContainer">
+                <div class="seatInfoContainer">
+                    <div class="seatInfo">
+                        Selected Seats -
+                    </div>
+                    <div class="totalPrice">Total Price: $<span id="total">0</span></div>
+                </div>
+                <p class="text">
+                    <span hidden id="count">0</span> <span hidden id="total">0</span>
+                    <input type="num" name="txtTotalSeat" id="countInput" hidden readonly>
+                    <input type="num" name="txtTotalPrice" id="totalInput" hidden readonly>
+                    <input type="num" name="txtSelectedShowID" id="selectedShowID"
+                        value="<?php echo $_GET['selectedShowID'] ?>" hidden readonly>
+                </p>
+                <!-- <button class="btn btn-hover iq-button booking">Confirm Booking</button> -->
+                <div class="btn btn-hover" data-modal-target='#paymentEntryPopUp'>Proceed To Payment</div>
+            </div>
         </div>
     </form>
     <!-- js files  -->
@@ -570,6 +572,7 @@ if (isset($_GET['txtTotalSeat']) && isset($_GET['txtTotalPrice'])) {
         checkOccupied(allSeatsArr[i]);
     }
     </script>
+    <script src="popUp.js?v=<?php echo $version ?>"></script>
 </body>
 
 </html>

@@ -47,10 +47,10 @@ if (isset($_SESSION['AdminID'])) {
         <!-- partial:../../partials/_sidebar.html -->
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
             <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-                <a class="sidebar-brand brand-logo" href="../../index.html"><img src="images/logo.png" id="main-logo"
+                <a class="sidebar-brand brand-logo" href="index.html"><img src="images/logo.png" alt="logo"
+                        id="main-logo" /></a>
+                <a class="sidebar-brand brand-logo-mini" href="index.html"><img src="images/miniLogo.png"
                         alt="logo" /></a>
-                <a class="sidebar-brand brand-logo-mini" href="../../index.html"><img
-                        src="../../assets/images/logo-mini.svg" alt="logo" /></a>
             </div>
             <ul class="nav">
                 <li class="nav-item profile">
@@ -109,7 +109,7 @@ if (isset($_SESSION['AdminID'])) {
                     <span class="nav-link">Navigation</span>
                 </li>
                 <li class="nav-item menu-items">
-                    <a class="nav-link" href="index.html">
+                    <a class="nav-link" href="adminPanel.php">
                         <span class="menu-icon">
                             <i class="mdi mdi-speedometer"></i>
                         </span>
@@ -120,7 +120,7 @@ if (isset($_SESSION['AdminID'])) {
                     <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false"
                         aria-controls="ui-basic">
                         <span class="menu-icon">
-                            <i class="mdi mdi-laptop"></i>
+                            <i class="fa-solid fa-grip"></i>
                         </span>
                         <span class="menu-title">Genres And Formats</span>
                         <i class="menu-arrow"></i>
@@ -137,23 +137,23 @@ if (isset($_SESSION['AdminID'])) {
                 <li class="nav-item menu-items">
                     <a class="nav-link" href="movieManagement.php">
                         <span class="menu-icon">
-                            <i class="mdi mdi-playlist-play"></i>
+                            <i class="fa-solid fa-film"></i>
                         </span>
                         <span class="menu-title">Movies</span>
                     </a>
                 </li>
                 <li class="nav-item menu-items">
-                    <a class="nav-link" href="pages/tables/basic-table.html">
+                    <a class="nav-link" href="theaterManagement.php">
                         <span class="menu-icon">
-                            <i class="mdi mdi-table-large"></i>
+                            <i class="fa-solid fa-masks-theater"></i>
                         </span>
                         <span class="menu-title">Theaters</span>
                     </a>
                 </li>
                 <li class="nav-item menu-items">
-                    <a class="nav-link" href="pages/charts/chartjs.html">
+                    <a class="nav-link" href="seatManagement.php">
                         <span class="menu-icon">
-                            <i class="mdi mdi-chart-bar"></i>
+                            <i class="fa-solid fa-couch"></i>
                         </span>
                         <span class="menu-title">Seats</span>
                     </a>
@@ -161,15 +161,21 @@ if (isset($_SESSION['AdminID'])) {
                 <li class="nav-item menu-items">
                     <a class="nav-link" href="showManagement.php">
                         <span class="menu-icon">
-                            <i class="mdi mdi-contacts"></i>
+                            <i class="fa-solid fa-clapperboard"></i>
                         </span>
                         <span class="menu-title">Shows</span>
                     </a>
                 </li>
                 <li class="nav-item menu-items">
-                    <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+                    <a class="nav-link" href="userManagement.php">
                         <span class="menu-icon">
-                            <i class="mdi mdi-security"></i>
+                            <i class="fa-solid fa-users"></i>
+                        </span>
+                        <span class="menu-title">Users</span>
+                    </a>
+                    <!-- <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+                        <span class="menu-icon">
+                            <i class="fa-solid fa-users"></i>
                         </span>
                         <span class="menu-title">Users</span>
                         <i class="menu-arrow"></i>
@@ -184,13 +190,12 @@ if (isset($_SESSION['AdminID'])) {
                             <li class="nav-item"> <a class="nav-link" href="pages/samples/register.html"> Register </a>
                             </li>
                         </ul>
-                    </div>
+                    </div> -->
                 </li>
                 <li class="nav-item menu-items">
-                    <a class="nav-link"
-                        href="http://www.bootstrapdash.com/demo/corona-free/jquery/documentation/documentation.html">
+                    <a class="nav-link" href="bookingManagement.php">
                         <span class="menu-icon">
-                            <i class="mdi mdi-file-document-box"></i>
+                            <i class="fa-solid fa-ticket"></i>
                         </span>
                         <span class="menu-title">Booking</span>
                     </a>
@@ -473,7 +478,8 @@ if (isset($_SESSION['AdminID'])) {
                                             <tr>
                                                 <td><?php echo $movieID ?></td>
                                                 <td><?php echo $movieName ?></td>
-                                                <td><img src="moviePosters/<?php echo $moviePoster1 ?>" alt=""
+                                                <td><img class="posterImage"
+                                                        src="moviePosters/<?php echo $moviePoster1 ?>" alt=""
                                                         id="moviePoster"></td>
                                                 <td><?php echo $genreName ?></td>
                                                 <td><?php echo $formatName ?></td>

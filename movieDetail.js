@@ -8,7 +8,7 @@
 //     const showDateContainerTag = document.querySelector(
 //       clickedTheater.dataset.showDateOpen
 //     );
-//     showDateContainerTag.classList.add("active");
+//     showDateContainerTag.classList.toggle("active");
 //   });
 // });
 
@@ -20,3 +20,10 @@
 //     showTimeTag.classList.toggle("active");
 //   });
 // });
+
+const openShowsTag = document.querySelector(".showBtn");
+const showContainerTag = document.querySelector(".showDate-timeContainer");
+
+openShowsTag.addEventListener("click", () => {
+  showContainerTag.classList.toggle("active");
+});

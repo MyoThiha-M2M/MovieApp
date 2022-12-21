@@ -389,62 +389,75 @@ if (isset($_GET['deMovieID'])) {
                                 <h3>Overview</h3>
                                 <?php echo $overView ?>
                             </div>
+                            <div class="flexContainer">
+                                <div class="showBtn">View Available Shows</div>
+                            </div>
                             <div class="showTheaterWrapper">
-                                <?php
-                                $select = "SELECT distinct s.*, t.TheaterName, t.Location FROM Shows s, Theaters t WHERE s.MovieID = $movieID
-                                     AND s.TheaterID = t.TheaterID";
-                                $query = mysqli_query($connect, $select);
-                                $count = mysqli_num_rows($query);
-                                if ($count > 0) {
-                                    for ($i = 0; $i < $count; $i++) {
-                                        $row = mysqli_fetch_array($query);
-                                        $showID = $row['ShowID'];
-                                        $showDate = $row['ShowDate'];
-                                        $convertedShowDate = date('d-M-Y', strtotime($showDate));
-                                        $showTime = $row['ShowTime'];
-                                        $hour = substr($showTime, 0, 2);
-                                        $showMinute = substr($showTime, 3, 2);
-                                        if ($hour > 12) {
-                                            $showHour = $hour - 12;
-                                            if ($showHour < 10) {
-                                                $convertedShowTime = '0' . $showHour . ':' . $showMinute . ' pm';
-                                            } else {
-                                                $convertedShowTime = ' ' . $showHour . ':' . $showMinute . ' pm';
-                                            }
-                                        } else {
-                                            $showHour = $hour;
-                                            if ($showHour < 10) {
-                                                $convertedShowTime = '0' . $showHour . ':' . $showMinute . ' am';
-                                            } else {
-                                                $convertedShowTime = ' ' . $showHour . ':' . $showMinute . ' am';
+                                <table class="showDate-timeContainer" id="showdate-timeContainer<?php echo $i ?>">
+                                    <thead>
+                                        <th>Cinema Name</th>
+                                        <th>Location</th>
+                                        <th>Show Date</th>
+                                        <th>Show Time</th>
+                                        <th>Action</th>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $select = "SELECT s.*, t.* FROM Shows s, Theaters t WHERE MovieID = $movieID
+                                     AND s.TheaterID = t.TheaterID ORDER BY s.ShowDate, s.ShowTime, t.TheaterID";
+                                        $query = mysqli_query($connect, $select);
+                                        $count = mysqli_num_rows($query);
+                                        if ($count > 0) {
+                                            for ($i = 0; $i < $count; $i++) {
+                                                $row = mysqli_fetch_array($query);
+                                                $theaterID = $row['TheaterID'];
+                                                $theaterName = $row['TheaterName'];
+                                                $theaterLocation = $row['Location'];
+                                                $showID = $row['ShowID'];
+                                                $showDate = $row['ShowDate'];
+                                                $convertedShowDate = date('d-M-Y', strtotime($showDate));
+                                                $showTime = $row['ShowTime'];
+                                                $hour = substr($showTime, 0, 2);
+                                                $showMinute = substr($showTime, 3, 2);
+                                                if ($hour > 12) {
+                                                    $showHour = $hour - 12;
+                                                    if ($showHour < 10) {
+                                                        $convertedShowTime = '0' . $showHour . ':' . $showMinute . ' pm';
+                                                    } else {
+                                                        $convertedShowTime = ' ' . $showHour . ':' . $showMinute . ' pm';
+                                                    }
+                                                } else {
+                                                    $showHour = $hour;
+                                                    if ($showHour < 10) {
+                                                        $convertedShowTime = '0' . $showHour . ':' . $showMinute . ' am';
+                                                    } else {
+                                                        $convertedShowTime = ' ' . $showHour . ':' . $showMinute . ' am';
+                                                    }
+                                                }
+                                        ?>
+
+
+                                        <tr>
+                                            <td><?php echo $theaterName ?></td>
+                                            <td><?php echo $theaterLocation ?></td>
+                                            <td><?php echo $convertedShowDate ?></td>
+                                            <td><?php echo $convertedShowTime ?></td>
+                                            <td><a href="seat.php?selectedShowID=<?php echo $showID ?>&selectedTheaterID=<?php echo $theaterID ?>"
+                                                    class="bookBtn">Book <i class="fa-solid fa-arrow-right"></i></a>
+                                            </td>
+                                        </tr>
+
+                                        <?php
                                             }
                                         }
-                                        $theaterID = $row['TheaterID'];
-                                        $theaterName = $row['TheaterName'];
-                                        $location = $row['Location']
-                                ?>
-                                <div class="showTheaterContainer"
-                                    data-show-date-open='#showdate-timeContainer<?php echo $i ?>'>
-                                    <div class="theaterDetailContainer">
-                                        <div><?php echo $theaterName ?></div>
-                                        <div><i class="fa-solid fa-location-dot"></i>
-                                            &nbsp<?php echo $location ?></div>
-                                    </div>
-                                </div>
-                                <div class="showDateContainer">
-                                    <div><?php echo $convertedShowDate ?></div>
-                                </div>
-                                <div class="">
-                                    <div><?php echo $convertedShowTime ?></div>
-                                </div>
-                                <div class="showIDContainer"><?php echo $showID ?></div>
-                                <?php
-                                    }
-                                } ?>
+                                        ?>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
         </section>
     </div>
     <!-- main content ends  -->

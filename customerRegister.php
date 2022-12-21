@@ -12,25 +12,32 @@ if (isset($_POST['btnSubmit'])) {
         $imgUploadPath = 'customerProfileImg/' . $newImgName;
         move_uploaded_file($tmpName, $imgUploadPath);
     } else {
-        echo "<script>alert('You cannot upload files of this type')</script>";
+        echo "<script>alert('You cannot upload files of this type')</script>
+        window.location.href = 'customerRegister.php'";
     }
     $fullName = $_POST['txtfullName'];
     $userName = $_POST['txtuserName'];
     $email = $_POST['txtemail'];
     $password = $_POST['txtpassword'];
-    $mydate = getdate(date("U"));
-    $dateRegistered = "$mydate[weekday], $mydate[month] $mydate[mday], $mydate[year]";
+    $dateRegistered = date('Y-m-d');
+    $lastLoginDate = date('Y-m-d');
     $selectUserName = "SELECT CustomerID FROM Customers WHERE Username = '$userName'";
     $query = mysqli_query($connect, $selectUserName);
     $row = mysqli_fetch_array($query);
     if (isset($row)) {
-        echo "<script>alert('UserName Already Exists')</script>";
+        echo "<script>alert('UserName Already Exists');
+        window.location.href = 'customerRegister.php'</script>";
+    } elseif ($userName === '' || $fullName === '' || $userName === '' || $email === '' || $password === '') {
+        echo "<script>alert('Please Enter All The Required Information');
+        window.location.href = 'customerRegister.php'</script>";
     } else {
-        $insert = "INSERT INTO Customers (CustomerName, Username, Email, Password, DateRegistered, LastLoginDate, ProfileImage) VALUES ('$fullName', '$userName', '$email', '$password', '$dateRegistered', '', '$newImgName')
+        $insert = "INSERT INTO Customers (CustomerName, Username, Email, Password, DateRegistered, LastLoginDate, ProfileImage) VALUES ('$fullName', '$userName', '$email', '$password', '$dateRegistered', '$lastLoginDate', '$newImgName')
         ";
         $query = mysqli_query($connect, $insert);
         if (isset($query)) {
-            echo "<script>alert('Registered Successfully')</script>";
+            echo "<script>alert('Registered Successfully');
+                window.location.href = 'customerLogin.php';
+            </script>";
         } else {
             echo "<script>alert('Error In Registration')</script>";
         }

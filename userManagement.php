@@ -12,15 +12,6 @@ if (isset($_SESSION['AdminID'])) {
         $adminUsername = $row['Username'];
     };
 };
-
-if (isset($_POST['txtFormatName'])) {
-    $formatName = $_POST['txtFormatName'];
-    $insert = "INSERT INTO Formats(FormatName) VALUES ('$formatName')";
-    $query = mysqli_query($connect, $insert);
-    if (isset($query)) {
-        echo "<script>window.location = 'formatManagement.php'</script>";
-    }
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -423,23 +414,7 @@ if (isset($_POST['txtFormatName'])) {
                 </div>
             </nav>
             <!-- partial -->
-            <!-- Format Entry Pop Up Form -->
-            <div class="successfulPopUp" id="successfulMsg">
-                <div>Entry is successful</div>
-            </div>
-            <div class="popUpEntry" id="formatEntryPopUp">
-                <form action="formatManagement.php" method="POST" id="formatEntryForm">
-                    <i class="fas fa-times" data-modal-close></i>
-                    <div class="inputGroup">
-                        <label for="formatName">Enter New Format: </label>
-                        <input type="text" class="input popUpInput" name="txtFormatName" required>
-                    </div>
-                    <button type="submit" class="btn btn-hover" id="btnAddFormat" data-form-submit='#formatEntryForm'
-                        name="submitFormat">Add</button>
-                </form>
-            </div>
-            <div id="overlay"></div>
-            <!-- Format Management Section Starts -->
+            <!-- Movie Management Section -->
             <div class="main-panel">
                 <div class="content-wrapper">
                     <div class="grid-margin stretch-card">
@@ -447,50 +422,51 @@ if (isset($_POST['txtFormatName'])) {
                             <div class="card-body">
                                 <div class="movieListHeadingContainer">
                                     <div>
-                                        <h4 class="card-title">Format List</h4>
-                                    </div>
-                                    <div class="searchMovieContainer">
-                                        <button class="btn"><i class="fa-solid fa-magnifying-glass"></i></button>
-                                        <input type="text" class="form-control" id="search-input"
-                                            placeholder="Search Formats">
+                                        <h4 class="card-title">Users List</h4>
                                     </div>
                                 </div>
                                 <div class="table-responsive">
-                                    <table class="table movieList">
+                                    <table class="table theaterList">
                                         <thead>
                                             <tr>
-                                                <th>Format ID</th>
-                                                <th>Format Name</th>
+                                                <th>Customer ID</th>
+                                                <th>Customer Name</th>
+                                                <th>UserName</th>
+                                                <th>Email</th>
+                                                <th>Password</th>
+                                                <th>Date Registered</th>
+                                                <th>Last Login Date</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
-                                            $select = "SELECT * FROM Formats ORDER BY FormatID";
+                                            $select = "SELECT * FROM Customers ORDER BY CustomerID";
                                             $query = mysqli_query($connect, $select);
                                             $count = mysqli_num_rows($query);
                                             if ($count > 0) {
                                                 for ($i = 0; $i < $count; $i++) {
                                                     $row = mysqli_fetch_array($query);
-                                                    $formatID = $row['FormatID'];
-                                                    $formatName = $row['FormatName'];
+                                                    $customerID = $row['CustomerID'];
+                                                    $customerName = $row['CustomerName'];
+                                                    $username = $row['Username'];
+                                                    $email = $row['Email'];
+                                                    $password = $row['Password'];
+                                                    $dateRegistered = $row['DateRegistered'];
+                                                    $lastLoginDate = $row['LastLoginDate'];
                                             ?>
                                             <tr>
-                                                <td><?php echo $formatID ?></td>
-                                                <td><?php echo $formatName ?></td>
+                                                <td><?php echo $customerID ?></td>
+                                                <td><?php echo $customerName ?></td>
+                                                <td><?php echo $username ?></td>
+                                                <td><?php echo $email ?></td>
+                                                <td><?php echo $password ?></td>
+                                                <td><?php echo $dateRegistered ?></td>
+                                                <td><?php echo $lastLoginDate ?></td>
                                             </tr>
                                             <?php
                                                 }
-                                            } else {
-                                                echo "<p style='color: red;'>There is no record for Format!</p>";
                                             }
                                             ?>
-                                            <tr>
-                                                <td></td>
-                                                <td><button class="btn btn-hover"
-                                                        data-modal-target='#formatEntryPopUp'>Add
-                                                        Format</button>
-                                                </td>
-                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -534,7 +510,6 @@ if (isset($_POST['txtFormatName'])) {
     <!-- Custom js for this page -->
     <script src="assets/js/dashboard.js"></script>
     <!-- End custom js for this page -->
-    <script src="popUp.js?v=<?php echo $version ?>"></script>
 </body>
 
 </html>
