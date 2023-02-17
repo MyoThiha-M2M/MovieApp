@@ -75,6 +75,7 @@ include('connect.php');
 //     echo "Movie Table is successful";
 // };
 
+
 // $theaters = "CREATE TABLE Theaters(
 //     TheaterID int NOT NULL PRIMARY KEY AUTO_INCREMENT,
 //     TheaterName varchar(30),
@@ -139,19 +140,19 @@ include('connect.php');
 
 
 
-$tickets = "CREATE TABLE Tickets(
-    TicketID varchar (30) NOT NULL PRIMARY KEY,
-    ShowID int NOT NULl, 
-    SeatID varchar(10),
-    Price int,
-    Status varchar (30),
-    BookingID varchar (30) NOT NULL, 
-    FOREIGN KEY (BookingID) REFERENCES Bookings(BookingID),
-    FOREIGN KEY (ShowID) REFERENCES Shows(ShowID),
-    FOREIGN KEY (SeatID) REFERENCES Seats(SeatID)
-)";
+// $tickets = "CREATE TABLE Tickets(
+//     TicketID varchar (30) NOT NULL PRIMARY KEY,
+//     ShowID int NOT NULl, 
+//     SeatID varchar(10),
+//     Price int,
+//     Status varchar (30),
+//     BookingID varchar (30) NOT NULL, 
+//     FOREIGN KEY (BookingID) REFERENCES Bookings(BookingID),
+//     FOREIGN KEY (ShowID) REFERENCES Shows(ShowID),
+//     FOREIGN KEY (SeatID) REFERENCES Seats(SeatID)
+// )";
 
-$query = mysqli_query($connect, $tickets);
-if (isset($query)) {
-    echo "Tickets Table is successfully created";
-};
+// $query = mysqli_query($connect, $tickets);
+// if (isset($query)) {
+//     echo "Tickets Table is successfully created";
+// };

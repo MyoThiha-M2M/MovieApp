@@ -75,20 +75,41 @@ if (isset($_GET['deMovieID'])) {
                                     <span class="navbar-menu-icon navbar-menu-icon--bottom"></span>
                                 </div>
                             </a>
-                            <a href="index.html" class="navbar-brand">
-                                <img src="images/logo.png" class="img-fluid logo" alt="" />
+                            <a href="index.php" class="navbar-brand"
+                                style="color: red;font-size: 30px; font-weight:600; position:relative">
+                                INFINITY <span style="position:absolute; font-size: 20px; top:0px">&#8734;</span>
                             </a>
                             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                                 <div class="menu-main-menu-container">
                                     <ul id="top-menu" class="navbar-nav ml-auto">
                                         <li class="menu-item"><a href="index.php">Home</a></li>
-                                        <li class="menu-item"><a href="movie.html">Movies</a></li>
-                                        <li class="menu-item"><a href="theater.html">Theaters</a></li>
-                                        <li class="menu-item"><a href="seat.php">Seats</a></li>
+                                        <li class="menu-item"><a href="#">Movies</a>
+                                            <ul class="sub-menu">
+                                                <li class="menu-item"><a href="nowshowing.php">Now Showing</a></li>
+                                                <li class="menu-item"><a href="">Coming Soon</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="menu-item">
+                                            <a href="#">Theaters</a>
+                                            <ul class="sub-menu">
+                                                <li class="menu-item"><a
+                                                        href="customerSidePages/theaterTypesPages/imax-theater.php?theaterType=Imax">Imax</a>
+                                                </li>
+                                                <li class="menu-item"><a
+                                                        href="customerSidePages/theaterTypesPages/luxe-theater.php?theaterType=Luxe">Luxe</a>
+                                                </li>
+                                                <li class="menu-item"><a
+                                                        href="customerSidePages/theaterTypesPages/ice-theater.php?theaterType=ICE">ICE</a>
+                                                </li>
+                                                <li class="menu-item"><a
+                                                        href="customerSidePages/theaterTypesPages/premium-theater.php?theaterType=Premium">Premium</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="menu-item"><a href="">About Us</a></li>
                                         <li class="menu-item">
                                             <a href="#">Contact Us</a>
                                             <ul class="sub-menu">
-                                                <li class="menu-item"><a href="#">About Us</a></li>
                                                 <li class="menu-item"><a href="#">Contact</a></li>
                                                 <li class="menu-item"><a href="#">FAQ</a></li>
                                                 <li class="menu-item">
@@ -128,7 +149,8 @@ if (isset($_GET['deMovieID'])) {
                                                 <div class="search-box iq-search-bar">
                                                     <form action="index.php" class="searchbox">
                                                         <div class="form-group position-relative">
-                                                            <input type="text" class="text search-input"
+                                                            <input type="text"
+                                                                class="text search-input autocompleteInput"
                                                                 placeholder="Search Movies or Theatres" />
                                                             <i class="search-link fa fa-search"></i>
                                                         </div>
@@ -184,7 +206,7 @@ if (isset($_GET['deMovieID'])) {
                                             <li>
                                                 <a href="#"
                                                     class="iq-user-dropdown search-toggle d-flex align-items-center">
-                                                    <img src="images/user/user.png"
+                                                    <img src="customerProfileImg/<?php echo $customerProfile ?>"
                                                         class="img-fluid user-m rounded-circle" alt="" />
                                                 </a>
                                                 <div class="iq-sub-dropdown iq-user-dropdown">
@@ -246,13 +268,16 @@ if (isset($_GET['deMovieID'])) {
                                             <i class="fa fa-search"></i>
                                         </a>
                                         <div class="search-box iq-search-bar d-search">
-                                            <form action="#" class="searchbox">
+                                            <form action="index.php" class="searchbox">
                                                 <div class="form-group position-relative">
-                                                    <input type="text" class="text search-input font-size-12"
-                                                        placeholder="type here to searc" />
+                                                    <input type="text"
+                                                        class="text search-input autocompleteInput font-size-12"
+                                                        placeholder="Search Movies or Theatres" />
                                                     <i class="search-link fa fa-search"></i>
                                                 </div>
                                             </form>
+                                            <div class="filteredMoviesContainer">
+                                            </div>
                                         </div>
                                     </li>
                                     <li class="nav-item nav-icon">
@@ -302,8 +327,8 @@ if (isset($_GET['deMovieID'])) {
                                     <li class="nav-item nav-icon">
                                         <a href="#"
                                             class="iq-user-dropdown search-toggle d-flex align-items-center p-0">
-                                            <img src="images/user/user.png" class="img-fluid user-m rounded-circle"
-                                                alt="" />
+                                            <img src="customerProfileImg/<?php echo $customerProfile ?>"
+                                                class="img-fluid user-m rounded-circle" alt="" />
                                         </a>
                                         <div class="iq-sub-dropdown iq-user-dropdown">
                                             <div class="iq-card shadow-none m-0">
@@ -369,9 +394,9 @@ if (isset($_GET['deMovieID'])) {
 
                     <div class="col-lg-9">
                         <div class="parallax-form">
-                            <div class="movieDetailWrapper">
+                            <div class="DetailWrapper">
                                 <img src="moviePosters/<?php echo $moviePoster2 ?>" alt="" class="img-fluid w-100" />
-                                <div class="movieDetailContainer">
+                                <div class="DetailContainer">
                                     <h2><?php echo $movieName ?></h2>
                                     <div class="flexContainer">
                                         <div>Genre: <span><?php echo $genreName ?></span></div>
@@ -385,14 +410,14 @@ if (isset($_GET['deMovieID'])) {
                                     </div>
                                 </div>
                             </div>
-                            <div class="movieOverviewContainer">
+                            <div class="OverviewContainer">
                                 <h3>Overview</h3>
                                 <?php echo $overView ?>
                             </div>
                             <div class="flexContainer">
                                 <div class="showBtn">View Available Shows</div>
                             </div>
-                            <div class="showTheaterWrapper">
+                            <div class="showWrapper">
                                 <table class="showDate-timeContainer" id="showdate-timeContainer<?php echo $i ?>">
                                     <thead>
                                         <th>Cinema Name</th>

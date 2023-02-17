@@ -369,10 +369,9 @@ if (isset($_POST['btnSubmitTheater'])) {
                                                 <label for="theaterType">Select Theater Type </label>
                                                 <select name="theaterType" id="">
                                                     <option value="Imax">Imax</option>
-                                                    <option value="4Dx">4Dx</option>
-                                                    <option value="Play House">Play House</option>
-                                                    <option value="P[XL]">P[XL]</option>
+                                                    <option value="ICE">ICE</option>
                                                     <option value="Premium">Premium</option>
+                                                    <option value="Luxe">Luxe</option>
                                                 </select>
                                             </div>
                                         </div>

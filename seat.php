@@ -43,7 +43,7 @@ window.location.href = src
 
 
 $selectedShowID = $_GET['selectedShowID'];
-$occupiedSeatArr = array();
+$bookedSeatsArr = array();
 $select = "SELECT * FROM Tickets WHERE ShowID = $selectedShowID ORDER BY TicketID";
 $query = mysqli_query($connect, $select);
 $count = mysqli_num_rows($query);
@@ -51,12 +51,12 @@ if ($count > 0) {
     for ($i = 0; $i < $count; $i++) {
         $row = mysqli_fetch_array($query);
         $occupiedSeatID = $row['SeatID'];
-        $occupiedSeatArr[$i] = $occupiedSeatID;
+        $bookedSeatsArr[$i] = $occupiedSeatID;
     }
 } else {
 }
 
-$occupiedSeatsStr = implode(' ', $occupiedSeatArr);
+$occupiedSeatsStr = implode(' ', $bookedSeatsArr);
 $occupiedSeatsArr = explode(' ', $occupiedSeatsStr);
 
 ?>
@@ -513,6 +513,58 @@ $occupiedSeatsArr = explode(' ', $occupiedSeatsStr);
                                 $price = $row['Price'];
                             ?>
                         <div class="seat seatB" data-seat data-value="<?php echo $price ?>"><?php echo $seatID ?>
+                        </div>
+                        <?php
+                            }
+                            ?>
+                    </div>
+                    <?php
+                    }
+                    ?>
+                    <?php
+                    $selectedShowID = $_GET['selectedShowID'];
+                    $selectedTheaterID = $_GET['selectedTheaterID'];
+                    $select = "SELECT * FROM Seats WHERE SeatRowID = 'C' AND TheaterID = $selectedTheaterID Order By SeatID";
+                    $query = mysqli_query($connect, $select);
+                    $count = mysqli_num_rows($query);
+                    if ($count > 0) {
+                    ?>
+                    <div class="row">
+                        <?php
+                            for ($i = 0; $i < $count; $i++) {
+                                $row = mysqli_fetch_array($query);
+                                $seatID = $row['SeatID'];
+                                $seatRowID = $row['SeatRowID'];
+                                $theaterID = $row['TheaterID'];
+                                $price = $row['Price'];
+                            ?>
+                        <div class="seat seatC" data-seat data-value="<?php echo $price ?>"><?php echo $seatID ?>
+                        </div>
+                        <?php
+                            }
+                            ?>
+                    </div>
+                    <?php
+                    }
+                    ?>
+                    <?php
+                    $selectedShowID = $_GET['selectedShowID'];
+                    $selectedTheaterID = $_GET['selectedTheaterID'];
+                    $select = "SELECT * FROM Seats WHERE SeatRowID = 'D' AND TheaterID = $selectedTheaterID Order By SeatID";
+                    $query = mysqli_query($connect, $select);
+                    $count = mysqli_num_rows($query);
+                    if ($count > 0) {
+                    ?>
+                    <div class="row">
+                        <?php
+                            for ($i = 0; $i < $count; $i++) {
+                                $row = mysqli_fetch_array($query);
+                                $seatID = $row['SeatID'];
+                                $seatRowID = $row['SeatRowID'];
+                                $theaterID = $row['TheaterID'];
+                                $price = $row['Price'];
+                            ?>
+                        <div class="seat seatD" data-seat data-value="<?php echo $price ?>"><?php echo $seatID ?>
                         </div>
                         <?php
                             }

@@ -9,6 +9,36 @@ $query = mysqli_query($connect, $select);
 $row = mysqli_fetch_array($query);
 $customerProfile = $row['ProfileImage'];
 
+$moviesArray = array();
+$select = "SELECT m.*, g.GenreName, f.FormatName FROM Movies m, Genres g, Formats f WHERE 
+                            g.GenreID = m.GenreID AND 
+                            f.FormatID = m.FormatID ORDER BY m.MovieID";
+$query = mysqli_query($connect, $select);
+$count = mysqli_num_rows($query);
+if ($count > 0) {
+    for ($i = 0; $i < $count; $i++) {
+        $row = mysqli_fetch_array($query);
+        array_push($moviesArray, $row);
+        $movieID = $row['MovieID'];
+        $movieName = $row['MovieName'];
+        $moviePoster1 = $row['Poster1'];
+        $genreID = $row['GenreID'];
+        $formatID = $row['FormatID'];
+        $genreName = $row['GenreName'];
+        $formatName = $row['FormatName'];
+        $duration = $row['Duration'];
+        $hour = substr($duration, 1, 1) . 'hr';
+        $minute = substr($duration, 3, 2) . 'min';
+        $durationText = $hour . " " . $minute;
+        $starring = $row['Starring'];
+        $rating = $row['RatingPoint'];
+        $overView = $row['OverView'];
+        $movieTrailer = $row['Trailer'];
+    }
+}
+
+$jsonMoviesArray = json_encode($moviesArray);
+
 ?>
 
 <!DOCTYPE html>
@@ -52,20 +82,41 @@ $customerProfile = $row['ProfileImage'];
                                     <span class="navbar-menu-icon navbar-menu-icon--bottom"></span>
                                 </div>
                             </a>
-                            <a href="index.html" class="navbar-brand">
-                                <img src="images/logo.png" class="img-fluid logo" alt="" />
+                            <a href="index.php" class="navbar-brand"
+                                style="color: red;font-size: 30px; font-weight:600; position:relative">
+                                INFINITY <span style="position:absolute; font-size: 20px; top:0px">&#8734;</span>
                             </a>
                             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                                 <div class="menu-main-menu-container">
                                     <ul id="top-menu" class="navbar-nav ml-auto">
                                         <li class="menu-item"><a href="index.php">Home</a></li>
-                                        <li class="menu-item"><a href="movie.html">Movies</a></li>
-                                        <li class="menu-item"><a href="theater.html">Theaters</a></li>
-                                        <li class="menu-item"><a href="seat.php">Seats</a></li>
+                                        <li class="menu-item"><a href="#">Movies</a>
+                                            <ul class="sub-menu">
+                                                <li class="menu-item"><a href="nowshowing.php">Now Showing</a></li>
+                                                <li class="menu-item"><a href="">Coming Soon</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="menu-item">
+                                            <a href="#">Theaters</a>
+                                            <ul class="sub-menu">
+                                                <li class="menu-item"><a
+                                                        href="customerSidePages/theaterTypesPages/imax-theater.php?theaterType=Imax">Imax</a>
+                                                </li>
+                                                <li class="menu-item"><a
+                                                        href="customerSidePages/theaterTypesPages/luxe-theater.php?theaterType=Luxe">Luxe</a>
+                                                </li>
+                                                <li class="menu-item"><a
+                                                        href="customerSidePages/theaterTypesPages/ice-theater.php?theaterType=ICE">ICE</a>
+                                                </li>
+                                                <li class="menu-item"><a
+                                                        href="customerSidePages/theaterTypesPages/premium-theater.php?theaterType=Premium">Premium</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="menu-item"><a href="">About Us</a></li>
                                         <li class="menu-item">
                                             <a href="#">Contact Us</a>
                                             <ul class="sub-menu">
-                                                <li class="menu-item"><a href="#">About Us</a></li>
                                                 <li class="menu-item"><a href="#">Contact</a></li>
                                                 <li class="menu-item"><a href="#">FAQ</a></li>
                                                 <li class="menu-item">
@@ -105,7 +156,8 @@ $customerProfile = $row['ProfileImage'];
                                                 <div class="search-box iq-search-bar">
                                                     <form action="index.php" class="searchbox">
                                                         <div class="form-group position-relative">
-                                                            <input type="text" class="text search-input"
+                                                            <input type="text"
+                                                                class="text search-input autocompleteInput"
                                                                 placeholder="Search Movies or Theatres" />
                                                             <i class="search-link fa fa-search"></i>
                                                         </div>
@@ -167,7 +219,8 @@ $customerProfile = $row['ProfileImage'];
                                                 <div class="iq-sub-dropdown iq-user-dropdown">
                                                     <div class="iq-card shadow-none m-0">
                                                         <div class="iq-card-body p-0 pl-3 pr-3">
-                                                            <a href="#" class="iq-sub-card setting-dropdown">
+                                                            <a href="customerProfile.php"
+                                                                class="iq-sub-card setting-dropdown">
                                                                 <div class="media align-items-center">
                                                                     <div class="right-icon">
                                                                         <i class="fa fa-user text-primary"></i>
@@ -223,13 +276,16 @@ $customerProfile = $row['ProfileImage'];
                                             <i class="fa fa-search"></i>
                                         </a>
                                         <div class="search-box iq-search-bar d-search">
-                                            <form action="#" class="searchbox">
+                                            <form action="index.php" class="searchbox">
                                                 <div class="form-group position-relative">
-                                                    <input type="text" class="text search-input font-size-12"
+                                                    <input type="text"
+                                                        class="text search-input autocompleteInput font-size-12"
                                                         placeholder="Search Movies or Theatres" />
                                                     <i class="search-link fa fa-search"></i>
                                                 </div>
                                             </form>
+                                            <div class="filteredMoviesContainer">
+                                            </div>
                                         </div>
                                     </li>
                                     <li class="nav-item nav-icon">
@@ -285,7 +341,7 @@ $customerProfile = $row['ProfileImage'];
                                         <div class="iq-sub-dropdown iq-user-dropdown">
                                             <div class="iq-card shadow-none m-0">
                                                 <div class="iq-card-body p-0 pl-3 pr-3">
-                                                    <a href="#" class="iq-sub-card setting-dropdown">
+                                                    <a href="customerProfile.php" class="iq-sub-card setting-dropdown">
                                                         <div class="media align-items-center">
                                                             <div class="right-icon">
                                                                 <i class="fa fa-user text-primary"></i>
@@ -665,9 +721,9 @@ $customerProfile = $row['ProfileImage'];
                         </div>
                         <div class="favorite-contens">
                             <ul class="favorites-slider list-inline row p-0 mb-0">
-
                                 <?php
                                 $select = "SELECT m.*, g.GenreName, f.FormatName FROM Movies m, Genres g, Formats f WHERE 
+                                m.Status = 'Now Showing' AND
                             g.GenreID = m.GenreID AND 
                             f.FormatID = m.FormatID ORDER BY m.MovieID";
                                 $query = mysqli_query($connect, $select);
@@ -699,7 +755,7 @@ $customerProfile = $row['ProfileImage'];
                                         </div>
                                         <div class="block-description">
                                             <h6 class="iq-title">
-                                                <a href="#"> <?php echo $movieName ?> </a>
+                                                <?php echo $movieName ?>
                                             </h6>
                                             <div class="movie-time d-flex align-items-center my-2">
                                                 <div class="badge badge-secondary p-1 mr-2"><?php echo $genreName ?>
@@ -1046,6 +1102,7 @@ $customerProfile = $row['ProfileImage'];
                                     if ($count > 0) {
                                         for ($i = 0; $i < $count; $i++) {
                                             $row = mysqli_fetch_array($query);
+                                            $theaterID = $row['TheaterID'];
                                             $theaterName = $row['TheaterName'];
                                             $theaterImage = $row['Image'];
                                             $location = $row['Location'];
@@ -1067,7 +1124,8 @@ $customerProfile = $row['ProfileImage'];
                                                         &nbsp<?php echo $location ?></span>
                                                 </div>
                                                 <div class="hover-buttons">
-                                                    <a href="#" class="btn btn-hover" tabindex="0">
+                                                    <a href="theaterDetail.php?deTheaterID=<?php echo $theaterID ?>"
+                                                        class="btn btn-hover" tabindex="0">
                                                         Book Tickets
                                                     </a>
                                                 </div>
@@ -1340,7 +1398,7 @@ $customerProfile = $row['ProfileImage'];
 
         <!-- parallax section  -->
         <!-- About Us  -->
-        <!-- <section id="parallex" class="parallax-window">
+        <section id="parallex" class="parallax-window">
             <div class="container-fluid h-100">
                 <div class="row align-items-center justify-content-center h-100 parallaxt-details">
                     <div class="col-lg-4 r-mb-23">
@@ -1391,7 +1449,7 @@ $customerProfile = $row['ProfileImage'];
                     </div>
                 </div>
             </div>
-        </section> -->
+        </section>
 
 
         <!-- trending section  -->
@@ -1446,7 +1504,6 @@ $customerProfile = $row['ProfileImage'];
                                         </div>
                                     </a>
                                 </li>
-
                             </ul>
                             <ul id="trending-slider" class="list-inline p-0 m-0 d-flex align-items-center">
                                 <li>
@@ -4756,7 +4813,7 @@ $customerProfile = $row['ProfileImage'];
         </section>
 
 
-        <section id="iq-suggested" class="s-margin">
+        <!--- <section id="iq-suggested" class="s-margin">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-sm-12 overflow-hidden">
@@ -4766,7 +4823,7 @@ $customerProfile = $row['ProfileImage'];
                         </div>
                         <div class="favorite-contens">
                             <ul class="favorites-slider list-inline row p-0 mb-0">
-                                <!-- slide item 1 -->
+                                <!-- slide item 1 
                                 <li class="slide-item">
                                     <div class="block-images position-relative">
                                         <div class="img-box">
@@ -4813,7 +4870,7 @@ $customerProfile = $row['ProfileImage'];
                                         </div>
                                     </div>
                                 </li>
-                                <!-- slide item 2 -->
+                                <!-- slide item 2
                                 <li class="slide-item">
                                     <div class="block-images position-relative">
                                         <div class="img-box">
@@ -4860,7 +4917,7 @@ $customerProfile = $row['ProfileImage'];
                                         </div>
                                     </div>
                                 </li>
-                                <!-- slide item 3 -->
+                                <!-- slide item 3 
                                 <li class="slide-item">
                                     <div class="block-images position-relative">
                                         <div class="img-box">
@@ -4907,7 +4964,7 @@ $customerProfile = $row['ProfileImage'];
                                         </div>
                                     </div>
                                 </li>
-                                <!-- slide item 4 -->
+                                <!-- slide item 4
                                 <li class="slide-item">
                                     <div class="block-images position-relative">
                                         <div class="img-box">
@@ -4954,7 +5011,7 @@ $customerProfile = $row['ProfileImage'];
                                         </div>
                                     </div>
                                 </li>
-                                <!-- slide item 5 -->
+                                <!-- slide item 5 
                                 <li class="slide-item">
                                     <div class="block-images position-relative">
                                         <div class="img-box">
@@ -5006,7 +5063,7 @@ $customerProfile = $row['ProfileImage'];
                     </div>
                 </div>
             </div>
-        </section>
+        </section> -->
 
 
     </div>
@@ -5067,7 +5124,7 @@ $customerProfile = $row['ProfileImage'];
                         <div class="widget text-left">
                             <div class="textwidget">
                                 <h6 class="footer-link-title">
-                                    NetFlix App
+                                    Infinity App
                                 </h6>
                                 <div class="d-flex align-items-center">
                                     <a href="#"><img src="images/footer/01.jpg" alt=""></a>
@@ -5078,6 +5135,7 @@ $customerProfile = $row['ProfileImage'];
                         </div>
                     </div>
                 </div>
+                <div>COPYRIGHT © 2023 INFINITY LTD. ALL RIGHTS RESERVED.</div>
             </div>
         </div>
     </footer>
@@ -5091,8 +5149,71 @@ $customerProfile = $row['ProfileImage'];
     <script src="js/select2.min.js?v=<?php echo $version ?>"></script>
     <script src="js/jquery.magnific-popup.min.js?v=<?php echo $version ?>"></script>
     <script src="js/slick-animation.min.js?v=<?php echo $version ?>"></script>
-
     <script src="main.js?v=<?php echo $version ?>"></script>
+    <script>
+    const moviesArray = <?php echo $jsonMoviesArray ?>;
+    const autocompleteInput = document.querySelectorAll('.autocompleteInput');
+    const filteredMoviesContainerTag = document.querySelector('.filteredMoviesContainer');
+    autocompleteInput.forEach((inputTag) => {
+        inputTag.addEventListener('keyup', (event) => {
+            filteredMoviesContainerTag.innerHTML = '';
+            const searchText = event.target.value.toLowerCase();
+            if (searchText.length === 0) {
+                return;
+            }
+            const filteredMoviesArray = moviesArray.filter(movie => {
+                return movie['MovieName'].toLowerCase().includes(searchText);
+            });
+            const hasMoviesToShow = filteredMoviesArray.length > 0;
+            if (hasMoviesToShow) {
+                filteredMoviesContainerTag.style.display = 'block';
+                filteredMoviesArray.forEach(element => {
+                    // Creating searchedMovieContainerTag
+                    const searchedMovieContainerTag = document.createElement('div');
+                    searchedMovieContainerTag.classList.add('searchedMovieContainer');
+                    searchedMovieContainerTag.id = element['MovieID'];
+                    searchedMovieContainerTag.addEventListener('click', () => {
+                        window.location.href = 'movieDetail.php?deMovieID=' + element[
+                            'MovieID'];
+                    })
+                    // Creating searchedMovieImgContainerTag & imgTag
+                    searchedMovieImgContainerTag = document.createElement('div');
+                    searchedMovieImgContainerTag.classList.add('searchedMovieImg');
+                    searchedMovieImgTag = document.createElement('img');
+                    searchedMovieImgTag.src = "moviePosters/" + element['Poster1'];
+                    searchedMovieImgContainerTag.append(searchedMovieImgTag)
+                    // Creating searchedMovieDetailContainerTag 
+                    searchedMovieDetailContainerTag = document.createElement('div');
+                    searchedMovieDetailContainerTag.classList.add('searchedMovieDetail');
+
+                    movieNameTag = document.createElement('div');
+                    movieNameTag.classList.add('searchedMovieName');
+                    movieNameTag.innerText = element['MovieName'];
+
+                    movieDuration_GenreTag = document.createElement('div');
+                    movieDuration_GenreTag.classList.add('searchedMovieDuration_Genre');
+                    const duration = element['Duration'];
+                    const hourText = duration.substr(1, 1) + 'hr';
+                    const minuteText = duration.substr(3, 2) + 'min';
+                    const durationText = hourText + " " + minuteText;
+                    movieDuration_GenreTag.innerHTML =
+                        `<small>${durationText}</small> | <small>${element['GenreName']}</small>`
+                    searchedMovieDetailContainerTag.append(movieNameTag, movieDuration_GenreTag)
+                    searchedMovieContainerTag.append(searchedMovieImgContainerTag,
+                        searchedMovieDetailContainerTag)
+                    filteredMoviesContainerTag.append(searchedMovieContainerTag);
+                })
+            } else {
+                filteredMoviesContainerTag.style.display = 'none';
+            }
+        })
+    })
+    // let i = 1;
+    // mArray.forEach(element => {
+    //     console.log(element[i]['1']);
+    //     i++;
+    // });
+    </script>
 </body>
 
 </html>

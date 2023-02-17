@@ -2,44 +2,46 @@
 include('config.php');
 include('connect.php');
 if (isset($_POST['btnSubmit'])) {
+    /* Upload Customer Profile */
     $imgName = $_FILES['fileprofileImg']['name'];
     $tmpName = $_FILES['fileprofileImg']['tmp_name'];
     $imgEx = pathinfo($imgName, PATHINFO_EXTENSION);
     $imgExLc = strtolower($imgEx);
     $allowedExs = array('jpg', 'jpeg', 'png');
     if (in_array($imgExLc, $allowedExs)) {
-        $newImgName = uniqid('IMG-', true) . '.' . $imgExLc;
-        $imgUploadPath = 'customerProfileImg/' . $newImgName;
+        $profileImgName = uniqid('IMG-', true) . '.' . $imgExLc;
+        $imgUploadPath = 'customerProfileImg/' . $profileImgName;
         move_uploaded_file($tmpName, $imgUploadPath);
     } else {
         echo "<script>alert('You cannot upload files of this type')</script>
         window.location.href = 'customerRegister.php'";
     }
+    /* Entry Customer Information */
     $fullName = $_POST['txtfullName'];
     $userName = $_POST['txtuserName'];
     $email = $_POST['txtemail'];
     $password = $_POST['txtpassword'];
     $dateRegistered = date('Y-m-d');
-    $lastLoginDate = date('Y-m-d');
+    $lastLogin = date("Y-m-d h:i:sa");
     $selectUserName = "SELECT CustomerID FROM Customers WHERE Username = '$userName'";
     $query = mysqli_query($connect, $selectUserName);
-    $row = mysqli_fetch_array($query);
-    if (isset($row)) {
-        echo "<script>alert('UserName Already Exists');
-        window.location.href = 'customerRegister.php'</script>";
+    $count = mysqli_num_rows($query);
+    if ($count > 0) {
+        echo "<script>window.alert('UserName Already Exists');
+            window.location.href = 'customerRegister.php'</script>";
     } elseif ($userName === '' || $fullName === '' || $userName === '' || $email === '' || $password === '') {
-        echo "<script>alert('Please Enter All The Required Information');
+        echo "<script>window.alert('Please Enter All The Required Information');
         window.location.href = 'customerRegister.php'</script>";
     } else {
-        $insert = "INSERT INTO Customers (CustomerName, Username, Email, Password, DateRegistered, LastLoginDate, ProfileImage) VALUES ('$fullName', '$userName', '$email', '$password', '$dateRegistered', '$lastLoginDate', '$newImgName')
+        $insert = "INSERT INTO Customers (CustomerName, Username, Email, Password, DateRegistered, LastLoginDate, ProfileImage) VALUES ('$fullName', '$userName', '$email', '$password', '$dateRegistered', '$lastLogin', '$profileImgName')
         ";
         $query = mysqli_query($connect, $insert);
         if (isset($query)) {
-            echo "<script>alert('Registered Successfully');
+            echo "<script>window.alert('Registered Successfully');
                 window.location.href = 'customerLogin.php';
             </script>";
         } else {
-            echo "<script>alert('Error In Registration')</script>";
+            echo "<script>window.alert('Error In Registration')</script>";
         }
     }
 }
@@ -88,20 +90,41 @@ if (isset($_POST['btnSubmit'])) {
                                     <span class="navbar-menu-icon navbar-menu-icon--bottom"></span>
                                 </div>
                             </a>
-                            <a href="index.html" class="navbar-brand">
-                                <img src="images/logo.png" class="img-fluid logo" alt="" />
+                            <a href="index.php" class="navbar-brand"
+                                style="color: red;font-size: 30px; font-weight:600; position:relative">
+                                INFINITY <span style="position:absolute; font-size: 20px; top:0px">&#8734;</span>
                             </a>
                             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                                 <div class="menu-main-menu-container">
                                     <ul id="top-menu" class="navbar-nav ml-auto">
                                         <li class="menu-item"><a href="index.php">Home</a></li>
-                                        <li class="menu-item"><a href="movie.html">Movies</a></li>
-                                        <li class="menu-item"><a href="theater.html">Theaters</a></li>
-                                        <li class="menu-item"><a href="seat.php">Seats</a></li>
+                                        <li class="menu-item"><a href="#">Movies</a>
+                                            <ul class="sub-menu">
+                                                <li class="menu-item"><a href="nowshowing.php">Now Showing</a></li>
+                                                <li class="menu-item"><a href="">Coming Soon</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="menu-item">
+                                            <a href="#">Theaters</a>
+                                            <ul class="sub-menu">
+                                                <li class="menu-item"><a
+                                                        href="customerSidePages/theaterTypesPages/imax-theater.php?theaterType=Imax">Imax</a>
+                                                </li>
+                                                <li class="menu-item"><a
+                                                        href="customerSidePages/theaterTypesPages/luxe-theater.php?theaterType=Luxe">Luxe</a>
+                                                </li>
+                                                <li class="menu-item"><a
+                                                        href="customerSidePages/theaterTypesPages/ice-theater.php?theaterType=ICE">ICE</a>
+                                                </li>
+                                                <li class="menu-item"><a
+                                                        href="customerSidePages/theaterTypesPages/premium-theater.php?theaterType=Premium">Premium</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="menu-item"><a href="">About Us</a></li>
                                         <li class="menu-item">
                                             <a href="#">Contact Us</a>
                                             <ul class="sub-menu">
-                                                <li class="menu-item"><a href="#">About Us</a></li>
                                                 <li class="menu-item"><a href="#">Contact</a></li>
                                                 <li class="menu-item"><a href="#">FAQ</a></li>
                                                 <li class="menu-item">
@@ -141,7 +164,8 @@ if (isset($_POST['btnSubmit'])) {
                                                 <div class="search-box iq-search-bar">
                                                     <form action="index.php" class="searchbox">
                                                         <div class="form-group position-relative">
-                                                            <input type="text" class="text search-input"
+                                                            <input type="text"
+                                                                class="text search-input autocompleteInput"
                                                                 placeholder="Search Movies or Theatres" />
                                                             <i class="search-link fa fa-search"></i>
                                                         </div>
@@ -197,7 +221,7 @@ if (isset($_POST['btnSubmit'])) {
                                             <li>
                                                 <a href="#"
                                                     class="iq-user-dropdown search-toggle d-flex align-items-center">
-                                                    <img src="images/user/user.png"
+                                                    <img src="customerProfileImg/<?php echo $customerProfile ?>"
                                                         class="img-fluid user-m rounded-circle" alt="" />
                                                 </a>
                                                 <div class="iq-sub-dropdown iq-user-dropdown">
@@ -259,109 +283,15 @@ if (isset($_POST['btnSubmit'])) {
                                             <i class="fa fa-search"></i>
                                         </a>
                                         <div class="search-box iq-search-bar d-search">
-                                            <form action="#" class="searchbox">
+                                            <form action="index.php" class="searchbox">
                                                 <div class="form-group position-relative">
-                                                    <input type="text" class="text search-input font-size-12"
-                                                        placeholder="type here to searc" />
+                                                    <input type="text"
+                                                        class="text search-input autocompleteInput font-size-12"
+                                                        placeholder="Search Movies or Theatres" />
                                                     <i class="search-link fa fa-search"></i>
                                                 </div>
                                             </form>
-                                        </div>
-                                    </li>
-                                    <li class="nav-item nav-icon">
-                                        <a href="#" class="search-toggle" data-toggle="search-toggle">
-                                            <i class="fa fa-bell"></i>
-                                            <span class="bg-danger dots"></span>
-                                        </a>
-                                        <div class="iq-sub-dropdown">
-                                            <div class="iq-card shadow-none m-0">
-                                                <div class="iq-card-body">
-                                                    <a href="#" class="iq-sub-card">
-                                                        <div class="media align-items-center">
-                                                            <img src="images/notify/thumb-1.jpg" alt=""
-                                                                class="img-fluid mr-3" />
-                                                            <div class="media-body">
-                                                                <h6 class="mb-0">Captain Marvel</h6>
-                                                                <small class="font-size-12">just now</small>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                    <a href="#" class="iq-sub-card">
-                                                        <div class="media align-items-center">
-                                                            <img src="images/notify/thumb-2.jpg" alt=""
-                                                                class="img-fluid mr-3" />
-                                                            <div class="media-body">
-                                                                <h6 class="mb-0">
-                                                                    Dora and The Lost City of Gold
-                                                                </h6>
-                                                                <small class="font-size-12">25 mins ago</small>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                    <a href="#" class="iq-sub-card">
-                                                        <div class="media align-items-center">
-                                                            <img src="images/notify/thumb-3.jpg" alt=""
-                                                                class="img-fluid mr-3" />
-                                                            <div class="media-body">
-                                                                <h6 class="mb-0">Mulan</h6>
-                                                                <small class="font-size-12">1h 30 mins ago</small>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="nav-item nav-icon">
-                                        <a href="#"
-                                            class="iq-user-dropdown search-toggle d-flex align-items-center p-0">
-                                            <img src="images/user/user.png" class="img-fluid user-m rounded-circle"
-                                                alt="" />
-                                        </a>
-                                        <div class="iq-sub-dropdown iq-user-dropdown">
-                                            <div class="iq-card shadow-none m-0">
-                                                <div class="iq-card-body p-0 pl-3 pr-3">
-                                                    <a href="#" class="iq-sub-card setting-dropdown">
-                                                        <div class="media align-items-center">
-                                                            <div class="right-icon">
-                                                                <i class="fa fa-user text-primary"></i>
-                                                            </div>
-                                                            <div class="media-body ml-3">
-                                                                <h6 class="mb-0">Manage Profile</h6>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                    <a href="#" class="iq-sub-card setting-dropdown">
-                                                        <div class="media align-items-center">
-                                                            <div class="right-icon">
-                                                                <i class="fa fa-cog text-primary"></i>
-                                                            </div>
-                                                            <div class="media-body ml-3">
-                                                                <h6 class="mb-0">Settings</h6>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                    <a href="#" class="iq-sub-card setting-dropdown">
-                                                        <div class="media align-items-center">
-                                                            <div class="right-icon">
-                                                                <i class="fa fa-inr text-primary"></i>
-                                                            </div>
-                                                            <div class="media-body ml-3">
-                                                                <h6 class="mb-0">Pricing Plan</h6>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                    <a href="#" class="iq-sub-card setting-dropdown">
-                                                        <div class="media align-items-center">
-                                                            <div class="right-icon">
-                                                                <i class="fa fa-sign-out text-primary"></i>
-                                                            </div>
-                                                            <div class="media-body ml-3">
-                                                                <h6 class="mb-0">Logout</h6>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
+                                            <div class="filteredMoviesContainer">
                                             </div>
                                         </div>
                                     </li>
