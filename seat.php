@@ -103,22 +103,41 @@ $occupiedSeatsArr = explode(' ', $occupiedSeatsStr);
                                     <span class="navbar-menu-icon navbar-menu-icon--bottom"></span>
                                 </div>
                             </a>
-                            <a href="index.html" class="navbar-brand">
-                                <img src="images/logo.png" class="img-fluid logo" alt="" />
+                            <a href="index.php" class="navbar-brand"
+                                style="color: red;font-size: 30px; font-weight:600; position:relative">
+                                INFINITY <span style="position:absolute; font-size: 20px; top:0px">&#8734;</span>
                             </a>
                             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                                 <div class="menu-main-menu-container">
                                     <ul id="top-menu" class="navbar-nav ml-auto">
                                         <li class="menu-item"><a href="index.php">Home</a></li>
-                                        <li class="menu-item"><a href="movie.html">Movies</a></li>
-                                        <li class="menu-item">
-                                            <a href="theater.html">Theaters</a>
+                                        <li class="menu-item"><a href="#">Movies</a>
+                                            <ul class="sub-menu">
+                                                <li class="menu-item"><a href="nowshowing.php">Now Showing</a></li>
+                                                <li class="menu-item"><a href="">Coming Soon</a></li>
+                                            </ul>
                                         </li>
-                                        <li class="menu-item"><a href="seat.php">Seats</a></li>
+                                        <li class="menu-item">
+                                            <a href="#">Theaters</a>
+                                            <ul class="sub-menu">
+                                                <li class="menu-item"><a
+                                                        href="customerSidePages/theaterTypesPages/imax-theater.php?theaterType=Imax">Imax</a>
+                                                </li>
+                                                <li class="menu-item"><a
+                                                        href="customerSidePages/theaterTypesPages/luxe-theater.php?theaterType=Luxe">Luxe</a>
+                                                </li>
+                                                <li class="menu-item"><a
+                                                        href="customerSidePages/theaterTypesPages/ice-theater.php?theaterType=ICE">ICE</a>
+                                                </li>
+                                                <li class="menu-item"><a
+                                                        href="customerSidePages/theaterTypesPages/premium-theater.php?theaterType=Premium">Premium</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="menu-item"><a href="">About Us</a></li>
                                         <li class="menu-item">
                                             <a href="#">Contact Us</a>
                                             <ul class="sub-menu">
-                                                <li class="menu-item"><a href="#">About Us</a></li>
                                                 <li class="menu-item"><a href="#">Contact</a></li>
                                                 <li class="menu-item"><a href="#">FAQ</a></li>
                                                 <li class="menu-item">
@@ -156,14 +175,16 @@ $occupiedSeatsArr = explode(' ', $occupiedSeatsStr);
                                                     <i class="fa fa-search"></i>
                                                 </a>
                                                 <div class="search-box iq-search-bar">
-                                                    <form action="#" class="searchbox">
+                                                    <form action="index.php" class="searchbox">
                                                         <div class="form-group position-relative">
-                                                            <input type="text" class="text search-input font-size-12"
-                                                                placeholder="type here to search..." />
+                                                            <input type="text"
+                                                                class="text search-input autocompleteInput"
+                                                                placeholder="Search Movies or Theatres" />
                                                             <i class="search-link fa fa-search"></i>
                                                         </div>
                                                     </form>
                                                 </div>
+
                                             </li>
                                             <li class="nav-item nav-icon">
                                                 <a href="#" class="search-toggle position-relative">
@@ -219,7 +240,8 @@ $occupiedSeatsArr = explode(' ', $occupiedSeatsStr);
                                                 <div class="iq-sub-dropdown iq-user-dropdown">
                                                     <div class="iq-card shadow-none m-0">
                                                         <div class="iq-card-body p-0 pl-3 pr-3">
-                                                            <a href="#" class="iq-sub-card setting-dropdown">
+                                                            <a href="customerUpdate.php"
+                                                                class="iq-sub-card setting-dropdown">
                                                                 <div class="media align-items-center">
                                                                     <div class="right-icon">
                                                                         <i class="fa fa-user text-primary"></i>
@@ -249,7 +271,8 @@ $occupiedSeatsArr = explode(' ', $occupiedSeatsStr);
                                                                     </div>
                                                                 </div>
                                                             </a>
-                                                            <a href="#" class="iq-sub-card setting-dropdown">
+                                                            <a href="customerLogout.php"
+                                                                class="iq-sub-card setting-dropdown">
                                                                 <div class="media align-items-center">
                                                                     <div class="right-icon">
                                                                         <i class="fa fa-sign-out text-primary"></i>
@@ -275,13 +298,16 @@ $occupiedSeatsArr = explode(' ', $occupiedSeatsStr);
                                             <i class="fa fa-search"></i>
                                         </a>
                                         <div class="search-box iq-search-bar d-search">
-                                            <form action="#" class="searchbox">
+                                            <form action="index.php" class="searchbox">
                                                 <div class="form-group position-relative">
-                                                    <input type="text" class="text search-input font-size-12"
-                                                        placeholder="type here to search..." />
+                                                    <input type="text"
+                                                        class="text search-input autocompleteInput font-size-12"
+                                                        placeholder="Search Movies or Theatres" />
                                                     <i class="search-link fa fa-search"></i>
                                                 </div>
                                             </form>
+                                            <div class="filteredMoviesContainer">
+                                            </div>
                                         </div>
                                     </li>
                                     <li class="nav-item nav-icon">
@@ -337,7 +363,7 @@ $occupiedSeatsArr = explode(' ', $occupiedSeatsStr);
                                         <div class="iq-sub-dropdown iq-user-dropdown">
                                             <div class="iq-card shadow-none m-0">
                                                 <div class="iq-card-body p-0 pl-3 pr-3">
-                                                    <a href="#" class="iq-sub-card setting-dropdown">
+                                                    <a href="customerUpdate.php" class="iq-sub-card setting-dropdown">
                                                         <div class="media align-items-center">
                                                             <div class="right-icon">
                                                                 <i class="fa fa-user text-primary"></i>
@@ -367,7 +393,7 @@ $occupiedSeatsArr = explode(' ', $occupiedSeatsStr);
                                                             </div>
                                                         </div>
                                                     </a>
-                                                    <a href="#" class="iq-sub-card setting-dropdown">
+                                                    <a href="customerLogout.php" class="iq-sub-card setting-dropdown">
                                                         <div class="media align-items-center">
                                                             <div class="right-icon">
                                                                 <i class="fa fa-sign-out text-primary"></i>

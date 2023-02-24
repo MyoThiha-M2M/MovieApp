@@ -82,7 +82,7 @@ include('connect.php');
 //     TheaterType varchar(30),
 //     ContactNumber varchar(30),
 //     Location varchar(200),
-//     Description varchar(300),
+//     Description LONGTEXT,
 //     Image varchar(300)
 // )";
 

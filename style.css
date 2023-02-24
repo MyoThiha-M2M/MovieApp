@@ -2523,7 +2523,24 @@ li.slide-item .block-description .parallax-ratting span {
   position: relative;
 }
 
-.inputGroup span {
+.updateInputGroup {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.updateInputGroup .labelContainer {
+  width: 150px;
+}
+
+.updateBtnContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.inputGroup span,
+.updateInputGroup span {
   position: absolute;
   bottom: 10px;
   right: 30px;
@@ -2531,7 +2548,8 @@ li.slide-item .block-description .parallax-ratting span {
   color: red;
 }
 
-.inputGroup i {
+.inputGroup i,
+.updateInputGroup i {
   color: rgb(49, 210, 49);
   font-size: 15px;
 }
@@ -3299,7 +3317,7 @@ textarea:focus {
 }
 
 #theaterDetailContainer {
-  height: 20%;
+  height: 30%;
 }
 
 .DetailContainer h2,

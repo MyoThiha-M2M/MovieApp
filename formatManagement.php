@@ -56,10 +56,14 @@ if (isset($_POST['txtFormatName'])) {
         <!-- partial:../../partials/_sidebar.html -->
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
             <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-                <a class="sidebar-brand brand-logo" href="index.html"><img src="images/logo.png" alt="logo"
-                        id="main-logo" /></a>
-                <a class="sidebar-brand brand-logo-mini" href="index.html"><img src="images/miniLogo.png"
-                        alt="logo" /></a>
+                <a href="index.php" class="navbar-brand brand-logo"
+                    style="color: red;font-size: 30px; font-weight:600; position:relative">
+                    INFINITY <span style="position:absolute; font-size: 20px; top:0px">&#8734;</span>
+                </a>
+                <a href="index.php" class="sidebar-brand brand-logo-mini"
+                    style="color: red;font-size: 30px; font-weight:600; position:relative">
+                    I <span style="position:absolute; font-size: 20px; top:-14px">&#8734;</span>
+                </a>
             </div>
             <ul class="nav">
                 <li class="nav-item profile">
@@ -72,7 +76,6 @@ if (isset($_POST['txtFormatName'])) {
                             </div>
                             <div class="profile-name">
                                 <h5 class="mb-0 font-weight-normal"><?php echo $adminUsername ?></h5>
-                                <span>Gold Member</span>
                             </div>
                         </div>
                         <a href="#" id="profile-dropdown" data-toggle="dropdown"><i
@@ -168,11 +171,11 @@ if (isset($_POST['txtFormatName'])) {
                     </a>
                 </li>
                 <li class="nav-item menu-items">
-                    <a class="nav-link" href="showManagement.php">
+                    <a class="nav-link" href="scheduleManagement.php">
                         <span class="menu-icon">
                             <i class="fa-solid fa-clapperboard"></i>
                         </span>
-                        <span class="menu-title">Shows</span>
+                        <span class="menu-title">Schedules</span>
                     </a>
                 </li>
                 <li class="nav-item menu-items">
@@ -216,69 +219,24 @@ if (isset($_POST['txtFormatName'])) {
             <!-- partial:../../partials/_navbar.html -->
             <nav class="navbar p-0 fixed-top d-flex flex-row">
                 <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
-                    <a class="navbar-brand brand-logo-mini" href="../../index.html"><img
-                            src="../../assets/images/logo-mini.svg" alt="logo" /></a>
+                    <a class="navbar-brand brand-logo-mini" href="index.html"><img src="images/miniLogo.png"
+                            alt="logo" /></a>
                 </div>
                 <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
                     <button class="navbar-toggler navbar-toggler align-self-center" type="button"
                         data-toggle="minimize">
                         <span class="mdi mdi-menu"></span>
                     </button>
-                    <ul class="navbar-nav w-100">
+                    <!-- <ul class="navbar-nav w-100">
                         <li class="nav-item w-100">
                             <form class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
                                 <input type="text" class="form-control" placeholder="Search products">
                             </form>
                         </li>
-                    </ul>
+                    </ul> -->
                     <ul class="navbar-nav navbar-nav-right">
                         <li class="nav-item dropdown d-none d-lg-block">
-                            <a class="nav-link btn btn-success create-new-button" id="createbuttonDropdown"
-                                data-toggle="dropdown" aria-expanded="false" href="#">+ Create New Project</a>
-                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
-                                aria-labelledby="createbuttonDropdown">
-                                <h6 class="p-3 mb-0">Projects</h6>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item preview-item">
-                                    <div class="preview-thumbnail">
-                                        <div class="preview-icon bg-dark rounded-circle">
-                                            <i class="mdi mdi-file-outline text-primary"></i>
-                                        </div>
-                                    </div>
-                                    <div class="preview-item-content">
-                                        <p class="preview-subject ellipsis mb-1">Software Development</p>
-                                    </div>
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item preview-item">
-                                    <div class="preview-thumbnail">
-                                        <div class="preview-icon bg-dark rounded-circle">
-                                            <i class="mdi mdi-web text-info"></i>
-                                        </div>
-                                    </div>
-                                    <div class="preview-item-content">
-                                        <p class="preview-subject ellipsis mb-1">UI Development</p>
-                                    </div>
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item preview-item">
-                                    <div class="preview-thumbnail">
-                                        <div class="preview-icon bg-dark rounded-circle">
-                                            <i class="mdi mdi-layers text-danger"></i>
-                                        </div>
-                                    </div>
-                                    <div class="preview-item-content">
-                                        <p class="preview-subject ellipsis mb-1">Software Testing</p>
-                                    </div>
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <p class="p-3 mb-0 text-center">See all projects</p>
-                            </div>
-                        </li>
-                        <li class="nav-item nav-settings d-none d-lg-block">
-                            <a class="nav-link" href="#">
-                                <i class="mdi mdi-view-grid"></i>
-                            </a>
+                            <div class="currentDate"><?php echo date('d-M-Y') ?></div>
                         </li>
                         <li class="nav-item dropdown border-left">
                             <a class="nav-link count-indicator dropdown-toggle" id="messageDropdown" href="#"
@@ -292,7 +250,7 @@ if (isset($_POST['txtFormatName'])) {
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item preview-item">
                                     <div class="preview-thumbnail">
-                                        <img src="../../assets/images/faces/face4.jpg" alt="image"
+                                        <img src="assets/images/faces/face4.jpg" alt="image"
                                             class="rounded-circle profile-pic">
                                     </div>
                                     <div class="preview-item-content">
@@ -303,7 +261,7 @@ if (isset($_POST['txtFormatName'])) {
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item preview-item">
                                     <div class="preview-thumbnail">
-                                        <img src="../../assets/images/faces/face2.jpg" alt="image"
+                                        <img src="assets/images/faces/face2.jpg" alt="image"
                                             class="rounded-circle profile-pic">
                                     </div>
                                     <div class="preview-item-content">
@@ -314,7 +272,7 @@ if (isset($_POST['txtFormatName'])) {
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item preview-item">
                                     <div class="preview-thumbnail">
-                                        <img src="../../assets/images/faces/face3.jpg" alt="image"
+                                        <img src="assets/images/faces/face3.jpg" alt="image"
                                             class="rounded-circle profile-pic">
                                     </div>
                                     <div class="preview-item-content">

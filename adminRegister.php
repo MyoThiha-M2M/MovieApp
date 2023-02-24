@@ -18,15 +18,15 @@ if (isset($_POST['btnSubmit'])) {
     $userName = $_POST['txtuserName'];
     $email = $_POST['txtemail'];
     $password = $_POST['txtpassword'];
-    $mydate = getdate(date("U"));
-    $dateRegistered = "$mydate[weekday], $mydate[month] $mydate[mday], $mydate[year]";
+    $dateRegistered = date('Y-m-d');
+    $lastLogin = date("Y-m-d h:i:sa");
     $selectUserName = "SELECT AdminID FROM Admins WHERE Username = '$userName'";
     $query = mysqli_query($connect, $selectUserName);
     $row = mysqli_fetch_array($query);
     if (isset($row)) {
         echo "<script>alert('UserName Already Exists')</script>";
     } else {
-        $insert = "INSERT INTO Admins (AdminName, Username, Email, Password, DateRegistered, LastLoginDate, ProfileImage) VALUES ('$fullName', '$userName', '$email', '$password', '$dateRegistered', '', '$newImgName')
+        $insert = "INSERT INTO Admins (AdminName, Username, Email, Password, DateRegistered, LastLoginDate, ProfileImage) VALUES ('$fullName', '$userName', '$email', '$password', '$dateRegistered', '$lastLogin', '$newImgName')
         ";
         $query = mysqli_query($connect, $insert);
         if (isset($query)) {
@@ -36,8 +36,6 @@ if (isset($_POST['btnSubmit'])) {
         }
     }
 }
-
-
 ?>
 
 <!DOCTYPE html>
@@ -514,7 +512,6 @@ if (isset($_POST['btnSubmit'])) {
     <script src="js/select2.min.js?v=<?php echo $version ?>"></script>
     <script src="js/jquery.magnific-popup.min.js?v=<?php echo $version ?>"></script>
     <script src="js/slick-animation.min.js?v=<?php echo $version ?>"></script>
-
     <script src="main.js?v=<?php echo $version ?>"></script>
     <script src="imageUpload.js?v=<?php echo $version ?>"></script>
 </body>

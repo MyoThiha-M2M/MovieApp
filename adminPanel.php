@@ -47,29 +47,27 @@ if (isset($_SESSION['AdminID'])) {
         <!-- partial:partials/_sidebar.html -->
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
             <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-                <a class="sidebar-brand brand-logo" href="index.html"><img src="images/logo.png" alt="logo"
-                        id="main-logo" /></a>
-                <a class="sidebar-brand brand-logo-mini" href="index.html"><img src="images/miniLogo.png"
-                        alt="logo" /></a>
+                <a href="index.php" class="navbar-brand brand-logo" style="color: red;font-size: 30px; font-weight:600; position:relative">
+                    INFINITY <span style="position:absolute; font-size: 20px; top:0px">&#8734;</span>
+                </a>
+                <a href="index.php" class="sidebar-brand brand-logo-mini" style="color: red;font-size: 30px; font-weight:600; position:relative">
+                    I <span style="position:absolute; font-size: 20px; top:-14px">&#8734;</span>
+                </a>
             </div>
             <ul class="nav">
                 <li class="nav-item profile">
                     <div class="profile-desc">
                         <div class="profile-pic">
                             <div class="count-indicator">
-                                <img class="img-xs rounded-circle " src="adminProfileImg/<?php echo $adminProfile ?>"
-                                    alt="">
+                                <img class="img-xs rounded-circle " src="adminProfileImg/<?php echo $adminProfile ?>" alt="">
                                 <span class="count bg-success"></span>
                             </div>
                             <div class="profile-name">
                                 <h5 class="mb-0 font-weight-normal"><?php echo $adminUsername ?></h5>
-                                <span>Gold Member</span>
                             </div>
                         </div>
-                        <a href="#" id="profile-dropdown" data-toggle="dropdown"><i
-                                class="mdi mdi-dots-vertical"></i></a>
-                        <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list"
-                            aria-labelledby="profile-dropdown">
+                        <a href="#" id="profile-dropdown" data-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
+                        <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list" aria-labelledby="profile-dropdown">
                             <a href="#" class="dropdown-item preview-item">
                                 <div class="preview-thumbnail">
                                     <div class="preview-icon bg-dark rounded-circle">
@@ -117,8 +115,7 @@ if (isset($_SESSION['AdminID'])) {
                     </a>
                 </li>
                 <li class="nav-item menu-items">
-                    <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false"
-                        aria-controls="ui-basic">
+                    <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                         <span class="menu-icon">
                             <i class="fa-solid fa-grip"></i>
                         </span>
@@ -159,11 +156,11 @@ if (isset($_SESSION['AdminID'])) {
                     </a>
                 </li>
                 <li class="nav-item menu-items">
-                    <a class="nav-link" href="showManagement.php">
+                    <a class="nav-link" href="scheduleManagement.php">
                         <span class="menu-icon">
                             <i class="fa-solid fa-clapperboard"></i>
                         </span>
-                        <span class="menu-title">Shows</span>
+                        <span class="menu-title">Schedules</span>
                     </a>
                 </li>
                 <li class="nav-item menu-items">
@@ -207,85 +204,34 @@ if (isset($_SESSION['AdminID'])) {
             <!-- partial:partials/_navbar.html -->
             <nav class="navbar p-0 fixed-top d-flex flex-row">
                 <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
-                    <a class="navbar-brand brand-logo-mini" href="index.html"><img src="images/miniLogo.png"
-                            alt="logo" /></a>
+                    <a class="navbar-brand brand-logo-mini" href="index.html"><img src="images/miniLogo.png" alt="logo" /></a>
                 </div>
                 <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
-                    <button class="navbar-toggler navbar-toggler align-self-center" type="button"
-                        data-toggle="minimize">
+                    <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
                         <span class="mdi mdi-menu"></span>
                     </button>
-                    <ul class="navbar-nav w-100">
+                    <!-- <ul class="navbar-nav w-100">
                         <li class="nav-item w-100">
                             <form class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
                                 <input type="text" class="form-control" placeholder="Search products">
                             </form>
                         </li>
-                    </ul>
+                    </ul> -->
                     <ul class="navbar-nav navbar-nav-right">
                         <li class="nav-item dropdown d-none d-lg-block">
                             <div class="currentDate"><?php echo date('d-M-Y') ?></div>
-                            <!-- <a class="nav-link btn btn-success create-new-button" id="createbuttonDropdown"
-                                data-toggle="dropdown" aria-expanded="false" href="#">+ Create New Project</a>
-                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
-                                aria-labelledby="createbuttonDropdown">
-                                <h6 class="p-3 mb-0">Projects</h6>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item preview-item">
-                                    <div class="preview-thumbnail">
-                                        <div class="preview-icon bg-dark rounded-circle">
-                                            <i class="mdi mdi-file-outline text-primary"></i>
-                                        </div>
-                                    </div>
-                                    <div class="preview-item-content">
-                                        <p class="preview-subject ellipsis mb-1">Software Development</p>
-                                    </div>
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item preview-item">
-                                    <div class="preview-thumbnail">
-                                        <div class="preview-icon bg-dark rounded-circle">
-                                            <i class="mdi mdi-web text-info"></i>
-                                        </div>
-                                    </div>
-                                    <div class="preview-item-content">
-                                        <p class="preview-subject ellipsis mb-1">UI Development</p>
-                                    </div>
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item preview-item">
-                                    <div class="preview-thumbnail">
-                                        <div class="preview-icon bg-dark rounded-circle">
-                                            <i class="mdi mdi-layers text-danger"></i>
-                                        </div>
-                                    </div>
-                                    <div class="preview-item-content">
-                                        <p class="preview-subject ellipsis mb-1">Software Testing</p>
-                                    </div>
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <p class="p-3 mb-0 text-center">See all projects</p>
-                            </div> -->
                         </li>
-                        <!-- <li class="nav-item nav-settings d-none d-lg-block">
-                            <a class="nav-link" href="#">
-                                <i class="mdi mdi-view-grid"></i>
-                            </a>
-                        </li> -->
                         <li class="nav-item dropdown border-left">
-                            <a class="nav-link count-indicator dropdown-toggle" id="messageDropdown" href="#"
-                                data-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link count-indicator dropdown-toggle" id="messageDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
                                 <i class="mdi mdi-email"></i>
                                 <span class="count bg-success"></span>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
-                                aria-labelledby="messageDropdown">
+                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="messageDropdown">
                                 <h6 class="p-3 mb-0">Messages</h6>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item preview-item">
                                     <div class="preview-thumbnail">
-                                        <img src="assets/images/faces/face4.jpg" alt="image"
-                                            class="rounded-circle profile-pic">
+                                        <img src="assets/images/faces/face4.jpg" alt="image" class="rounded-circle profile-pic">
                                     </div>
                                     <div class="preview-item-content">
                                         <p class="preview-subject ellipsis mb-1">Mark send you a message</p>
@@ -295,8 +241,7 @@ if (isset($_SESSION['AdminID'])) {
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item preview-item">
                                     <div class="preview-thumbnail">
-                                        <img src="assets/images/faces/face2.jpg" alt="image"
-                                            class="rounded-circle profile-pic">
+                                        <img src="assets/images/faces/face2.jpg" alt="image" class="rounded-circle profile-pic">
                                     </div>
                                     <div class="preview-item-content">
                                         <p class="preview-subject ellipsis mb-1">Cregh send you a message</p>
@@ -306,8 +251,7 @@ if (isset($_SESSION['AdminID'])) {
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item preview-item">
                                     <div class="preview-thumbnail">
-                                        <img src="assets/images/faces/face3.jpg" alt="image"
-                                            class="rounded-circle profile-pic">
+                                        <img src="assets/images/faces/face3.jpg" alt="image" class="rounded-circle profile-pic">
                                     </div>
                                     <div class="preview-item-content">
                                         <p class="preview-subject ellipsis mb-1">Profile picture updated</p>
@@ -319,13 +263,11 @@ if (isset($_SESSION['AdminID'])) {
                             </div>
                         </li>
                         <li class="nav-item dropdown border-left">
-                            <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#"
-                                data-toggle="dropdown">
+                            <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
                                 <i class="mdi mdi-bell"></i>
                                 <span class="count bg-danger"></span>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
-                                aria-labelledby="notificationDropdown">
+                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
                                 <h6 class="p-3 mb-0">Notifications</h6>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item preview-item">
@@ -371,15 +313,13 @@ if (isset($_SESSION['AdminID'])) {
                         <li class="nav-item dropdown">
                             <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
                                 <div class="navbar-profile">
-                                    <img class="img-xs rounded-circle" src="adminProfileImg/<?php echo $adminProfile ?>"
-                                        alt="">
+                                    <img class="img-xs rounded-circle" src="adminProfileImg/<?php echo $adminProfile ?>" alt="">
                                     <p class="mb-0 d-none d-sm-block navbar-profile-name"><?php echo $adminUsername ?>
                                     </p>
                                     <i class="mdi mdi-menu-down d-none d-sm-block"></i>
                                 </div>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
-                                aria-labelledby="profileDropdown">
+                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="profileDropdown">
                                 <h6 class="p-3 mb-0">Profile</h6>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item preview-item">
@@ -408,8 +348,7 @@ if (isset($_SESSION['AdminID'])) {
                             </div>
                         </li>
                     </ul>
-                    <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
-                        data-toggle="offcanvas">
+                    <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
                         <span class="mdi mdi-format-line-spacing"></span>
                     </button>
                 </div>
@@ -467,8 +406,7 @@ if (isset($_SESSION['AdminID'])) {
                                         </div>
                                     </div>
                                     <h6 class="text-muted font-weight-normal">Total
-                                        <span
-                                            class="text-success ml-2 mb-0 font-weight-medium"><?php echo $totalNowShowingMovie ?></span>
+                                        <span class="text-success ml-2 mb-0 font-weight-medium"><?php echo $totalNowShowingMovie ?></span>
                                     </h6>
                                 </div>
                             </div>
@@ -494,8 +432,7 @@ if (isset($_SESSION['AdminID'])) {
                                         </div>
                                     </div>
                                     <h6 class="text-muted font-weight-normal">Total
-                                        <span
-                                            class="text-success ml-2 mb-0 font-weight-medium"><?php echo $totalUpcomingMovie ?></span>
+                                        <span class="text-success ml-2 mb-0 font-weight-medium"><?php echo $totalUpcomingMovie ?></span>
                                     </h6>
                                 </div>
                             </div>
@@ -521,8 +458,7 @@ if (isset($_SESSION['AdminID'])) {
                                         </div>
                                     </div>
                                     <h6 class="text-muted font-weight-normal">Total
-                                        <span
-                                            class="text-success ml-2 mb-0 font-weight-medium"><?php echo $totalGenres ?></span>
+                                        <span class="text-success ml-2 mb-0 font-weight-medium"><?php echo $totalGenres ?></span>
                                     </h6>
                                 </div>
                             </div>
@@ -548,8 +484,7 @@ if (isset($_SESSION['AdminID'])) {
                                         </div>
                                     </div>
                                     <h6 class="text-muted font-weight-normal">Total
-                                        <span
-                                            class="text-success ml-2 mb-0 font-weight-medium"><?php echo $totalFormats ?></span>
+                                        <span class="text-success ml-2 mb-0 font-weight-medium"><?php echo $totalFormats ?></span>
                                     </h6>
                                 </div>
                             </div>
@@ -579,8 +514,7 @@ if (isset($_SESSION['AdminID'])) {
                                         </div>
                                     </div>
                                     <h6 class="text-muted font-weight-normal">Total
-                                        <span
-                                            class="text-success ml-2 mb-0 font-weight-medium"><?php echo $totalTheaters ?></span>
+                                        <span class="text-success ml-2 mb-0 font-weight-medium"><?php echo $totalTheaters ?></span>
                                     </h6>
                                 </div>
                             </div>
@@ -607,8 +541,7 @@ if (isset($_SESSION['AdminID'])) {
                                         </div>
                                     </div>
                                     <h6 class="text-muted font-weight-normal">Total
-                                        <span
-                                            class="text-success ml-2 mb-0 font-weight-medium"><?php echo $totalTodayBookings ?></span>
+                                        <span class="text-success ml-2 mb-0 font-weight-medium"><?php echo $totalTodayBookings ?></span>
                                     </h6>
                                 </div>
                             </div>
@@ -634,8 +567,7 @@ if (isset($_SESSION['AdminID'])) {
                                         </div>
                                     </div>
                                     <h6 class="text-muted font-weight-normal">Total
-                                        <span
-                                            class="text-success ml-2 mb-0 font-weight-medium"><?php echo $totalUsers ?></span>
+                                        <span class="text-success ml-2 mb-0 font-weight-medium"><?php echo $totalUsers ?></span>
                                     </h6>
                                 </div>
                             </div>
@@ -662,8 +594,7 @@ if (isset($_SESSION['AdminID'])) {
                                         </div>
                                     </div>
                                     <h6 class="text-muted font-weight-normal">Total
-                                        <span
-                                            class="text-success ml-2 mb-0 font-weight-medium">$<?php echo $totalTodayIncome ?></span>
+                                        <span class="text-success ml-2 mb-0 font-weight-medium">$<?php echo $totalTodayIncome ?></span>
                                     </h6>
                                 </div>
                             </div>
@@ -785,25 +716,21 @@ if (isset($_SESSION['AdminID'])) {
                                 <div class="card-body">
                                     <h4 class="card-title">Transaction History</h4>
                                     <canvas id="transaction-history" class="transaction-chart"></canvas>
-                                    <div
-                                        class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
                                         <div class="text-md-center text-xl-left">
                                             <h6 class="mb-1">Transfer to Paypal</h6>
                                             <p class="text-muted mb-0">07 Jan 2019, 09:12AM</p>
                                         </div>
-                                        <div
-                                            class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                                        <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
                                             <h6 class="font-weight-bold mb-0">$236</h6>
                                         </div>
                                     </div>
-                                    <div
-                                        class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+                                    <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
                                         <div class="text-md-center text-xl-left">
                                             <h6 class="mb-1">Tranfer to Stripe</h6>
                                             <p class="text-muted mb-0">07 Jan 2019, 09:12AM</p>
                                         </div>
-                                        <div
-                                            class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                                        <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
                                             <h6 class="font-weight-bold mb-0">$593</h6>
                                         </div>
                                     </div>
@@ -1120,8 +1047,7 @@ if (isset($_SESSION['AdminID'])) {
                                     <div class="preview-list">
                                         <div class="preview-item border-bottom">
                                             <div class="preview-thumbnail">
-                                                <img src="assets/images/faces/face6.jpg" alt="image"
-                                                    class="rounded-circle" />
+                                                <img src="assets/images/faces/face6.jpg" alt="image" class="rounded-circle" />
                                             </div>
                                             <div class="preview-item-content d-flex flex-grow">
                                                 <div class="flex-grow">
@@ -1135,8 +1061,7 @@ if (isset($_SESSION['AdminID'])) {
                                         </div>
                                         <div class="preview-item border-bottom">
                                             <div class="preview-thumbnail">
-                                                <img src="assets/images/faces/face8.jpg" alt="image"
-                                                    class="rounded-circle" />
+                                                <img src="assets/images/faces/face8.jpg" alt="image" class="rounded-circle" />
                                             </div>
                                             <div class="preview-item-content d-flex flex-grow">
                                                 <div class="flex-grow">
@@ -1150,8 +1075,7 @@ if (isset($_SESSION['AdminID'])) {
                                         </div>
                                         <div class="preview-item border-bottom">
                                             <div class="preview-thumbnail">
-                                                <img src="assets/images/faces/face9.jpg" alt="image"
-                                                    class="rounded-circle" />
+                                                <img src="assets/images/faces/face9.jpg" alt="image" class="rounded-circle" />
                                             </div>
                                             <div class="preview-item-content d-flex flex-grow">
                                                 <div class="flex-grow">
@@ -1165,8 +1089,7 @@ if (isset($_SESSION['AdminID'])) {
                                         </div>
                                         <div class="preview-item border-bottom">
                                             <div class="preview-thumbnail">
-                                                <img src="assets/images/faces/face11.jpg" alt="image"
-                                                    class="rounded-circle" />
+                                                <img src="assets/images/faces/face11.jpg" alt="image" class="rounded-circle" />
                                             </div>
                                             <div class="preview-item-content d-flex flex-grow">
                                                 <div class="flex-grow">
@@ -1186,8 +1109,7 @@ if (isset($_SESSION['AdminID'])) {
                             <div class="card">
                                 <div class="card-body">
                                     <h4 class="card-title">Portfolio Slide</h4>
-                                    <div class="owl-carousel owl-theme full-width owl-carousel-dash portfolio-carousel"
-                                        id="owl-carousel-basic">
+                                    <div class="owl-carousel owl-theme full-width owl-carousel-dash portfolio-carousel" id="owl-carousel-basic">
                                         <div class="item">
                                             <img src="assets/images/dashboard/Rectangle.jpg" alt="">
                                         </div>
@@ -1202,13 +1124,11 @@ if (isset($_SESSION['AdminID'])) {
                                         <div class="preview-list w-100">
                                             <div class="preview-item p-0">
                                                 <div class="preview-thumbnail">
-                                                    <img src="assets/images/faces/face12.jpg" class="rounded-circle"
-                                                        alt="">
+                                                    <img src="assets/images/faces/face12.jpg" class="rounded-circle" alt="">
                                                 </div>
                                                 <div class="preview-item-content d-flex flex-grow">
                                                     <div class="flex-grow">
-                                                        <div
-                                                            class="d-flex d-md-block d-xl-flex justify-content-between">
+                                                        <div class="d-flex d-md-block d-xl-flex justify-content-between">
                                                             <h6 class="preview-subject">CeeCee Bass</h6>
                                                             <p class="text-muted text-small">4 Hours Ago</p>
                                                         </div>
@@ -1220,8 +1140,7 @@ if (isset($_SESSION['AdminID'])) {
                                     </div>
                                     <p class="text-muted">Well, it seems to be working now. </p>
                                     <div class="progress progress-md portfolio-progress">
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: 50%"
-                                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                 </div>
                             </div>
@@ -1231,8 +1150,7 @@ if (isset($_SESSION['AdminID'])) {
                                 <div class="card-body">
                                     <h4 class="card-title">To do list</h4>
                                     <div class="add-items d-flex">
-                                        <input type="text" class="form-control todo-list-input"
-                                            placeholder="enter task..">
+                                        <input type="text" class="form-control todo-list-input" placeholder="enter task..">
                                         <button class="add btn btn-primary todo-list-add-btn">Add</button>
                                     </div>
                                     <div class="list-wrapper">
@@ -1359,8 +1277,7 @@ if (isset($_SESSION['AdminID'])) {
                     <div class="d-sm-flex justify-content-center justify-content-sm-between">
                         <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright ©
                             bootstrapdash.com 2020</span>
-                        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> Free <a
-                                href="https://www.bootstrapdash.com/bootstrap-admin-template/" target="_blank">Bootstrap
+                        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> Free <a href="https://www.bootstrapdash.com/bootstrap-admin-template/" target="_blank">Bootstrap
                                 admin templates</a> from Bootstrapdash.com</span>
                     </div>
                 </footer>

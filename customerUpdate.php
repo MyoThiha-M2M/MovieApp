@@ -1,52 +1,7 @@
 <?php
+session_start();
 include('config.php');
 include('connect.php');
-session_start();
-// if (isset($_POST['btnSubmit'])) {
-//     /* Upload Customer Profile */
-//     $imgName = $_FILES['fileprofileImg']['name'];
-//     $tmpName = $_FILES['fileprofileImg']['tmp_name'];
-//     $imgEx = pathinfo($imgName, PATHINFO_EXTENSION);
-//     $imgExLc = strtolower($imgEx);
-//     $allowedExs = array('jpg', 'jpeg', 'png');
-//     if (in_array($imgExLc, $allowedExs)) {
-//         $profileImgName = uniqid('IMG-', true) . '.' . $imgExLc;
-//         $imgUploadPath = 'customerProfileImg/' . $profileImgName;
-//         move_uploaded_file($tmpName, $imgUploadPath);
-//     } else {
-//         echo "<script>alert('You cannot upload files of this type')</script>
-//         window.location.href = 'customerRegister.php'";
-//     }
-//     /* Entry Customer Information */
-//     $fullName = $_POST['txtfullName'];
-//     $userName = $_POST['txtuserName'];
-//     $email = $_POST['txtemail'];
-//     $password = $_POST['txtpassword'];
-//     $dateRegistered = date('Y-m-d');
-//     $lastLogin = date("Y-m-d h:i:sa");
-//     $selectUserName = "SELECT CustomerID FROM Customers WHERE Username = '$userName'";
-//     $query = mysqli_query($connect, $selectUserName);
-//     $count = mysqli_num_rows($query);
-//     if ($count > 0) {
-//         echo "<script>window.alert('UserName Already Exists');
-//             window.location.href = 'customerRegister.php'</script>";
-//     } elseif ($userName === '' || $fullName === '' || $userName === '' || $email === '' || $password === '') {
-//         echo "<script>window.alert('Please Enter All The Required Information');
-//         window.location.href = 'customerRegister.php'</script>";
-//     } else {
-//         $insert = "INSERT INTO Customers (CustomerName, Username, Email, Password, DateRegistered, LastLoginDate, ProfileImage) VALUES ('$fullName', '$userName', '$email', '$password', '$dateRegistered', '$lastLogin', '$profileImgName')
-//         ";
-//         $query = mysqli_query($connect, $insert);
-//         if (isset($query)) {
-//             echo "<script>window.alert('Registered Successfully');
-//                 window.location.href = 'customerLogin.php';
-//             </script>";
-//         } else {
-//             echo "<script>window.alert('Error In Registration')</script>";
-//         }
-//     }
-// }
-
 if ($_SESSION['CustomerID']) {
     $customerID = $_SESSION['CustomerID'];
     $select = "SELECT * FROM Customers WHERE CustomerID = $customerID";
@@ -57,10 +12,50 @@ if ($_SESSION['CustomerID']) {
         $customerName = $row['CustomerName'];
         $customerUsername = $row['Username'];
         $customerEmail = $row['Email'];
+        $customerPassword = $row['Password'];
         $customerProfile = $row['ProfileImage'];
     } else {
         echo "<script>window.alert('There is no such Customer');
         window.location.href = 'index.php'</script>";
+    }
+}
+
+if (isset($_POST['btnUpdate'])) {
+    /* Upload Updated Customer Profile */
+    $imgName = $_FILES['fileprofileImg']['name'];
+    $tmpName = $_FILES['fileprofileImg']['tmp_name'];
+    $imgEx = pathinfo($imgName, PATHINFO_EXTENSION);
+    $imgExLc = strtolower($imgEx);
+    $allowedExs = array('jpg', 'jpeg', 'png');
+    if (in_array($imgExLc, $allowedExs)) {
+        $updatedProfileImgName = uniqid('IMG-', true) . '.' . $imgExLc;
+        $imgUploadPath = 'customerProfileImg/' . $updatedProfileImgName;
+        move_uploaded_file($tmpName, $imgUploadPath);
+    } else {
+        echo "<script>alert('You cannot upload files of this type')</script>
+        window.location.href = 'customerRegister.php'";
+    }
+    $customerID = $_SESSION['CustomerID'];
+    $updatedfullName = $_POST['txtfullName'];
+    $updateduserName = $_POST['txtuserName'];
+    $updatedemail = $_POST['txtemail'];
+    $updatedpassword = $_POST['txtpassword'];
+    $confirmPassword = $_POST['txtconfirmpassword'];
+    if ($userName === '' || $fullName === '' || $email === '' || $password === '' || $confirmPassword === '') {
+        echo "<script>window.alert('Input Fields Cannot Be Empty!');
+        window.location.href = 'customerUpdate.php'</script>";
+        return;
+    } else {
+        $update = "UPDATE Customers SET CustomerName = '$updatedfullName', Username = '$updateduserName', Email = '$updatedemail', Password = '$updatedpassword', ProfileImage = '$updatedProfileImgName' 
+        WHERE CustomerID = '$customerID'";
+        $query = mysqli_query($connect, $update);
+        if (isset($query)) {
+            echo "<script>window.alert('Updated Successfully');
+                window.location.href = 'customerUpdate.php';
+            </script>";
+        } else {
+            echo "<script>window.alert('Error In Customer Update')</script>";
+        }
     }
 }
 
@@ -76,7 +71,6 @@ if ($_SESSION['CustomerID']) {
     <title>Video Streaming</title>
     <link rel="stylesheet" href="css/bootstrap.min.css?v=<?php echo $version ?>" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css?v=<?php echo $version ?>" />
-    <!-- i will provide this in description  -->
     <link rel="stylesheet" href="css/slick.css?v=<?php echo $version ?>" />
     <link rel="stylesheet" href="css/slick-theme.css?v=<?php echo $version ?>" />
     <link rel="stylesheet" href="css/owl.carousel.min.css?v=<?php echo $version ?>" />
@@ -396,50 +390,88 @@ if ($_SESSION['CustomerID']) {
         </div>
     </header>
     <div class="main-content">
-
         <section id="parallex" class="register-parallax">
-
             <div class="container-fluid h-100">
                 <div class="row align-items-center justify-content-center h-100 parallaxt-details">
                     <div class="col-lg-8">
                         <div class="parallax-form">
-                            <form action="customerProfile.php" class="registrationForm" method="POST" enctype="multipart/form-data">
+                            <form action="customerUpdate.php" class="registrationForm" method="POST" enctype="multipart/form-data">
                                 <div class="registerContainer">
                                     <div class="upload">
-                                        <img src="customerProfileImg/<?php echo $customerProfile ?>" width=100 height=100 alt="">
-                                        <img src="" width=100 height=100 alt="" id="customerProfile">
-                                        <div class="round">
-                                            <input type="file" id="uploadProfile" name="fileprofileImg" accept="image/*">
-                                            <i class="fa fa-camera" style="color: #fff;"></i>
+                                        <?php
+                                        if ($customerProfile) {
+                                        ?>
+                                            <img src="customerProfileImg/<?php echo $customerProfile ?>" width=100 height=100 alt="" id="noProfile">
+                                            <img src="" width=100 height=100 alt="" id="customerProfile">
+                                            <div class="round">
+                                                <input type="file" id="uploadProfile" name="fileprofileImg" accept="image/*">
+                                                <i class="fa fa-camera" style="color: #fff;"></i>
+                                            </div>
+                                        <?php
+                                        } else {
+                                        ?>
+                                            <img src="Additional/noprofil.jpg" width=100 height=100 alt="" id="noProfile">
+                                            <img src="" width=100 height=100 alt="" id="customerProfile">
+                                            <div class="round">
+                                                <input type="file" id="uploadProfile" name="fileprofileImg" accept="image/*">
+                                                <i class="fa fa-camera" style="color: #fff;"></i>
+                                            </div>
+                                        <?php
+                                        }
+                                        ?>
+                                    </div>
+                                    <div class="updateInputGroup">
+                                        <div class="labelContainer">
+                                            <label for="txtfullName">Full Name </label>
+                                        </div>
+                                        <div>
+                                            <input type="text" placeholder="Full Name" name="txtfullName" id="fullname-input" value="<?php echo $customerName ?>" onkeyup="validateName()">
+                                            <span id="name-error"></span>
                                         </div>
                                     </div>
-                                    <div class="inputGroup customerNameCon">
-                                        <label for="">Full Name: </label>
-                                        <input type="text" placeholder="Full Name" name="txtfullName" id="fullname-input" value="<?php echo $customerName ?>" onkeyup="validateName()">
-                                        <span id="name-error"></span>
-                                    </div>
-                                    <div class="inputGroup userNameCon">
-                                        <label for="">User Name: </label>
-                                        <input type="text" placeholder="User Name" name="txtuserName" id="username-input" value="<?php echo $customerUsername ?>" onkeyup="validateUserName()">
-                                        <span id="userName-error"></span>
-                                    </div>
-                                    <div class="inputGroup emailCon">
-                                        <input type="email" placeholder="Email" name="txtemail" id="email-input" value="<?php echo $customerEmail ?>" onkeyup="validateEmail()">
-                                        <span id="email-error"></span>
-                                    </div>
-                                    <div class="inputGroup passwordCon">
-                                        <input type="password" placeholder="Password" name="txtpassword" id="password-input" onkeyup="validatePassword()">
-                                        <span id="password-error"></span>
-                                    </div>
-                                    <div class="inputGroup confirmPasswordCon">
-                                        <input type="password" placeholder="Confirm Password" id="conPassword-input" onkeyup="validateConPassword()">
-                                        <span id="confirmPassword-error"></span>
-                                    </div>
-                                    <button type="submit" class="btn btn-hover btnCreateAccount" name="btnSubmit">
-                                        <div class="parallax-buttons">
-                                            Update
+                                    <div class="updateInputGroup">
+                                        <div class="labelContainer">
+                                            <label for="txtuserName">User Name </label>
                                         </div>
-                                    </button>
+                                        <div>
+                                            <input type="text" placeholder="User Name" name="txtuserName" id="username-input" value="<?php echo $customerUsername ?>" onkeyup="validateUserName()">
+                                            <span id="userName-error"></span>
+                                        </div>
+                                    </div>
+                                    <div class="updateInputGroup">
+                                        <div class="labelContainer">
+                                            <label for="txtemail">Email </label>
+                                        </div>
+                                        <div>
+                                            <input type="email" placeholder="Email" name="txtemail" id="email-input" value="<?php echo $customerEmail ?>" onkeyup="validateEmail()">
+                                            <span id="email-error"></span>
+                                        </div>
+                                    </div>
+                                    <div class="updateInputGroup">
+                                        <div class="labelContainer">
+                                            <label for="txtpassword">Password </label>
+                                        </div>
+                                        <div>
+                                            <input type="password" placeholder="Password" name="txtpassword" id="password-input" value="<?php echo $customerPassword ?>" onkeyup="validatePassword()">
+                                            <span id="password-error"></span>
+                                        </div>
+                                    </div>
+                                    <div class="updateInputGroup">
+                                        <div class="labelContainer">
+                                            <label for="txtconfirmpassword">Confirm Password </label>
+                                        </div>
+                                        <div>
+                                            <input type="password" placeholder="Confirm Password" id="conPassword-input" onkeyup="validateConPassword()">
+                                            <span id="confirmPassword-error"></span>
+                                        </div>
+                                    </div>
+                                    <div class="updateBtnContainer">
+                                        <button type="submit" class="btn btn-hover" name="btnUpdate">
+                                            <div class="parallax-buttons">
+                                                Update
+                                            </div>
+                                        </button>
+                                    </div>
                                 </div>
                             </form>
                         </div>

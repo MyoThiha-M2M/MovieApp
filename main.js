@@ -321,7 +321,8 @@ const validateName = () => {
     nameErrorTag.innerHTML = "Enter Full Name";
     return false;
   }
-  nameErrorTag.innerHTML = "<i class='validCheck fas fa-check-circle'></i>";
+  nameErrorTag.innerHTML =
+    "<i class='validCheck fas fa-check-circle' style='color: green'></i>";
   return true;
 };
 
@@ -337,7 +338,8 @@ const validateUserName = () => {
     return false;
   }
 
-  userNameErrorTag.innerHTML = "<i class='validCheck fas fa-check-circle'></i>";
+  userNameErrorTag.innerHTML =
+    "<i class='validCheck fas fa-check-circle' style='color: green'></i>";
   return true;
 };
 
@@ -357,7 +359,8 @@ const validateEmail = () => {
     return false;
   }
 
-  emailErrorTag.innerHTML = "<i class='validCheck fas fa-check-circle'></i>";
+  emailErrorTag.innerHTML =
+    "<i class='validCheck fas fa-check-circle' style='color: green'></i>";
   return true;
 };
 
@@ -373,7 +376,8 @@ const validatePassword = () => {
     return false;
   }
 
-  passwordErrorTag.innerHTML = "<i class='validCheck fas fa-check-circle'></i>";
+  passwordErrorTag.innerHTML =
+    "<i class='validCheck fas fa-check-circle' style='color: green'></i>";
   return true;
 };
 
@@ -386,6 +390,6 @@ const validateConPassword = () => {
     return false;
   }
   conPasswordErrorTag.innerHTML =
-    "<i class='validCheck fas fa-check-circle'></i>";
+    "<i class='validCheck fas fa-check-circle' style='color: green'></i>";
   return true;
 };

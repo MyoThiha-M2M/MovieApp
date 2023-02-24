@@ -33,9 +33,7 @@ if (isset($_POST['btnLogin'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Video Streaming</title>
     <link rel="stylesheet" href="css/bootstrap.min.css?v=<?php echo $version ?>" />
-    <link rel="stylesheet"
-        href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css?v=<?php echo $version ?>" />
-    <!-- i will provide this in description  -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css?v=<?php echo $version ?>" />
     <link rel="stylesheet" href="css/slick.css?v=<?php echo $version ?>" />
     <link rel="stylesheet" href="css/slick-theme.css?v=<?php echo $version ?>" />
     <link rel="stylesheet" href="css/owl.carousel.min.css?v=<?php echo $version ?>" />
@@ -56,17 +54,14 @@ if (isset($_POST['btnLogin'])) {
                 <div class="row">
                     <div class="col-sm-12">
                         <nav class="navbar navbar-expand-lg navbar-light p-0">
-                            <a href="#" class="navbar-toggler c-toggler" data-toggle="collapse"
-                                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                                aria-expanded="false" aria-label="Toggle navigation">
+                            <a href="#" class="navbar-toggler c-toggler" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                                 <div class="navbar-toggler-icon" data-toggle="collapse">
                                     <span class="navbar-menu-icon navbar-menu-icon--top"></span>
                                     <span class="navbar-menu-icon navbar-menu-icon--middle"></span>
                                     <span class="navbar-menu-icon navbar-menu-icon--bottom"></span>
                                 </div>
                             </a>
-                            <a href="index.php" class="navbar-brand"
-                                style="color: red;font-size: 30px; font-weight:600; position:relative">
+                            <a href="index.php" class="navbar-brand" style="color: red;font-size: 30px; font-weight:600; position:relative">
                                 INFINITY <span style="position:absolute; font-size: 20px; top:0px">&#8734;</span>
                             </a>
                             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -82,17 +77,13 @@ if (isset($_POST['btnLogin'])) {
                                         <li class="menu-item">
                                             <a href="#">Theaters</a>
                                             <ul class="sub-menu">
-                                                <li class="menu-item"><a
-                                                        href="customerSidePages/theaterTypesPages/imax-theater.php?theaterType=Imax">Imax</a>
+                                                <li class="menu-item"><a href="customerSidePages/theaterTypesPages/imax-theater.php?theaterType=Imax">Imax</a>
                                                 </li>
-                                                <li class="menu-item"><a
-                                                        href="customerSidePages/theaterTypesPages/luxe-theater.php?theaterType=Luxe">Luxe</a>
+                                                <li class="menu-item"><a href="customerSidePages/theaterTypesPages/luxe-theater.php?theaterType=Luxe">Luxe</a>
                                                 </li>
-                                                <li class="menu-item"><a
-                                                        href="customerSidePages/theaterTypesPages/ice-theater.php?theaterType=ICE">ICE</a>
+                                                <li class="menu-item"><a href="customerSidePages/theaterTypesPages/ice-theater.php?theaterType=ICE">ICE</a>
                                                 </li>
-                                                <li class="menu-item"><a
-                                                        href="customerSidePages/theaterTypesPages/premium-theater.php?theaterType=Premium">Premium</a>
+                                                <li class="menu-item"><a href="customerSidePages/theaterTypesPages/premium-theater.php?theaterType=Premium">Premium</a>
                                                 </li>
                                             </ul>
                                         </li>
@@ -125,8 +116,7 @@ if (isset($_POST['btnLogin'])) {
                                 </div>
                             </div>
                             <div class="mobile-more-menu">
-                                <a href="javascript:void(0);" class="more-toggle" id="dropdownMenuButton"
-                                    data-toggle="more-toggle" aria-haspopup="true" aria-expanded="false">
+                                <a href="javascript:void(0);" class="more-toggle" id="dropdownMenuButton" data-toggle="more-toggle" aria-haspopup="true" aria-expanded="false">
                                     <i class="fa fa-ellipsis-h"></i>
                                 </a>
                                 <div class="more-menu" aria-labelledby="dropdownMenuButton">
@@ -139,9 +129,7 @@ if (isset($_POST['btnLogin'])) {
                                                 <div class="search-box iq-search-bar">
                                                     <form action="index.php" class="searchbox">
                                                         <div class="form-group position-relative">
-                                                            <input type="text"
-                                                                class="text search-input autocompleteInput"
-                                                                placeholder="Search Movies or Theatres" />
+                                                            <input type="text" class="text search-input autocompleteInput" placeholder="Search Movies or Theatres" />
                                                             <i class="search-link fa fa-search"></i>
                                                         </div>
                                                     </form>
@@ -158,8 +146,7 @@ if (isset($_POST['btnLogin'])) {
                                                         <div class="iq-card-body">
                                                             <a href="#" class="iq-sub-card">
                                                                 <div class="media align-items-center">
-                                                                    <img src="images/notify/thumb-1.jpg" alt=""
-                                                                        class="img-fluid mr-3" />
+                                                                    <img src="images/notify/thumb-1.jpg" alt="" class="img-fluid mr-3" />
                                                                     <div class="media-body">
                                                                         <h6 class="mb-0">Captain Marvel</h6>
                                                                         <small class="font-size-12">just now</small>
@@ -168,8 +155,7 @@ if (isset($_POST['btnLogin'])) {
                                                             </a>
                                                             <a href="#" class="iq-sub-card">
                                                                 <div class="media align-items-center">
-                                                                    <img src="images/notify/thumb-2.jpg" alt=""
-                                                                        class="img-fluid mr-3" />
+                                                                    <img src="images/notify/thumb-2.jpg" alt="" class="img-fluid mr-3" />
                                                                     <div class="media-body">
                                                                         <h6 class="mb-0">
                                                                             Dora and The Lost City of Gold
@@ -180,8 +166,7 @@ if (isset($_POST['btnLogin'])) {
                                                             </a>
                                                             <a href="#" class="iq-sub-card">
                                                                 <div class="media align-items-center">
-                                                                    <img src="images/notify/thumb-3.jpg" alt=""
-                                                                        class="img-fluid mr-3" />
+                                                                    <img src="images/notify/thumb-3.jpg" alt="" class="img-fluid mr-3" />
                                                                     <div class="media-body">
                                                                         <h6 class="mb-0">Mulan</h6>
                                                                         <small class="font-size-12">1h 30 mins
@@ -194,10 +179,8 @@ if (isset($_POST['btnLogin'])) {
                                                 </div>
                                             </li>
                                             <li>
-                                                <a href="#"
-                                                    class="iq-user-dropdown search-toggle d-flex align-items-center">
-                                                    <img src="customerProfileImg/<?php echo $customerProfile ?>"
-                                                        class="img-fluid user-m rounded-circle" alt="" />
+                                                <a href="#" class="iq-user-dropdown search-toggle d-flex align-items-center">
+                                                    <img src="customerProfileImg/<?php echo $customerProfile ?>" class="img-fluid user-m rounded-circle" alt="" />
                                                 </a>
                                                 <div class="iq-sub-dropdown iq-user-dropdown">
                                                     <div class="iq-card shadow-none m-0">
@@ -260,9 +243,7 @@ if (isset($_POST['btnLogin'])) {
                                         <div class="search-box iq-search-bar d-search">
                                             <form action="index.php" class="searchbox">
                                                 <div class="form-group position-relative">
-                                                    <input type="text"
-                                                        class="text search-input autocompleteInput font-size-12"
-                                                        placeholder="Search Movies or Theatres" />
+                                                    <input type="text" class="text search-input autocompleteInput font-size-12" placeholder="Search Movies or Theatres" />
                                                     <i class="search-link fa fa-search"></i>
                                                 </div>
                                             </form>
@@ -295,14 +276,12 @@ if (isset($_POST['btnLogin'])) {
                                     </h1>
 
                                     <div class="inputGroup userNameCon mrLog">
-                                        <input type="text" placeholder="User Name" name="txtuserName"
-                                            id="username-input" onkeyup="validateUserName()">
+                                        <input type="text" placeholder="User Name" name="txtuserName" id="username-input" onkeyup="validateUserName()">
                                         <span id="userName-error"></span>
                                     </div>
 
                                     <div class="inputGroup passwordCon mrLog">
-                                        <input type="password" placeholder="Password" name="txtpassword"
-                                            id="password-input" onkeyup="validatePassword()">
+                                        <input type="password" placeholder="Password" name="txtpassword" id="password-input" onkeyup="validatePassword()">
                                         <span id="password-error"></span>
                                     </div>
 

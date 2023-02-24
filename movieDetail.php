@@ -428,7 +428,7 @@ if (isset($_GET['deMovieID'])) {
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $select = "SELECT s.*, t.* FROM Shows s, Theaters t WHERE MovieID = $movieID
+                                        $select = "SELECT s.*, t.* FROM Schedules s, Theaters t WHERE MovieID = $movieID
                                      AND s.TheaterID = t.TheaterID ORDER BY s.ShowDate, s.ShowTime, t.TheaterID";
                                         $query = mysqli_query($connect, $select);
                                         $count = mysqli_num_rows($query);
@@ -438,7 +438,7 @@ if (isset($_GET['deMovieID'])) {
                                                 $theaterID = $row['TheaterID'];
                                                 $theaterName = $row['TheaterName'];
                                                 $theaterLocation = $row['Location'];
-                                                $showID = $row['ShowID'];
+                                                $scheduleID = $row['ScheduleID'];
                                                 $showDate = $row['ShowDate'];
                                                 $convertedShowDate = date('d-M-Y', strtotime($showDate));
                                                 $showTime = $row['ShowTime'];
@@ -460,14 +460,12 @@ if (isset($_GET['deMovieID'])) {
                                                     }
                                                 }
                                         ?>
-
-
                                         <tr>
                                             <td><?php echo $theaterName ?></td>
                                             <td><?php echo $theaterLocation ?></td>
                                             <td><?php echo $convertedShowDate ?></td>
                                             <td><?php echo $convertedShowTime ?></td>
-                                            <td><a href="seat.php?selectedShowID=<?php echo $showID ?>&selectedTheaterID=<?php echo $theaterID ?>"
+                                            <td><a href="seat.php?selectedShowID=<?php echo $scheduleID ?>&selectedTheaterID=<?php echo $theaterID ?>"
                                                     class="bookBtn">Book <i class="fa-solid fa-arrow-right"></i></a>
                                             </td>
                                         </tr>

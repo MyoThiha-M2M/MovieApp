@@ -4,6 +4,10 @@ include('config.php');
 include('connect.php');
 
 $customerID = $_SESSION['CustomerID'];
+$select = "SELECT * FROM Customers WHERE CustomerID = $customerID";
+$query = mysqli_query($connect, $select);
+$row = mysqli_fetch_array($query);
+$customerProfile = $row['ProfileImage'];
 
 if (isset($_GET['deTheaterID'])) {
     $detailTheaterID = $_GET['deTheaterID'];
@@ -62,20 +66,41 @@ if (isset($_GET['deTheaterID'])) {
                                     <span class="navbar-menu-icon navbar-menu-icon--bottom"></span>
                                 </div>
                             </a>
-                            <a href="index.html" class="navbar-brand">
-                                <img src="images/logo.png" class="img-fluid logo" alt="" />
+                            <a href="index.php" class="navbar-brand"
+                                style="color: red;font-size: 30px; font-weight:600; position:relative">
+                                INFINITY <span style="position:absolute; font-size: 20px; top:0px">&#8734;</span>
                             </a>
                             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                                 <div class="menu-main-menu-container">
                                     <ul id="top-menu" class="navbar-nav ml-auto">
                                         <li class="menu-item"><a href="index.php">Home</a></li>
-                                        <li class="menu-item"><a href="movie.html">Movies</a></li>
-                                        <li class="menu-item"><a href="theater.html">Theaters</a></li>
-                                        <li class="menu-item"><a href="seat.php">Seats</a></li>
+                                        <li class="menu-item"><a href="#">Movies</a>
+                                            <ul class="sub-menu">
+                                                <li class="menu-item"><a href="nowshowing.php">Now Showing</a></li>
+                                                <li class="menu-item"><a href="">Coming Soon</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="menu-item">
+                                            <a href="#">Theaters</a>
+                                            <ul class="sub-menu">
+                                                <li class="menu-item"><a
+                                                        href="customerSidePages/theaterTypesPages/imax-theater.php?theaterType=Imax">Imax</a>
+                                                </li>
+                                                <li class="menu-item"><a
+                                                        href="customerSidePages/theaterTypesPages/luxe-theater.php?theaterType=Luxe">Luxe</a>
+                                                </li>
+                                                <li class="menu-item"><a
+                                                        href="customerSidePages/theaterTypesPages/ice-theater.php?theaterType=ICE">ICE</a>
+                                                </li>
+                                                <li class="menu-item"><a
+                                                        href="customerSidePages/theaterTypesPages/premium-theater.php?theaterType=Premium">Premium</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="menu-item"><a href="">About Us</a></li>
                                         <li class="menu-item">
                                             <a href="#">Contact Us</a>
                                             <ul class="sub-menu">
-                                                <li class="menu-item"><a href="#">About Us</a></li>
                                                 <li class="menu-item"><a href="#">Contact</a></li>
                                                 <li class="menu-item"><a href="#">FAQ</a></li>
                                                 <li class="menu-item">
@@ -115,7 +140,8 @@ if (isset($_GET['deTheaterID'])) {
                                                 <div class="search-box iq-search-bar">
                                                     <form action="index.php" class="searchbox">
                                                         <div class="form-group position-relative">
-                                                            <input type="text" class="text search-input"
+                                                            <input type="text"
+                                                                class="text search-input autocompleteInput"
                                                                 placeholder="Search Movies or Theatres" />
                                                             <i class="search-link fa fa-search"></i>
                                                         </div>
@@ -171,13 +197,14 @@ if (isset($_GET['deTheaterID'])) {
                                             <li>
                                                 <a href="#"
                                                     class="iq-user-dropdown search-toggle d-flex align-items-center">
-                                                    <img src="images/user/user.png"
+                                                    <img src="customerProfileImg/<?php echo $customerProfile ?>"
                                                         class="img-fluid user-m rounded-circle" alt="" />
                                                 </a>
                                                 <div class="iq-sub-dropdown iq-user-dropdown">
                                                     <div class="iq-card shadow-none m-0">
                                                         <div class="iq-card-body p-0 pl-3 pr-3">
-                                                            <a href="#" class="iq-sub-card setting-dropdown">
+                                                            <a href="customerUpdate.php"
+                                                                class="iq-sub-card setting-dropdown">
                                                                 <div class="media align-items-center">
                                                                     <div class="right-icon">
                                                                         <i class="fa fa-user text-primary"></i>
@@ -207,7 +234,8 @@ if (isset($_GET['deTheaterID'])) {
                                                                     </div>
                                                                 </div>
                                                             </a>
-                                                            <a href="#" class="iq-sub-card setting-dropdown">
+                                                            <a href="customerLogout.php"
+                                                                class="iq-sub-card setting-dropdown">
                                                                 <div class="media align-items-center">
                                                                     <div class="right-icon">
                                                                         <i class="fa fa-sign-out text-primary"></i>
@@ -233,13 +261,16 @@ if (isset($_GET['deTheaterID'])) {
                                             <i class="fa fa-search"></i>
                                         </a>
                                         <div class="search-box iq-search-bar d-search">
-                                            <form action="#" class="searchbox">
+                                            <form action="index.php" class="searchbox">
                                                 <div class="form-group position-relative">
-                                                    <input type="text" class="text search-input font-size-12"
-                                                        placeholder="type here to searc" />
+                                                    <input type="text"
+                                                        class="text search-input autocompleteInput font-size-12"
+                                                        placeholder="Search Movies or Theatres" />
                                                     <i class="search-link fa fa-search"></i>
                                                 </div>
                                             </form>
+                                            <div class="filteredMoviesContainer">
+                                            </div>
                                         </div>
                                     </li>
                                     <li class="nav-item nav-icon">
@@ -289,13 +320,13 @@ if (isset($_GET['deTheaterID'])) {
                                     <li class="nav-item nav-icon">
                                         <a href="#"
                                             class="iq-user-dropdown search-toggle d-flex align-items-center p-0">
-                                            <img src="images/user/user.png" class="img-fluid user-m rounded-circle"
-                                                alt="" />
+                                            <img src="customerProfileImg/<?php echo $customerProfile ?>"
+                                                class="img-fluid user-m rounded-circle" alt="" />
                                         </a>
                                         <div class="iq-sub-dropdown iq-user-dropdown">
                                             <div class="iq-card shadow-none m-0">
                                                 <div class="iq-card-body p-0 pl-3 pr-3">
-                                                    <a href="#" class="iq-sub-card setting-dropdown">
+                                                    <a href="customerUpdate.php" class="iq-sub-card setting-dropdown">
                                                         <div class="media align-items-center">
                                                             <div class="right-icon">
                                                                 <i class="fa fa-user text-primary"></i>
@@ -325,7 +356,7 @@ if (isset($_GET['deTheaterID'])) {
                                                             </div>
                                                         </div>
                                                     </a>
-                                                    <a href="#" class="iq-sub-card setting-dropdown">
+                                                    <a href="customerLogout.php" class="iq-sub-card setting-dropdown">
                                                         <div class="media align-items-center">
                                                             <div class="right-icon">
                                                                 <i class="fa fa-sign-out text-primary"></i>
@@ -425,76 +456,6 @@ if (isset($_GET['deTheaterID'])) {
                                     ?>
                                 </ul>
                             </div>
-                            <!-- <div class="flexContainer">
-                                <div class="showBtn">View Available Shows</div>
-                            </div>
-                            <div class="showWrapper">
-                                <table class="showDate-timeContainer" id="showdate-timeContainer<?php echo $i ?>">
-                                    <thead>
-                                        <th>Movie Name</th>
-                                        <th>Duration</th>
-                                        <th>Show Date</th>
-                                        <th>Show Time</th>
-                                        <th>Action</th>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-                                        $select = "SELECT s.*, t.*, m.* FROM Shows s, Theaters t, Movies m WHERE s.TheaterID = $theaterID
-                                     AND s.TheaterID = t.TheaterID AND s.MovieID = m.MovieID ORDER BY s.ShowDate, s.ShowTime, t.TheaterID";
-                                        $query = mysqli_query($connect, $select);
-                                        $count = mysqli_num_rows($query);
-                                        if ($count > 0) {
-                                            for ($i = 0; $i < $count; $i++) {
-                                                $row = mysqli_fetch_array($query);
-                                                $theaterID = $row['TheaterID'];
-                                                $theaterName = $row['TheaterName'];
-                                                $theaterLocation = $row['Location'];
-                                                $showMovieName = $row['MovieName'];
-                                                $duration = $row['Duration'];
-                                                $hour = substr($duration, 1, 1) . 'hr';
-                                                $minute = substr($duration, 3, 2) . 'min';
-                                                $durationText = $hour . " " . $minute;
-                                                $showID = $row['ShowID'];
-                                                $showDate = $row['ShowDate'];
-                                                $convertedShowDate = date('d-M-Y', strtotime($showDate));
-                                                $showTime = $row['ShowTime'];
-                                                $hour = substr($showTime, 0, 2);
-                                                $showMinute = substr($showTime, 3, 2);
-                                                if ($hour > 12) {
-                                                    $showHour = $hour - 12;
-                                                    if ($showHour < 10) {
-                                                        $convertedShowTime = '0' . $showHour . ':' . $showMinute . ' pm';
-                                                    } else {
-                                                        $convertedShowTime = ' ' . $showHour . ':' . $showMinute . ' pm';
-                                                    }
-                                                } else {
-                                                    $showHour = $hour;
-                                                    if ($showHour < 10) {
-                                                        $convertedShowTime = '0' . $showHour . ':' . $showMinute . ' am';
-                                                    } else {
-                                                        $convertedShowTime = ' ' . $showHour . ':' . $showMinute . ' am';
-                                                    }
-                                                }
-                                        ?>
-
-
-                                        <tr>
-                                            <td><?php echo $showMovieName ?></td>
-                                            <td><?php echo $durationText ?></td>
-                                            <td><?php echo $convertedShowDate ?></td>
-                                            <td><?php echo $convertedShowTime ?></td>
-                                            <td><a href="seat.php?selectedShowID=<?php echo $showID ?>&selectedTheaterID=<?php echo $theaterID ?>"
-                                                    class="bookBtn">Book <i class="fa-solid fa-arrow-right"></i></a>
-                                            </td>
-                                        </tr>
-
-                                        <?php
-                                            }
-                                        }
-                                        ?>
-                                    </tbody>
-                                </table>
-                            </div> -->
                         </div>
                     </div>
                 </div>

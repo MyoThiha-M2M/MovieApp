@@ -47,18 +47,15 @@ if (isset($_SESSION['AdminID'])) {
         <!-- partial:../../partials/_sidebar.html -->
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
             <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-                <a class="sidebar-brand brand-logo" href="index.html"><img src="images/logo.png" alt="logo"
-                        id="main-logo" /></a>
-                <a class="sidebar-brand brand-logo-mini" href="index.html"><img src="images/miniLogo.png"
-                        alt="logo" /></a>
+                <a class="sidebar-brand brand-logo" href="index.html"><img src="images/logo.png" alt="logo" id="main-logo" /></a>
+                <a class="sidebar-brand brand-logo-mini" href="index.html"><img src="images/miniLogo.png" alt="logo" /></a>
             </div>
             <ul class="nav">
                 <li class="nav-item profile">
                     <div class="profile-desc">
                         <div class="profile-pic">
                             <div class="count-indicator">
-                                <img class="img-xs rounded-circle " src="adminProfileImg/<?php echo $adminProfile ?>"
-                                    alt="">
+                                <img class="img-xs rounded-circle " src="adminProfileImg/<?php echo $adminProfile ?>" alt="">
                                 <span class="count bg-success"></span>
                             </div>
                             <div class="profile-name">
@@ -66,10 +63,8 @@ if (isset($_SESSION['AdminID'])) {
                                 <span>Gold Member</span>
                             </div>
                         </div>
-                        <a href="#" id="profile-dropdown" data-toggle="dropdown"><i
-                                class="mdi mdi-dots-vertical"></i></a>
-                        <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list"
-                            aria-labelledby="profile-dropdown">
+                        <a href="#" id="profile-dropdown" data-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
+                        <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list" aria-labelledby="profile-dropdown">
                             <a href="#" class="dropdown-item preview-item">
                                 <div class="preview-thumbnail">
                                     <div class="preview-icon bg-dark rounded-circle">
@@ -117,8 +112,7 @@ if (isset($_SESSION['AdminID'])) {
                     </a>
                 </li>
                 <li class="nav-item menu-items">
-                    <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false"
-                        aria-controls="ui-basic">
+                    <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                         <span class="menu-icon">
                             <i class="fa-solid fa-grip"></i>
                         </span>
@@ -207,12 +201,10 @@ if (isset($_SESSION['AdminID'])) {
             <!-- partial:../../partials/_navbar.html -->
             <nav class="navbar p-0 fixed-top d-flex flex-row">
                 <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
-                    <a class="navbar-brand brand-logo-mini" href="../../index.html"><img
-                            src="../../assets/images/logo-mini.svg" alt="logo" /></a>
+                    <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="../../assets/images/logo-mini.svg" alt="logo" /></a>
                 </div>
                 <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
-                    <button class="navbar-toggler navbar-toggler align-self-center" type="button"
-                        data-toggle="minimize">
+                    <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
                         <span class="mdi mdi-menu"></span>
                     </button>
                     <ul class="navbar-nav w-100">
@@ -224,10 +216,8 @@ if (isset($_SESSION['AdminID'])) {
                     </ul>
                     <ul class="navbar-nav navbar-nav-right">
                         <li class="nav-item dropdown d-none d-lg-block">
-                            <a class="nav-link btn btn-success create-new-button" id="createbuttonDropdown"
-                                data-toggle="dropdown" aria-expanded="false" href="#">+ Create New Project</a>
-                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
-                                aria-labelledby="createbuttonDropdown">
+                            <a class="nav-link btn btn-success create-new-button" id="createbuttonDropdown" data-toggle="dropdown" aria-expanded="false" href="#">+ Create New Project</a>
+                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="createbuttonDropdown">
                                 <h6 class="p-3 mb-0">Projects</h6>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item preview-item">
@@ -272,19 +262,16 @@ if (isset($_SESSION['AdminID'])) {
                             </a>
                         </li>
                         <li class="nav-item dropdown border-left">
-                            <a class="nav-link count-indicator dropdown-toggle" id="messageDropdown" href="#"
-                                data-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link count-indicator dropdown-toggle" id="messageDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
                                 <i class="mdi mdi-email"></i>
                                 <span class="count bg-success"></span>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
-                                aria-labelledby="messageDropdown">
+                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="messageDropdown">
                                 <h6 class="p-3 mb-0">Messages</h6>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item preview-item">
                                     <div class="preview-thumbnail">
-                                        <img src="../../assets/images/faces/face4.jpg" alt="image"
-                                            class="rounded-circle profile-pic">
+                                        <img src="../../assets/images/faces/face4.jpg" alt="image" class="rounded-circle profile-pic">
                                     </div>
                                     <div class="preview-item-content">
                                         <p class="preview-subject ellipsis mb-1">Mark send you a message</p>
@@ -294,8 +281,7 @@ if (isset($_SESSION['AdminID'])) {
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item preview-item">
                                     <div class="preview-thumbnail">
-                                        <img src="../../assets/images/faces/face2.jpg" alt="image"
-                                            class="rounded-circle profile-pic">
+                                        <img src="../../assets/images/faces/face2.jpg" alt="image" class="rounded-circle profile-pic">
                                     </div>
                                     <div class="preview-item-content">
                                         <p class="preview-subject ellipsis mb-1">Cregh send you a message</p>
@@ -305,8 +291,7 @@ if (isset($_SESSION['AdminID'])) {
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item preview-item">
                                     <div class="preview-thumbnail">
-                                        <img src="../../assets/images/faces/face3.jpg" alt="image"
-                                            class="rounded-circle profile-pic">
+                                        <img src="../../assets/images/faces/face3.jpg" alt="image" class="rounded-circle profile-pic">
                                     </div>
                                     <div class="preview-item-content">
                                         <p class="preview-subject ellipsis mb-1">Profile picture updated</p>
@@ -318,13 +303,11 @@ if (isset($_SESSION['AdminID'])) {
                             </div>
                         </li>
                         <li class="nav-item dropdown border-left">
-                            <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#"
-                                data-toggle="dropdown">
+                            <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
                                 <i class="mdi mdi-bell"></i>
                                 <span class="count bg-danger"></span>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
-                                aria-labelledby="notificationDropdown">
+                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
                                 <h6 class="p-3 mb-0">Notifications</h6>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item preview-item">
@@ -370,15 +353,13 @@ if (isset($_SESSION['AdminID'])) {
                         <li class="nav-item dropdown">
                             <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
                                 <div class="navbar-profile">
-                                    <img class="img-xs rounded-circle" src="adminProfileImg/<?php echo $adminProfile ?>"
-                                        alt="">
+                                    <img class="img-xs rounded-circle" src="adminProfileImg/<?php echo $adminProfile ?>" alt="">
                                     <p class="mb-0 d-none d-sm-block navbar-profile-name"><?php echo $adminUsername ?>
                                     </p>
                                     <i class="mdi mdi-menu-down d-none d-sm-block"></i>
                                 </div>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
-                                aria-labelledby="profileDropdown">
+                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="profileDropdown">
                                 <h6 class="p-3 mb-0">Profile</h6>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item preview-item">
@@ -407,8 +388,7 @@ if (isset($_SESSION['AdminID'])) {
                             </div>
                         </li>
                     </ul>
-                    <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
-                        data-toggle="offcanvas">
+                    <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
                         <span class="mdi mdi-format-line-spacing"></span>
                     </button>
                 </div>
@@ -454,15 +434,15 @@ if (isset($_SESSION['AdminID'])) {
                                                     $dateRegistered = $row['DateRegistered'];
                                                     $lastLoginDate = $row['LastLoginDate'];
                                             ?>
-                                            <tr>
-                                                <td><?php echo $customerID ?></td>
-                                                <td><?php echo $customerName ?></td>
-                                                <td><?php echo $username ?></td>
-                                                <td><?php echo $email ?></td>
-                                                <td><?php echo $password ?></td>
-                                                <td><?php echo $dateRegistered ?></td>
-                                                <td><?php echo $lastLoginDate ?></td>
-                                            </tr>
+                                                    <tr>
+                                                        <td><?php echo $customerID ?></td>
+                                                        <td><?php echo $customerName ?></td>
+                                                        <td><?php echo $username ?></td>
+                                                        <td><?php echo $email ?></td>
+                                                        <td><?php echo $password ?></td>
+                                                        <td><?php echo $dateRegistered ?></td>
+                                                        <td><?php echo $lastLoginDate ?></td>
+                                                    </tr>
                                             <?php
                                                 }
                                             }
