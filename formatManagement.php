@@ -15,10 +15,24 @@ if (isset($_SESSION['AdminID'])) {
 
 if (isset($_POST['txtFormatName'])) {
     $formatName = $_POST['txtFormatName'];
-    $insert = "INSERT INTO Formats(FormatName) VALUES ('$formatName')";
-    $query = mysqli_query($connect, $insert);
-    if (isset($query)) {
+    if ($formatName === '') {
+        echo "<script>alert('Please Enter Format Name!')</script>";
         echo "<script>window.location = 'formatManagement.php'</script>";
+    } else {
+        $select = "SELECT * FROM Formats WHERE FormatName = '$formatName'";
+        $query = mysqli_query($connect, $select);
+        $count = mysqli_num_rows($query);
+        if ($count > 0) {
+            echo "<script>alert('Format Name Already Exists!')</script>";
+            echo "<script>window.location = 'formatManagement.php'</script>";
+        } else {
+            $insert = "INSERT INTO Formats(FormatName) VALUES ('$formatName')";
+            $query = mysqli_query($connect, $insert);
+            if (isset($query)) {
+                echo "<script>alert('New Format has been Successfully Registered')</script>";
+                echo "<script>window.location = 'formatManagement.php'</script>";
+            }
+        }
     }
 }
 ?>
@@ -462,7 +476,7 @@ if (isset($_POST['txtFormatName'])) {
                 <footer class="footer">
                     <div class="d-sm-flex justify-content-center justify-content-sm-between">
                         <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright ©
-                            bootstrapdash.com 2020</span>
+                            INFINITY.com 2023</span>
                     </div>
                 </footer>
                 <!-- partial -->

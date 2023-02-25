@@ -7,13 +7,6 @@ if (isset($_POST['btnRegister'])) {
     $imgEx = pathinfo($imgName, PATHINFO_EXTENSION);
     $imgExLc = strtolower($imgEx);
     $allowedExs = array('jpg', 'jpeg', 'png');
-    if (in_array($imgExLc, $allowedExs)) {
-        $newImgName = uniqid('IMG-', true) . '.' . $imgExLc;
-        $imgUploadPath = 'adminProfileImg/' . $newImgName;
-        move_uploaded_file($tmpName, $imgUploadPath);
-    } else {
-        echo "<script>alert('You cannot upload files of this type')</script>";
-    }
     $fullName = $_POST['txtfullName'];
     $userName = $_POST['txtuserName'];
     $email = $_POST['txtemail'];
@@ -23,16 +16,28 @@ if (isset($_POST['btnRegister'])) {
     $selectUserName = "SELECT AdminID FROM Admins WHERE Username = '$userName'";
     $query = mysqli_query($connect, $selectUserName);
     $row = mysqli_fetch_array($query);
-    if (isset($row)) {
-        echo "<script>alert('UserName Already Exists')</script>";
+    if ($fullName === '' || $userName === '' || $email === '' || $password === '') {
+        echo "<script>alert('Please Fill All The Required Information')</script>";
     } else {
-        $insert = "INSERT INTO Admins (AdminName, Username, Email, Password, DateRegistered, LastLoginDate, ProfileImage) VALUES ('$fullName', '$userName', '$email', '$password', '$dateRegistered', '$lastLogin', '$newImgName')
-        ";
-        $query = mysqli_query($connect, $insert);
-        if (isset($query)) {
-            echo "<script>alert('Registered Successfully')</script>";
+        $selectUserName = "SELECT * FROM Admins WHERE Username = '$userName'";
+        $query = mysqli_query($connect, $selectUserName);
+        $count = mysqli_num_rows($query);
+        if ($count > 0) {
+            echo "<script>alert('UserName Already Exists')</script>";
+        } else if (!in_array($imgExLc, $allowedExs)) {
+            echo "<script>alert('You cannot upload files of this type')</script>";
         } else {
-            echo "<script>alert('Error In Registration')</script>";
+            $newImgName = uniqid('IMG-', true) . '.' . $imgExLc;
+            $imgUploadPath = 'adminProfileImg/' . $newImgName;
+            move_uploaded_file($tmpName, $imgUploadPath);
+            $insert = "INSERT INTO Admins (AdminName, Username, Email, Password, DateRegistered, LastLoginDate, ProfileImage) VALUES ('$fullName', '$userName', '$email', '$password', '$dateRegistered', '$lastLogin', '$newImgName')
+                ";
+            $query = mysqli_query($connect, $insert);
+            if (isset($query)) {
+                echo "<script>alert('Successfully Registered!')</script>";
+            } else {
+                echo "<script>alert('Error In Registration')</script>";
+            }
         }
     }
 }
@@ -71,27 +76,32 @@ if (isset($_POST['btnRegister'])) {
                                 </div>
                                 <div class="form-group">
                                     <label>Full Name</label>
-                                    <input type="text" name="txtfullName" class="form-control p_input" id="fullname-input" onkeyup="validateName()" />
+                                    <input type="text" name="txtfullName" class="form-control p_input"
+                                        id="fullname-input" onkeyup="validateName()" required />
                                     <span id="name-error" style="color:red"></span>
                                 </div>
                                 <div class="form-group">
                                     <label>Username</label>
-                                    <input type="text" name="txtuserName" class="form-control p_input" id="username-input" onkeyup="validateUserName()" />
+                                    <input type="text" name="txtuserName" class="form-control p_input"
+                                        id="username-input" onkeyup="validateUserName()" required />
                                     <span id="userName-error" style="color:red"></span>
                                 </div>
                                 <div class="form-group">
                                     <label>Email</label>
-                                    <input type="email" name="txtemail" class="form-control p_input" id="email-input" onkeyup="validateEmail()" />
+                                    <input type="email" name="txtemail" class="form-control p_input" id="email-input"
+                                        onkeyup="validateEmail()" required />
                                     <span id="email-error" style="color:red"></span>
                                 </div>
                                 <div class="form-group">
                                     <label>Password</label>
-                                    <input type="password" name="txtpassword" class="form-control p_input" id="password-input" onkeyup="validatePassword()" />
+                                    <input type="password" name="txtpassword" class="form-control p_input"
+                                        id="password-input" onkeyup="validatePassword()" required />
                                     <span id="password-error" style="color:red"></span>
                                 </div>
                                 <div class="form-group">
                                     <label>Confirm Password</label>
-                                    <input type="password" name="txtConfirmPassword" class="form-control p_input" id="conPassword-input" onkeyup="validateConPassword()" />
+                                    <input type="password" name="txtConfirmPassword" class="form-control p_input"
+                                        id="conPassword-input" onkeyup="validateConPassword()" required />
                                     <span id="confirmPassword-error" style="color:red"></span>
                                 </div>
                                 <div class="form-group d-flex align-items-center justify-content-between">
@@ -103,7 +113,8 @@ if (isset($_POST['btnRegister'])) {
                                     </div>
                                 </div>
                                 <div class="text-center">
-                                    <input type="submit" name="btnRegister" value='Register' style="padding: 15px" class="btn btn-primary btn-block enter-btn" />
+                                    <input type="submit" name="btnRegister" value='Register' style="padding: 15px"
+                                        class="btn btn-primary btn-block enter-btn" />
                                 </div>
                                 <!-- <div class="d-flex">
                     <button class="btn btn-facebook col mr-2">
@@ -114,7 +125,7 @@ if (isset($_POST['btnRegister'])) {
                     </button>
                   </div> -->
                                 <p class="sign-up text-center">
-                                    Already have an Account?<a href="#"> Sign Up</a>
+                                    Already have an Account?<a href="#"> Log In</a>
                                 </p>
                                 <!-- <p class="terms">
                     By creating an account you are accepting our<a href="#">

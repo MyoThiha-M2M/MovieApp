@@ -38,7 +38,6 @@ formSubmitBtn.forEach((button) => {
   button.addEventListener("click", () => {
     const entryFormTag = document.querySelector(button.dataset.formSubmit);
     entryFormTag.submit();
-    alert("Entry is successful");
   });
 });
 

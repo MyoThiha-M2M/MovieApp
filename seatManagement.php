@@ -18,10 +18,25 @@ if (isset($_POST['txtSeatID'])) {
     $seatRowID = $_POST['seatRowID'];
     $theaterID = $_POST['theaterID'];
     $price = $_POST['txtSeatPrice'];
-    $insert = "INSERT INTO Seats (SeatID, SeatRowID, TheaterID, Price) VALUES ('$seatID', '$seatRowID', '$theaterID', $price)";
-    $query = mysqli_query($connect, $insert);
-    if (isset($query)) {
-        echo "<script>window.location = 'seatManagement.php'</script>";
+    if ($seatID === '' || $seatRowID === '' || $theaterID === '' || $price === '') {
+        echo "<script>alert('Please Fill All The Required Information')</script>";
+    } else {
+        $selectSeatID = "SELECT * FROM Seats WHERE SeatID = '$seatID'";
+        $query = mysqli_query($connect, $selectSeatID);
+        $count = mysqli_num_rows($query);
+        if ($count > 0) {
+            echo "<script>alert('SeatID Already Exists')</script>";
+        } else {
+            $insert = "INSERT INTO Seats (SeatID, SeatRowID, TheaterID, Price) VALUES ('$seatID', '$seatRowID', '$theaterID', $price)";
+            $query = mysqli_query($connect, $insert);
+            if (isset($query)) {
+                echo "<script>alert('New Seat has been Successfully Registered')</script>";
+                echo "<script>window.location = 'seatManagement.php'</script>";
+            } else {
+                echo "<script>alert('Seat Registration Failed!')</script>";
+                echo "<script>window.location = 'seatManagement.php'</script>";
+            }
+        }
     }
 }
 ?>
@@ -59,12 +74,10 @@ if (isset($_POST['txtSeatID'])) {
         <!-- partial:../../partials/_sidebar.html -->
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
             <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-                <a href="index.php" class="navbar-brand brand-logo"
-                    style="color: red;font-size: 30px; font-weight:600; position:relative">
+                <a href="index.php" class="navbar-brand brand-logo" style="color: red;font-size: 30px; font-weight:600; position:relative">
                     INFINITY <span style="position:absolute; font-size: 20px; top:0px">&#8734;</span>
                 </a>
-                <a href="index.php" class="sidebar-brand brand-logo-mini"
-                    style="color: red;font-size: 30px; font-weight:600; position:relative">
+                <a href="index.php" class="sidebar-brand brand-logo-mini" style="color: red;font-size: 30px; font-weight:600; position:relative">
                     I <span style="position:absolute; font-size: 20px; top:-14px">&#8734;</span>
                 </a>
             </div>
@@ -73,18 +86,15 @@ if (isset($_POST['txtSeatID'])) {
                     <div class="profile-desc">
                         <div class="profile-pic">
                             <div class="count-indicator">
-                                <img class="img-xs rounded-circle " src="adminProfileImg/<?php echo $adminProfile ?>"
-                                    alt="">
+                                <img class="img-xs rounded-circle " src="adminProfileImg/<?php echo $adminProfile ?>" alt="">
                                 <span class="count bg-success"></span>
                             </div>
                             <div class="profile-name">
                                 <h5 class="mb-0 font-weight-normal"><?php echo $adminUsername ?></h5>
                             </div>
                         </div>
-                        <a href="#" id="profile-dropdown" data-toggle="dropdown"><i
-                                class="mdi mdi-dots-vertical"></i></a>
-                        <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list"
-                            aria-labelledby="profile-dropdown">
+                        <a href="#" id="profile-dropdown" data-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
+                        <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list" aria-labelledby="profile-dropdown">
                             <a href="#" class="dropdown-item preview-item">
                                 <div class="preview-thumbnail">
                                     <div class="preview-icon bg-dark rounded-circle">
@@ -132,8 +142,7 @@ if (isset($_POST['txtSeatID'])) {
                     </a>
                 </li>
                 <li class="nav-item menu-items">
-                    <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false"
-                        aria-controls="ui-basic">
+                    <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                         <span class="menu-icon">
                             <i class="fa-solid fa-grip"></i>
                         </span>
@@ -222,12 +231,10 @@ if (isset($_POST['txtSeatID'])) {
             <!-- partial:../../partials/_navbar.html -->
             <nav class="navbar p-0 fixed-top d-flex flex-row">
                 <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
-                    <a class="navbar-brand brand-logo-mini" href="index.html"><img src="images/miniLogo.png"
-                            alt="logo" /></a>
+                    <a class="navbar-brand brand-logo-mini" href="index.html"><img src="images/miniLogo.png" alt="logo" /></a>
                 </div>
                 <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
-                    <button class="navbar-toggler navbar-toggler align-self-center" type="button"
-                        data-toggle="minimize">
+                    <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
                         <span class="mdi mdi-menu"></span>
                     </button>
                     <!-- <ul class="navbar-nav w-100">
@@ -242,19 +249,16 @@ if (isset($_POST['txtSeatID'])) {
                             <div class="currentDate"><?php echo date('d-M-Y') ?></div>
                         </li>
                         <li class="nav-item dropdown border-left">
-                            <a class="nav-link count-indicator dropdown-toggle" id="messageDropdown" href="#"
-                                data-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link count-indicator dropdown-toggle" id="messageDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
                                 <i class="mdi mdi-email"></i>
                                 <span class="count bg-success"></span>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
-                                aria-labelledby="messageDropdown">
+                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="messageDropdown">
                                 <h6 class="p-3 mb-0">Messages</h6>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item preview-item">
                                     <div class="preview-thumbnail">
-                                        <img src="assets/images/faces/face4.jpg" alt="image"
-                                            class="rounded-circle profile-pic">
+                                        <img src="assets/images/faces/face4.jpg" alt="image" class="rounded-circle profile-pic">
                                     </div>
                                     <div class="preview-item-content">
                                         <p class="preview-subject ellipsis mb-1">Mark send you a message</p>
@@ -264,8 +268,7 @@ if (isset($_POST['txtSeatID'])) {
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item preview-item">
                                     <div class="preview-thumbnail">
-                                        <img src="assets/images/faces/face2.jpg" alt="image"
-                                            class="rounded-circle profile-pic">
+                                        <img src="assets/images/faces/face2.jpg" alt="image" class="rounded-circle profile-pic">
                                     </div>
                                     <div class="preview-item-content">
                                         <p class="preview-subject ellipsis mb-1">Cregh send you a message</p>
@@ -275,8 +278,7 @@ if (isset($_POST['txtSeatID'])) {
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item preview-item">
                                     <div class="preview-thumbnail">
-                                        <img src="assets/images/faces/face3.jpg" alt="image"
-                                            class="rounded-circle profile-pic">
+                                        <img src="assets/images/faces/face3.jpg" alt="image" class="rounded-circle profile-pic">
                                     </div>
                                     <div class="preview-item-content">
                                         <p class="preview-subject ellipsis mb-1">Profile picture updated</p>
@@ -288,13 +290,11 @@ if (isset($_POST['txtSeatID'])) {
                             </div>
                         </li>
                         <li class="nav-item dropdown border-left">
-                            <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#"
-                                data-toggle="dropdown">
+                            <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
                                 <i class="mdi mdi-bell"></i>
                                 <span class="count bg-danger"></span>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
-                                aria-labelledby="notificationDropdown">
+                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
                                 <h6 class="p-3 mb-0">Notifications</h6>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item preview-item">
@@ -340,15 +340,13 @@ if (isset($_POST['txtSeatID'])) {
                         <li class="nav-item dropdown">
                             <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
                                 <div class="navbar-profile">
-                                    <img class="img-xs rounded-circle" src="adminProfileImg/<?php echo $adminProfile ?>"
-                                        alt="">
+                                    <img class="img-xs rounded-circle" src="adminProfileImg/<?php echo $adminProfile ?>" alt="">
                                     <p class="mb-0 d-none d-sm-block navbar-profile-name"><?php echo $adminUsername ?>
                                     </p>
                                     <i class="mdi mdi-menu-down d-none d-sm-block"></i>
                                 </div>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
-                                aria-labelledby="profileDropdown">
+                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="profileDropdown">
                                 <h6 class="p-3 mb-0">Profile</h6>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item preview-item">
@@ -377,8 +375,7 @@ if (isset($_POST['txtSeatID'])) {
                             </div>
                         </li>
                     </ul>
-                    <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
-                        data-toggle="offcanvas">
+                    <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
                         <span class="mdi mdi-format-line-spacing"></span>
                     </button>
                 </div>
@@ -421,8 +418,8 @@ if (isset($_POST['txtSeatID'])) {
                                         $theaterID = $row['TheaterID'];
                                         $theaterName = $row['TheaterName'];
                                 ?>
-                                <option value="<?php echo $theaterID ?>"><?php echo $theaterName ?>
-                                </option>
+                                        <option value="<?php echo $theaterID ?>"><?php echo $theaterName ?>
+                                        </option>
                                 <?php
                                     }
                                 }
@@ -436,8 +433,7 @@ if (isset($_POST['txtSeatID'])) {
                         </div>
 
                     </div>
-                    <button type="submit" class="btn btn-hover" id="btnAddseat" data-form-submit='#seatEntryForm'
-                        name="submitSeat">Add</button>
+                    <button type="submit" class="btn btn-hover" id="btnAddseat" data-form-submit='#seatEntryForm' name="submitSeat">Add</button>
                 </form>
             </div>
             <div id="overlay"></div>
@@ -461,8 +457,7 @@ if (isset($_POST['txtSeatID'])) {
                                     </div>
                                     <div class="searchMovieContainer">
                                         <button class="btn"><i class="fa-solid fa-magnifying-glass"></i></button>
-                                        <input type="text" class="form-control" id="search-input"
-                                            placeholder="Search Seats">
+                                        <input type="text" class="form-control" id="search-input" placeholder="Search Seats">
                                     </div>
                                 </div>
                                 <div class="table-responsive">
@@ -489,12 +484,12 @@ if (isset($_POST['txtSeatID'])) {
                                                     $theaterID = $row['TheaterID'];
                                                     $price = $row['Price']
                                             ?>
-                                            <tr>
-                                                <td><?php echo $seatID ?></td>
-                                                <td><?php echo $seatRowID ?></td>
-                                                <td><?php echo $theaterID ?></td>
-                                                <td><?php echo $price ?></td>
-                                            </tr>
+                                                    <tr>
+                                                        <td><?php echo $seatID ?></td>
+                                                        <td><?php echo $seatRowID ?></td>
+                                                        <td><?php echo $theaterID ?></td>
+                                                        <td><?php echo $price ?></td>
+                                                    </tr>
                                             <?php
                                                 }
                                             } else {

@@ -18,7 +18,7 @@ if (isset($_POST['btnLogin'])) {
         echo "<script>window.location = 'adminPanel.php'</script>";
         $_SESSION['AdminID'] = $row['AdminID'];
     } else {
-        echo "<script>alert('Login Error')</script>";
+        echo "<script>alert('Please Enter Correct UserName And Password')</script>";
     }
 }
 ?>
@@ -26,22 +26,15 @@ if (isset($_POST['btnLogin'])) {
 <html lang="en">
 
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>Corona Admin</title>
-    <!-- plugins:css -->
+    <title>INFINITY Admin</title>
+    <link rel="stylesheet" href="style.css?v=<?php echo $version ?>" />
     <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css" />
     <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css" />
-    <!-- endinject -->
-    <!-- Plugin css for this page -->
-    <!-- End plugin css for this page -->
-    <!-- inject:css -->
-    <!-- endinject -->
-    <!-- Layout styles -->
     <link rel="stylesheet" href="assets/css/style.css" />
-    <!-- End layout styles -->
     <link rel="shortcut icon" href="assets/images/favicon.png" />
+    <script src="https://kit.fontawesome.com/b59b4a7b62.js" crossorigin="anonymous"></script>
 </head>
 
 <body>

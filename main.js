@@ -372,7 +372,7 @@ const validatePassword = () => {
   }
 
   if (passwordTag.length < 8 || passwordTag.length > 20) {
-    passwordErrorTag.innerHTML = "Password Invalid";
+    passwordErrorTag.innerHTML = "Password should be at least 8 characters";
     return false;
   }
 
